@@ -33,7 +33,7 @@ namespace SyncSharp.Business
 		}
 
 		// Constructor
-		public Filters()
+		public Filter()
 		{
 			this.fileNameInclude = new List<String>();
 			this.fileNameExclude = new List<String>();

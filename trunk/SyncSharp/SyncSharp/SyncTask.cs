@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using SyncSharp.DataModel;
 using SyncSharp.Business;
+using System.IO;
+using System.Diagnostics;
 
 namespace SyncSharp.Storage
 {
@@ -17,12 +19,12 @@ namespace SyncSharp.Storage
         private Filter filters;
 
         // Properties
-        public String FolderA
+        public String Source
         {
             get { return folderA; }
             //set { folderA = value; }
         }
-        public String FolderB
+        public String Target
         {
             get { return folderB; }
             //set { folderB = value; }
@@ -59,7 +61,7 @@ namespace SyncSharp.Storage
                 settings = value;
             }
         }
-        public Filters Filters
+        public Filter Filters
         {
             get { return filters; }
             set
@@ -76,10 +78,16 @@ namespace SyncSharp.Storage
         public SyncTask()
         {
         }
+
+        public SyncTask(string source, string target): this(null,source, target)
+        {
+            
+        }
+
         public SyncTask(String name, String folderA, String folderB)
         {
-            if (name.Trim().Equals(""))
-                throw new ApplicationException("SyncTask name cannot be empty");
+            //if (name.Trim().Equals(""))
+            //    throw new ApplicationException("SyncTask name cannot be empty");
             if (folderA.Trim().Equals(""))
                 throw new ApplicationException("Folder A cannot be empty");
             if (folderB.Trim().Equals(""))
@@ -90,7 +98,7 @@ namespace SyncSharp.Storage
             this.fiA = new List<FileInfo>();
             this.fiB = new List<FileInfo>();
             this.settings = new TaskSettings();
-            this.filters = new Filters();
+            this.filters = new Filter();
         }
 
         // Methods:
