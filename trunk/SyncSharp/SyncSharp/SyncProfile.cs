@@ -10,19 +10,19 @@ using System.Diagnostics;
 namespace SyncSharp.Storage
 {
     [Serializable]
-    class SyncProfile
+    public class SyncProfile
     {
         // Data Members
         private String id;
         private List<SyncTask> taskCollection;
 
         // Properties
-        public String ID
+        internal String ID
         {
             get { return id; }
             //set { id = value; }
         }
-        public List<SyncTask> TaskCollection
+        internal List<SyncTask> TaskCollection
         {
             get { return taskCollection; }
             //set { tasks = value; }
@@ -30,7 +30,7 @@ namespace SyncSharp.Storage
 
         // Constructor
         // computerID:  ID to identify unique computer
-        public SyncProfile(String computerID)
+        internal SyncProfile(String computerID)
         {
             Debug.Assert(computerID.Length > 0);
             this.id = computerID;
@@ -42,7 +42,7 @@ namespace SyncSharp.Storage
         // Adds a new SyncTask to this profile
         // task:  SyncTask to be added to this profile
         // Exceptions:  If non-unique task name used
-        public void addTask(SyncTask task)
+        internal void addTask(SyncTask task)
         {
             if (this.taskExists(task.Name))
                 throw new ApplicationException("Task Name already Exists in this Profile");
@@ -52,7 +52,7 @@ namespace SyncSharp.Storage
         // Removes a SyncTask from this profile
         // task:  SyncTask to be removed from this profile
         // Exceptions:  if null parameter used
-        public void removeTask(SyncTask task)
+        internal void removeTask(SyncTask task)
         {
             if (task == null)
                 throw new ApplicationException("Task Name does not Exist in this Profile");
@@ -62,7 +62,7 @@ namespace SyncSharp.Storage
         // Checks if a task exists in this profile
         // name:  Name of SyncTask to check if exists
         // returns:  true if exists, else false
-        public bool taskExists(String name)
+        internal bool taskExists(String name)
         {
             foreach (SyncTask task in taskCollection)
             {
@@ -75,7 +75,7 @@ namespace SyncSharp.Storage
         // Retrieves a SyncTask
         // name:  Name of SyncTask to retrieve
         // returns:  SyncTask object if exists, else null
-        public SyncTask getTask(String name)
+        internal SyncTask getTask(String name)
         {
             foreach (SyncTask task in taskCollection)
             {
@@ -84,5 +84,5 @@ namespace SyncSharp.Storage
             }
             return null;
         }
-    }
+		}
 }
