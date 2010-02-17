@@ -59,7 +59,7 @@ namespace SyncSharp.Business
 
         #endregion
 
-        public void CompareFolderPair(string source, string target)
+        public void CompareFolderPair(string source, string target, SyncMetaData sMetaData, SyncMetaData tMetaData)
         {
             int sNameLength = source.Length;
             int tNameLength = target.Length;
@@ -98,15 +98,83 @@ namespace SyncSharp.Business
                 foreach (FileUnit u in sFiles)
                 {
                     if (u.Match == null)
+                    {
                         _unMatchedSFiles.Add(u);
+                        FileUnit sPrev = sMetaData.MetaData[u.AbsolutePath];
+
+                        string tDir = targetDir + sourceDirName + Path.DirectorySeparatorChar + u.Name;
+                        FileUnit tPrev = sMetaData.MetaData[tDir];
+                        
+                        if (tPrev != null && sPrev != null)
+                        {
+                            if (sPrev.Time == u.Time) // target deleted only
+                                deleteFromSourceList.Add(u);
+                            else if (sPrev.Time < u.Time) // source changed, target deleted
+                                copyToTargetList.Add(u);
+                        }
+                        else
+                        {
+                            copyToTargetList.Add(u);
+                        }
+                    }
                     else
+                    {
                         _matchedFiles.Add(u);
+
+                        FileUnit sPrev = sMetaData.MetaData[u.AbsolutePath];
+                        FileUnit tPrev = sMetaData.MetaData[u.Match.AbsolutePath];
+
+                        if (sPrev != null && tPrev != null)
+                        {
+                            // source & target files changed
+                            if (sPrev.Time < u.Time && tPrev < u.Match.Time)
+                            {
+                                if (u.Time > u.Match.Time)
+                                    copyToTargetList.Add(u);
+                                else
+                                    copyToSourceList.Add(u.Match);
+                            }
+                            else if (sPrev.Time == u.Time && tPrev.Time < u.Match.Time)
+                            {
+                                copyToSourceList.Add(u.Match);
+                            }
+                            else if (sPrev.Time < u.Time && tPrev.Time == u.Match.Time)
+                            {
+                                copyToTargetList.Add(u);
+                            }
+                        }
+                        else
+                        {
+                            if (u.Time > u.Match.Time)
+                                copyToTargetList.Add(u);
+                            else
+                                copyToSourceList.Add(u.Match);
+                        }
+                    }
                 }
 
                 foreach (FileUnit u in tFiles)
                 {
                     if (u.Match == null)
+                    {
                         _unMatchedTFiles.Add(u);
+                        FileUnit tPrev = sMetaData.MetaData[u.AbsolutePath];
+
+                        string sDir = sourceDir + targetDirName + Path.DirectorySeparatorChar + u.Name;
+                        FileUnit sPrev = sMetaData.MetaData[sDir];
+
+                        if (tPrev != null && sPrev != null)
+                        {
+                            if (tPrev.Time == u.Time) // source deleted only
+                                deleteFromTargetList.Add(u);
+                            else if (tPrev.Time < u.Time) //source deleted, target changed
+                                copyToSourceList.Add(u);
+                        }
+                        else
+                        {
+                            copyToSourceList.Add(u);
+                        }
+                    }
                 }
 
                 PerformSourceTargetMatching(sDirs, tDirs);
@@ -163,6 +231,7 @@ namespace SyncSharp.Business
                     s.Match = tFileList[i];
                     tFileList[i].Match = s;
                 }
+              
             }
         }
 

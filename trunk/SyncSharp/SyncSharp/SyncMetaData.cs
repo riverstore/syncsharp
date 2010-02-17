@@ -23,23 +23,18 @@ namespace SyncSharp.Storage
             return File.Exists(name);
         }
 
-        public void WriteMetaData(string path)
+        public static void WriteMetaData(string path)
         {
-            /*
-            var stmCar   = new FileStream("Car3.car", FileMode.Create);
-            var bfmCar = new BinaryFormatter();
-            bfmCar.Serialize(stmCar, vehicle);
-            */
+            var stmMetaFile   = new FileStream(path +"MetaFile", FileMode.Create);
+            var bfMetaFile = new BinaryFormatter();
+            bfmMetaFile.Serialize(stmMetaFile, this);
         }
 
-        public SyncMetaData ReadMetaData(string path)
+        public static SyncMetaData ReadMetaData(string path)
         {
-            /*
-            var stmCar   = new FileStream("Car3.car", FileMode.Open);
-            var bfmCar = new BinaryFormatter();
-            var vehicle = (Car)bfmCar.Deserialize(stmCar);
-             */
-            return null;
+            var stmMetaFile   = new FileStream(path+"MetaFile", FileMode.Open);
+            var bfMetaFile = new BinaryFormatter();
+            return (SyncMetaData)bfMetaFile.Deserialize(stmMetaFile);
         }
     }
 }
