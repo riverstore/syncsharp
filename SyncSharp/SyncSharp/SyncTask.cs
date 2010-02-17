@@ -13,28 +13,39 @@ namespace SyncSharp.Storage
     class SyncTask
     {
         // Data Members
-        private String folderA, folderB, name;
+				private String folderA, folderB, name, result, lastRun;
+				private bool typeOfSync;
         private List<FileInfo> fiA, fiB;
         private TaskSettings settings;
         private Filter filters;
 
         // Properties
-        public String Source
+        internal String Source
         {
             get { return folderA; }
             //set { folderA = value; }
         }
-        public String Target
+        internal String Target
         {
             get { return folderB; }
             //set { folderB = value; }
         }
-        public String Name
+        internal String Name
         {
             get { return name; }
             //set { name = value; }
         }
-        public List<FileInfo> FileInfoA
+				internal String Result
+				{
+					get { return result; }
+					//set { result = value; }
+				}
+				internal bool TypeOfSync
+				{
+					get { return typeOfSync; }
+					set { typeOfSync = value; }
+				}
+        internal List<FileInfo> FileInfoA
         {
             get { return fiA; }
             set
@@ -43,7 +54,7 @@ namespace SyncSharp.Storage
                 fiA = value;
             }
         }
-        public List<FileInfo> FileInfoB
+        internal List<FileInfo> FileInfoB
         {
             get { return fiB; }
             set
@@ -52,7 +63,7 @@ namespace SyncSharp.Storage
                 fiB = value;
             }
         }
-        public TaskSettings Settings
+        internal TaskSettings Settings
         {
             get { return settings; }
             set
@@ -61,7 +72,7 @@ namespace SyncSharp.Storage
                 settings = value;
             }
         }
-        public Filter Filters
+        internal Filter Filters
         {
             get { return filters; }
             set
@@ -70,21 +81,27 @@ namespace SyncSharp.Storage
                 filters = value;
             }
         }
+				internal String LastRun
+				{
+					get { return lastRun; }
+					set { lastRun = value; }
+				}
 
         // Constructor
         // name:  Unique name for SyncTask
         // folderA:  Path for folder A
         // folderB:  Path for folder B
+				// type:  Type of synchronization
         public SyncTask()
         {
         }
 
-        public SyncTask(string source, string target): this(null,source, target)
+        public SyncTask(string source, string target): this(null,source, target, true)
         {
             
         }
 
-        public SyncTask(String name, String folderA, String folderB)
+        public SyncTask(String name, String folderA, String folderB, bool type)
         {
             //if (name.Trim().Equals(""))
             //    throw new ApplicationException("SyncTask name cannot be empty");
@@ -99,6 +116,9 @@ namespace SyncSharp.Storage
             this.fiB = new List<FileInfo>();
             this.settings = new TaskSettings();
             this.filters = new Filter();
+						this.typeOfSync = type;
+						this.lastRun = "";
+						this.result = "";
         }
 
         // Methods:

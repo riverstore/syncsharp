@@ -5,6 +5,7 @@ using System.Text;
 
 namespace SyncSharp.Business
 {
+		[Serializable]
     class Filter
     {
         // Data Members
