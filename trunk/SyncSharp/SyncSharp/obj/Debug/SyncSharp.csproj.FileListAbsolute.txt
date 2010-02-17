@@ -33,3 +33,5 @@ D:\VS2008Projects\SyncSharp\SyncSharp\obj\Debug\SyncSharp.TaskSetupForm.resource
 D:\VS2008Projects\SyncSharp\SyncSharp\obj\Debug\SyncSharp.Properties.Resources.resources
 D:\VS2008Projects\SyncSharp\SyncSharp\obj\Debug\SyncSharp.TaskWizardForm.resources
 D:\VS2008Projects\SyncSharp\SyncSharp\obj\Debug\SyncSharp.csproj.GenerateResource.Cache
+C:\Users\Chris\Desktop\syncSharp\SyncSharp\SyncSharp\obj\Debug\SyncSharp.exe
+C:\Users\Chris\Desktop\syncSharp\SyncSharp\SyncSharp\obj\Debug\SyncSharp.pdb
