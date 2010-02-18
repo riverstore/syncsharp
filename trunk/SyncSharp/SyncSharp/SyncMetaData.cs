@@ -39,6 +39,7 @@ namespace SyncSharp.Storage
                 fsMetaFile = new FileStream(path + "\\syncsharp.meta", FileMode.Create);
                 var bfMetaFile = new BinaryFormatter();
                 bfMetaFile.Serialize(fsMetaFile, this);
+								fsMetaFile.Close();
 
             }
             catch
@@ -59,8 +60,9 @@ namespace SyncSharp.Storage
                 FileStream fsMetaFile = null;
                 fsMetaFile = new FileStream(path + "\\syncsharp.meta", FileMode.Open);
                 BinaryFormatter bfMetaFile = new BinaryFormatter();
-               //fsMetaFile.Close();
-                return (SyncMetaData)bfMetaFile.Deserialize(fsMetaFile);
+                SyncMetaData metadata = (SyncMetaData)bfMetaFile.Deserialize(fsMetaFile);
+								fsMetaFile.Close();
+								return metadata;
 						}
 						catch
 						{

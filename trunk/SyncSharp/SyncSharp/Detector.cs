@@ -133,8 +133,15 @@ namespace SyncSharp.Business
 
                     if (sMetaData != null && tMetaData != null)
                     {
-                        sPrevState = sMetaData.MetaData[u.AbsolutePath];
-                        tPrevState = tMetaData.MetaData[tDir];
+											try
+											{
+												sPrevState = sMetaData.MetaData[u.AbsolutePath];
+												tPrevState = tMetaData.MetaData[tDir];
+											}
+											catch (Exception)
+											{
+											}
+                        
                     }
 
                     u.TargetPath = targetDir;
@@ -191,8 +198,15 @@ namespace SyncSharp.Business
 
 									if (sMetaData != null && tMetaData != null)
 									{
-										tPrevState = tMetaData.MetaData[u.AbsolutePath];
-										sPrevState = sMetaData.MetaData[sDir];
+										try
+										{
+											tPrevState = tMetaData.MetaData[u.AbsolutePath];
+											sPrevState = sMetaData.MetaData[sDir];
+										}
+										catch (Exception)
+										{
+										}
+										
 									}
 
 									u.TargetPath = sourceDir;
