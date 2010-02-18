@@ -31,7 +31,7 @@ namespace SyncSharp
 		{
 			get { return this.pSetFolderPair; }
 		}
-		
+
 		public Panel GetTaskNamePanel
 		{
 			get { return this.pTaskName; }
@@ -64,20 +64,34 @@ namespace SyncSharp
 		{
 			if (state == 1)
 			{
-				GetTaskNamePanel.Hide();
-				GetSelectTypePanel.Show();
-				GetFolderPairPanel.Hide();
-				state = 2;
+				if (logic.Profile.taskExists(GetTaskName.Trim()))
+				{
+					MessageBox.Show("Task name '" + GetTaskName.Trim() + "' already exists, please choose a unique name");
+				}
+				else
+				{
+					GetTaskNamePanel.Hide();
+					GetSelectTypePanel.Show();
+					GetFolderPairPanel.Hide();
+					state = 2;
+				}
 			}
 			else if (state == 2)
 			{
-				GetTaskNamePanel.Hide();
-				GetSelectTypePanel.Hide();
-				GetFolderPairPanel.Show();
-				btnNext.Text = "Done";
-                btnNext.ImageIndex = 1;
-                btnNext.TextImageRelation = TextImageRelation.ImageBeforeText;
-				state = 3;
+				if (!radBackup.Checked && !radSync.Checked)
+				{
+					MessageBox.Show("Please choose a synchronization type");
+				}
+				else
+				{
+					GetTaskNamePanel.Hide();
+					GetSelectTypePanel.Hide();
+					GetFolderPairPanel.Show();
+					btnNext.Text = "Done";
+					btnNext.ImageIndex = 1;
+					btnNext.TextImageRelation = TextImageRelation.ImageBeforeText;
+					state = 3;
+				}
 			}
 			else if (state == 3)
 			{
@@ -96,7 +110,6 @@ namespace SyncSharp
 					}
 				}
 			}
-
 		}
 
 		private void btnBack_Click(object sender, EventArgs e)
@@ -107,8 +120,8 @@ namespace SyncSharp
 				GetSelectTypePanel.Show();
 				GetFolderPairPanel.Hide();
 				btnNext.Text = "Next";
-                btnNext.ImageIndex = 0;
-                btnNext.TextImageRelation = TextImageRelation.TextBeforeImage;
+				btnNext.ImageIndex = 0;
+				btnNext.TextImageRelation = TextImageRelation.TextBeforeImage;
 				state = 2;
 			}
 			else if (state == 2)
@@ -175,7 +188,6 @@ namespace SyncSharp
 					"FolderDiff", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return false;
 			}
-
 			return true;
 		}
 
