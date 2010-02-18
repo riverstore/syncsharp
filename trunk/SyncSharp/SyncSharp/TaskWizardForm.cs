@@ -60,11 +60,6 @@ namespace SyncSharp
 			get { return this.txtTarget.Text; }
 		}
 
-		public String ButtonText
-		{
-			set { this.btnNext.Text = value; }
-		}
-
 		private void btnNext_Click(object sender, EventArgs e)
 		{
 			if (state == 1)
@@ -79,7 +74,9 @@ namespace SyncSharp
 				GetTaskNamePanel.Hide();
 				GetSelectTypePanel.Hide();
 				GetFolderPairPanel.Show();
-				ButtonText = "Done";
+				btnNext.Text = "Done";
+                btnNext.ImageIndex = 1;
+                btnNext.TextImageRelation = TextImageRelation.ImageBeforeText;
 				state = 3;
 			}
 			else if (state == 3)
@@ -109,7 +106,9 @@ namespace SyncSharp
 				GetTaskNamePanel.Hide();
 				GetSelectTypePanel.Show();
 				GetFolderPairPanel.Hide();
-				ButtonText = "Next";
+				btnNext.Text = "Next";
+                btnNext.ImageIndex = 0;
+                btnNext.TextImageRelation = TextImageRelation.TextBeforeImage;
 				state = 2;
 			}
 			else if (state == 2)

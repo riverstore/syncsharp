@@ -14,15 +14,18 @@ namespace SyncSharp.DataModel
         private readonly string _name;
         private readonly string _absolutePath;
         private readonly long _size;
-        private readonly DateTime _time;
+        private readonly DateTime _lastWriteTime;
         private readonly long _hashValue;
         private readonly string _extension;
+        private readonly string _targetPath;
 
         private readonly bool _isDirectory;
 
         private FileUnit _match = null;
 
         #endregion
+
+        #region constructors
 
         public FileUnit(string path)
         {
@@ -34,19 +37,28 @@ namespace SyncSharp.DataModel
             {
                 _size = 0L;
                 _hashValue = 0L;
-                _time = Directory.GetLastWriteTime(path);
+                _lastWriteTime = Directory.GetLastWriteTime(path);
                 _extension = "dir";
             }
             else
             {
                 FileInfo file = new FileInfo(path);
                 _size = file.Length;
-                _time = File.GetLastWriteTime(path);
+                _lastWriteTime = File.GetLastWriteTime(path);
                 _extension = file.Extension;
             }
         }
 
+        #endregion
+
         #region properties
+
+
+        public string TargetPath
+        {
+            set { _targetPath = value; }
+            get { return _targetPath; }
+        }
 
         public FileUnit Match
         {
@@ -79,9 +91,9 @@ namespace SyncSharp.DataModel
             get { return _extension; }
         }
 
-        public DateTime Time
+        public DateTime LastWriteTime
         {
-            get { return _time; }
+            get { return _lastWriteTime; }
         }
 
         public bool IsDirectory
