@@ -51,5 +51,22 @@ namespace SyncSharp.Storage
                 return null;
             }
         }
+
+        public void getContent(string fullPath)
+        {
+            if (!(Directory.Exists(fullPath)))
+            {
+            }
+
+            else
+            {
+                foreach (string fileName in Directory.GetFiles(fullPath))
+                {
+                    _metaData.Add(fileName, new FileUnit(fileName));
+                }
+            }
+
+            this.WriteMetaData(this);
+        }
     }
 }

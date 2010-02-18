@@ -35,3 +35,5 @@ D:\VS2008Projects\SyncSharp\SyncSharp\obj\Debug\SyncSharp.TaskWizardForm.resourc
 D:\VS2008Projects\SyncSharp\SyncSharp\obj\Debug\SyncSharp.csproj.GenerateResource.Cache
 C:\Users\Chris\Desktop\syncSharp\SyncSharp\SyncSharp\obj\Debug\SyncSharp.exe
 C:\Users\Chris\Desktop\syncSharp\SyncSharp\SyncSharp\obj\Debug\SyncSharp.pdb
+C:\Users\Tian Shuang\Desktop\syncsharp\SyncSharp\SyncSharp\obj\Debug\SyncSharp.exe
+C:\Users\Tian Shuang\Desktop\syncsharp\SyncSharp\SyncSharp\obj\Debug\SyncSharp.pdb
