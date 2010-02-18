@@ -79,10 +79,7 @@ namespace SyncSharp.Business
                 SyncTask pair = stack.Pop();
 
                 string sourceDir = pair.Source;
-                string sourceDirName = sourceDir.Substring(sNameLength);
-
                 string targetDir = pair.Target;
-                string targetDirName = targetDir.Substring(tNameLength);
 
                 /* Get contents from source sub-directory*/
                 List<FileUnit> sFiles = new List<FileUnit>();
@@ -103,13 +100,16 @@ namespace SyncSharp.Business
 
                 foreach (FileUnit u in sFiles)
                 {
-                    string tDir = targetDir + sourceDirName + "\\" + u.Name;
+                    string tDir = targetDir + "\\" + u.Name;
 
                     FileUnit sPrevState = sMetaData.MetaData[u.AbsolutePath];
                     FileUnit tPrevState = sMetaData.MetaData[tDir];
 
                     if (u.Match == null)
+                    {
                         CheckSourceFileConflict(u, sPrevState, tPrevState);
+                        u.TargetPath = tDir;
+                    }
                     else
                         CheckMatchFilesConflict(u, sPrevState, tPrevState);
                 }
@@ -118,11 +118,11 @@ namespace SyncSharp.Business
                 {
                     if (u.Match == null)
                     {
-                        string sDir = sourceDir + targetDirName + "\\" + u.Name;
-
+                        string sDir = sourceDir + "\\" + u.Name;
                         FileUnit tPrevState = sMetaData.MetaData[u.AbsolutePath];
                         FileUnit sPrevState = sMetaData.MetaData[sDir];
 
+                        u.TargetPath = sourceDir;
                         CheckTargetFileConflict(u, sPrevState, tPrevState);
                     }
                 }
@@ -132,16 +132,14 @@ namespace SyncSharp.Business
                 /* Recurse into subdirectories */
                 foreach (FileUnit u in sDirs)
                 {
-                    string tDir = "";
+                    string tDir = targetDir + "\\" + u.Name;
 
                     if (u.Match == null)
                     {
-                        tDir = targetDir + sourceDirName + "\\" + u.Name;
+                        u.TargetPath = tDir;
                         CheckSourceFileConflict(u, null, null);
                     }
-                    else
-                        tDir = u.Match.AbsolutePath;
-
+                    
                     stack.Push(new SyncTask(u.AbsolutePath, tDir));
                 }
 
@@ -149,7 +147,8 @@ namespace SyncSharp.Business
                 {
                     if (u.Match == null)
                     {
-                        string sDir = sourceDir + targetDirName + "\\" + u.Name;
+                        string sDir = sourceDir + "\\" + u.Name;
+                        u.TargetPath = sDir;
                         CheckTargetFileConflict(u, null, null);
 
                         stack.Push(new SyncTask(sDir, u.AbsolutePath));
