@@ -91,14 +91,33 @@ namespace SyncSharp.Business
 			form.ShowDialog();
 		}
 
-        internal void syncFolderPair(string source, string target)
-        {
-            Detector detect = new Detector();
-            SyncMetaData meta = new SyncMetaData();
-            detect.CompareFolderPair(source, target, meta.ReadMetaData(source), meta.ReadMetaData(target));
-            Reconciler.update(detect, null);
-            meta.getContent(source);
-            meta.getContent(target);
-        }
-    }
+		internal void syncFolderPair(string source, string target)
+		{
+			Detector detect = new Detector();
+			SyncMetaData meta = new SyncMetaData();
+			detect.CompareFolderPair(source, target, meta.ReadMetaData(source), meta.ReadMetaData(target));
+			Reconciler.update(detect, null);
+			meta.getContent(source);
+			meta.getContent(target);
+		}
+
+		internal void removeTask(string name)
+		{
+			if (MessageBox.Show("Delete task: " + name + "?", "Confirm task deletion",
+				MessageBoxButtons.YesNo) == DialogResult.Yes)
+			{
+				currentProfile.removeTask(currentProfile.getTask(name));
+			}
+		}
+
+		internal void updateSyncTaskTime(string name, string time)
+		{
+			currentProfile.updateSyncTaskTime(name, time);
+		}
+
+		internal void updateSyncTaskResult(string name, string result)
+		{
+			currentProfile.updateSyncTaskResult(name, result);
+		}
+	}
 }

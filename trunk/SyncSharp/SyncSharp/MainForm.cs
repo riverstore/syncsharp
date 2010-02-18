@@ -11,37 +11,37 @@ using SyncSharp.Storage;
 
 namespace SyncSharp
 {
-    public partial class MainForm : Form
-    {
-   
-	    public MainForm()
-        {
-            InitializeComponent();
-        }
-		
-        SyncSharpLogic logicController;
+	public partial class MainForm : Form
+	{
+
+		public MainForm()
+		{
+			InitializeComponent();
+		}
+
+		SyncSharpLogic logicController;
 
 		internal ListView GetTaskListView
 		{
 			get { return taskListView; }
 		}
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
+		private void MainForm_Load(object sender, EventArgs e)
+		{
 			logicController = new SyncSharpLogic();
 			logicController.loadProfile();
 			updateListView();
-        }
+		}
 
-        private void editMenuItem_Click(object sender, EventArgs e)
-        {
-            
-        }
+		private void editMenuItem_Click(object sender, EventArgs e)
+		{
 
-        private void analyzeMenuItem_Click(object sender, EventArgs e)
-        {
-            
-        }
+		}
+
+		private void analyzeMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
 
 		private void tsbtnNew_Click(object sender, EventArgs e)
 		{
@@ -68,13 +68,35 @@ namespace SyncSharp
 			logicController.saveProfile();
 		}
 
-        private void tsbtnSync_Click(object sender, EventArgs e)
-        {
-            string source = taskListView.FocusedItem.SubItems[3].Text;
-            string target = taskListView.FocusedItem.SubItems[4].Text;
+		private void tsbtnSync_Click(object sender, EventArgs e)
+		{
+			string source = taskListView.FocusedItem.SubItems[3].Text;
+			string target = taskListView.FocusedItem.SubItems[4].Text;
+			try
+			{
+				logicController.syncFolderPair(source, target);
+				logicController.updateSyncTaskResult(taskListView.FocusedItem.SubItems[0].Text, "Successful");
+			}
+			catch (Exception)
+			{
+				logicController.updateSyncTaskResult(taskListView.FocusedItem.SubItems[0].Text, "Unsuccessful");
+			}
+			
+			logicController.updateSyncTaskTime(taskListView.FocusedItem.SubItems[0].Text, DateTime.Now.ToString());
+			updateListView();
 
-            logicController.syncFolderPair(source, target);
+		}
 
-        }
-    }
+		private void tsbtnDelete_Click(object sender, EventArgs e)
+		{
+			string name = taskListView.FocusedItem.SubItems[0].Text;
+			logicController.removeTask(name);
+			updateListView();
+		}
+
+		private void tsbtnExit_Click(object sender, EventArgs e)
+		{
+			this.Close();
+		}
+	}
 }
