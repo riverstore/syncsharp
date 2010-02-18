@@ -117,7 +117,7 @@ namespace SyncSharp.Business
 
                     if (u.Match == null)
                     {
-                        u.TargetPath = targetDir;
+                        u.TargetPath = tDir;
                         CheckSourceFileConflict(u, null, null);
                     }
                     
@@ -133,19 +133,17 @@ namespace SyncSharp.Business
 
                     if (sMetaData != null && tMetaData != null)
                     {
-											try
-											{
-												sPrevState = sMetaData.MetaData[u.AbsolutePath];
-												tPrevState = tMetaData.MetaData[tDir];
-											}
-											catch (Exception)
-											{
-											}
-                        
+                        try
+                        {
+                            sPrevState = sMetaData.MetaData[u.AbsolutePath];
+                            tPrevState = tMetaData.MetaData[tDir];
+                        }
+                        catch
+                        {
+                        }
                     }
 
-                    u.TargetPath = targetDir;
-
+                    u.TargetPath = tDir;
                     if (u.Match == null)
                     {
                         CheckSourceFileConflict(u, sPrevState, tPrevState);
@@ -162,7 +160,7 @@ namespace SyncSharp.Business
                     if (u.Match == null)
                     {
                         string sDir = sourceDir + "\\" + u.Name;
-                        u.TargetPath = sourceDir;
+                        u.TargetPath = sDir;
                         CheckTargetFileConflict(u, null, null);
 
                         stack.Push(new SyncTask(sDir, u.AbsolutePath));
@@ -171,55 +169,28 @@ namespace SyncSharp.Business
 
                 foreach (FileUnit u in tFiles)
                 {
-									//if (u.Match == null)
-									//{
-									//  string sDir = sourceDir + "\\" + u.Name;
+                    if (u.Match == null)
+                    {
+                        string sDir = sourceDir + "\\" + u.Name;
 
-									//  FileUnit sPrevState = null;
-									//  FileUnit tPrevState = null;
+                         FileUnit sPrevState = null;
+                         FileUnit tPrevState = null;
 
-									//  if (sMetaData != null && tMetaData != null)
-									//  {
-									//    tPrevState = sMetaData.MetaData[u.AbsolutePath];
-									//    sPrevState = sMetaData.MetaData[sDir];
-									//  }
-									//  u.TargetPath = sourceDir;
-									//  CheckTargetFileConflict(u, sPrevState, tPrevState);
-									//}
-									//else
-									//{
-									//  CheckMatchFilesConflict(u, sPrevState, tPrevState);
-									//}
+                        if (sMetaData != null && tMetaData != null)
+                        {
+                            try
+                            {
+                                tPrevState = tMetaData.MetaData[u.AbsolutePath];
+                                sPrevState = sMetaData.MetaData[sDir];
+                            }
+                            catch
+                            {
+                            }
+                        }
 
-									string sDir = sourceDir + "\\" + u.Name;
-
-									FileUnit sPrevState = null;
-									FileUnit tPrevState = null;
-
-									if (sMetaData != null && tMetaData != null)
-									{
-										try
-										{
-											tPrevState = tMetaData.MetaData[u.AbsolutePath];
-											sPrevState = sMetaData.MetaData[sDir];
-										}
-										catch (Exception)
-										{
-										}
-										
-									}
-
-									u.TargetPath = sourceDir;
-
-									if (u.Match == null)
-									{
-										CheckTargetFileConflict(u, sPrevState, tPrevState);
-									}
-									else
-									{
-										CheckMatchFilesConflict(u, sPrevState, tPrevState);
-									}
-
+                        u.TargetPath = sDir;
+                        CheckTargetFileConflict(u, sPrevState, tPrevState);
+                    }
                 }
             }
         }
@@ -232,7 +203,6 @@ namespace SyncSharp.Business
                 if (sPrevState.LastWriteTime != u.LastWriteTime &&
                     tPrevState.LastWriteTime != u.Match.LastWriteTime)
                 {
-                    if (u.Name.CompareTo("syncsharp.meta") != 0)
                         this._conflictFiles.Add(u);
                 }
                 // source change, target unchanged
@@ -249,7 +219,6 @@ namespace SyncSharp.Business
                 FileComparator comparator = new FileComparator(true, true, true, true);
                 if (comparator.Compare(u, u.Match) != 0)
                 {
-                    if (u.Name.CompareTo("syncsharp.meta") != 0)
                         this._conflictFiles.Add(u);
                 }
             }
@@ -262,19 +231,16 @@ namespace SyncSharp.Business
                 // target deleted only
                 if (sPrevState.LastWriteTime == u.LastWriteTime)
                 {
-                    if (u.Name.CompareTo("syncsharp.meta") != 0)
                         this._deleteFilesFrmSource.Add(u);
                 }
                 // source changed, target deleted
-								else if (sPrevState.LastWriteTime < u.LastWriteTime)
-								{
-									if (u.Name.CompareTo("syncsharp.meta") != 0)
-										this._conflictFiles.Add(u);
-								}
+                else if (sPrevState.LastWriteTime < u.LastWriteTime)
+                {
+                        this._conflictFiles.Add(u);
+                }
             }
             else
             {
-                if (u.Name.CompareTo("syncsharp.meta") != 0)
                     this._filesInSourceOnly.Add(u);
             }
         }
@@ -286,20 +252,17 @@ namespace SyncSharp.Business
                 // source deleted only
                 if (tPrevState.LastWriteTime == u.LastWriteTime)
                 {
-                    if (u.Name.CompareTo("syncsharp.meta") != 0)
                         this._deleteFilesFrmTarget.Add(u);
                 }
                 //source deleted, target changed
                 else if (tPrevState.LastWriteTime < u.LastWriteTime)
                 {
-                    if (u.Name.CompareTo("syncsharp.meta") != 0)
                         this._conflictFiles.Add(u);
                 }
             }
             else
             {
-                if (u.Name.CompareTo("syncsharp.meta") != 0)
-                    this._filesInTargetOnly.Add(u);
+                  this._filesInTargetOnly.Add(u);
             }
         }
 

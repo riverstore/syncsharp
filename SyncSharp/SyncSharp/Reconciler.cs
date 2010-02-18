@@ -97,11 +97,11 @@ namespace SyncSharp.Business
             switch (chkFileUpdate(srcFile, dstFile, srcStatus, dstStatus))
             {
                 case SyncAction.CopyFileToSource:
-                    strTarget = dstFile.TargetPath + "\\" + dstFile.Name;
+                    strTarget = dstFile.TargetPath;
                     File.Copy(dstFile.AbsolutePath, strTarget, true);
                     break;
                 case SyncAction.CopyFileToTarget:
-                    strTarget = srcFile.TargetPath +  "\\" + srcFile.Name;
+                    strTarget = srcFile.TargetPath;
                     File.Copy(srcFile.AbsolutePath, strTarget, true);
                     break;
             }
