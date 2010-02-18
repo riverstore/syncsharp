@@ -79,7 +79,7 @@ namespace SyncSharp.Business
 			dsk.Get();
 			string volumeSerial = dsk["VolumeSerialNumber"].ToString();
 			String uniqueID = cpuInfo + volumeSerial;
-			MessageBox.Show(uniqueID);
+			//MessageBox.Show(uniqueID);
 			return cpuInfo;
 		}
 
@@ -90,5 +90,15 @@ namespace SyncSharp.Business
 			form.GetFolderPairPanel.Show();
 			form.ShowDialog();
 		}
-	}
+
+        internal void syncFolderPair(string source, string target)
+        {
+            Detector detect = new Detector();
+            SyncMetaData meta = new SyncMetaData();
+            detect.CompareFolderPair(source, target, meta.ReadMetaData(source), meta.ReadMetaData(target));
+            Reconciler.update(detect, null);
+            meta.getContent(source);
+            meta.getContent(target);
+        }
+    }
 }

@@ -20,6 +20,11 @@ namespace SyncSharp.Storage
             get { return _metaData; }
         }
 
+        public SyncMetaData()
+        {
+            _metaData = new Dictionary<string, FileUnit>();
+        }
+
         public bool isMetaDataExists(string name)
         {
             return File.Exists(name);
@@ -27,46 +32,68 @@ namespace SyncSharp.Storage
 
         public void WriteMetaData(string path)
         {
+            
             try
             {
-                var fsMetaFile = new FileStream(path + "\\syncsharp.meta", FileMode.Create);
+                FileStream fsMetaFile = null;
+                fsMetaFile = new FileStream(path + "\\syncsharp.meta", FileMode.Create);
                 var bfMetaFile = new BinaryFormatter();
+                fsMetaFile.Close();
                 bfMetaFile.Serialize(fsMetaFile, this);
             }
             catch
             {
             }
+            finally
+            {
+                //fsMetaFile.Close();
+            }
+            
         }
 
         public SyncMetaData ReadMetaData(string path)
         {
+            
             try
             {
-                var fsMetaFile = new FileStream(path + "\\syncsharp.meta", FileMode.Open);
+                FileStream fsMetaFile = null;
+                fsMetaFile = new FileStream(path + "\\syncsharp.meta", FileMode.Open);
                 var bfMetaFile = new BinaryFormatter();
+                fsMetaFile.Close();
                 return (SyncMetaData)bfMetaFile.Deserialize(fsMetaFile);
             }
             catch
             {
                 return null;
             }
+            finally
+            {
+                //fsMetaFile.Close();
+            }
         }
 
         public void getContent(string fullPath)
         {
-            if (!(Directory.Exists(fullPath)))
-            {
-            }
+            Stack<string> stack = new Stack<string>();
+            stack.Push(fullPath);
 
-            else
+            while (stack.Count > 0)
             {
-                foreach (string fileName in Directory.GetFiles(fullPath))
+                string folder = stack.Pop();
+
+                foreach (string fileName in Directory.GetFiles(folder))
                 {
-                    _metaData.Add(fileName, new FileUnit(fileName));
+                    if (!String.Equals(fileName, "syncsharp.meta"))
+                        _metaData.Add(fileName, new FileUnit(fileName));
+                }
+
+                foreach (string folderName in Directory.GetDirectories(folder))
+                {
+                    stack.Push(folderName);
                 }
             }
 
-            this.WriteMetaData(this);
+            this.WriteMetaData(fullPath);
         }
     }
 }

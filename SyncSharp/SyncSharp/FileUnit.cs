@@ -17,7 +17,7 @@ namespace SyncSharp.DataModel
         private readonly DateTime _lastWriteTime;
         private readonly long _hashValue;
         private readonly string _extension;
-        private readonly string _targetPath;
+        private string _targetPath;
 
         private readonly bool _isDirectory;
 
@@ -32,6 +32,7 @@ namespace SyncSharp.DataModel
             _isDirectory = Directory.Exists(path);
             _name = Path.GetFileName(path);
             _absolutePath = path;
+            _targetPath = "";
 
             if (_isDirectory)
             {

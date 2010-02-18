@@ -42,8 +42,8 @@ namespace SyncSharp
 
             if (_time)
             {
-                if (x.Time < y.Time) return -1;
-                if (x.Time > y.Time) return 1;
+                if (x.LastWriteTime < y.LastWriteTime) return -1;
+                if (x.LastWriteTime > y.LastWriteTime) return 1;
             }
 
             if (_hash)

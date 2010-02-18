@@ -37,6 +37,8 @@ namespace SyncSharp
             PromptUser,         // conflict occurs, ask user what to do
             Exclude,            // exclude file/folder to sync
             Delete,             // delete from both source & target
+            DeleteFromSource,   // delete from both source
+            DeleteFromTarget    // delete from both target
         }
 
         private void AddImageToList(FileUnit u)
@@ -55,7 +57,7 @@ namespace SyncSharp
             DataRow row = _lvTable.NewRow();
             row[0] = path;
             if(!s.IsDirectory) row[1] = s.Size;
-            row[2] = s.Time;
+            row[2] = s.LastWriteTime;
             row[3] = "Copy to target";
             row[4] = path;
             row[7] = s.Extension;
@@ -75,7 +77,7 @@ namespace SyncSharp
             row[3] = "Copy to source";
             row[4] = path;
             if (!t.IsDirectory) row[5] = t.Size;
-            row[6] = t.Time;
+            row[6] = t.LastWriteTime;
             row[7] = t.Extension;
             row[8] = SyncAction.CopyToSource.ToString();
 
@@ -92,11 +94,11 @@ namespace SyncSharp
 
             row[0] = path;
             row[1] = u.Size;
-            row[2] = u.Time;
+            row[2] = u.LastWriteTime;
             row[3] = "Conflict, prompt me";
             row[4] = path;
             row[5] = u.Match.Size;
-            row[6] = u.Match.Time;
+            row[6] = u.Match.LastWriteTime;
             row[7] = u.Extension;
             row[8] = SyncAction.PromptUser.ToString();
 
@@ -113,41 +115,31 @@ namespace SyncSharp
 
         private void PopulateListView()
         {
-            foreach (FileUnit u in _detector.MatchedFiles)
-            {
-                if (u.Size != u.Match.Size || 
-                    u.Time != u.Match.Time)
-                    AddChangedItem(u);
-            }
+            foreach (FileUnit u in _detector.ConflictFiles)
+                AddChangedItem(u);
 
-            foreach (FileUnit u in _detector.UnMatchedSourceFiles)
+            foreach (FileUnit u in _detector.FilesInSourceOnly)
                 AddNotInTargetItem(u);
 
-            foreach (FileUnit u in _detector.UnMatchedSourceDirs)
-                AddNotInTargetItem(u);
-
-            foreach (FileUnit u in _detector.UnMatchedTargetFiles)
-                AddNotInSourceItem(u);
-
-            foreach (FileUnit u in _detector.UnMatchedTargetDirs)
+            foreach (FileUnit u in _detector.FilesInTargetOnly)
                 AddNotInSourceItem(u);
 
         }
 
         private DataTable createDataTable()
         {
-            DataTable table = new DataTable();
-            table.Columns.Add("Source", typeof(string));
-            table.Columns.Add("SourceSize", typeof(long));
-            table.Columns.Add("SourceDate", typeof(DateTime));
-            table.Columns.Add("SyncAction", typeof(string));
-            table.Columns.Add("Target", typeof(string));
-            table.Columns.Add("TargetSize", typeof(long));
-            table.Columns.Add("TargetDate", typeof(DateTime));
-            table.Columns.Add("Extension", typeof(string));
-            table.Columns.Add("Tag", typeof(string));
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Source", typeof(string));
+            dt.Columns.Add("SourceSize", typeof(long));
+            dt.Columns.Add("SourceDate", typeof(DateTime));
+            dt.Columns.Add("SyncAction", typeof(string));
+            dt.Columns.Add("Target", typeof(string));
+            dt.Columns.Add("TargetSize", typeof(long));
+            dt.Columns.Add("TargetDate", typeof(DateTime));
+            dt.Columns.Add("Extension", typeof(string));
+            //dt.Columns.Add("Tag", typeof(string));
             
-            return table;
+            return dt;
         }
 
         private ListViewItem createListViewItem(int idx)
@@ -159,10 +151,10 @@ namespace SyncSharp
 
             item = new ListViewItem(_itemView[idx][0].ToString(), imageIdx);
            
-            for (int i = 1; i < 7; i++)
+            for (int i = 1; i < lvCompare.Columns.Count; i++)
                  item.SubItems.Add(_itemView[idx][i].ToString());
 
-            if (String.Equals(_itemView[idx][8].ToString(),
+            /*if (String.Equals(_itemView[idx][8].ToString(),
                 SyncAction.CopyToSource.ToString()))
             {
                 item.SubItems[0].ForeColor = Color.Silver;
@@ -178,20 +170,20 @@ namespace SyncSharp
             {
                 item.SubItems[0].BackColor = Color.LightPink;
                 item.SubItems[4].BackColor = Color.LightPink;
-            }
+            }*/
 
             item.ToolTipText = _itemView[idx][0].ToString();
 
             return item;
         }
 
-        private void lvDiff_DrawColumnHeader(object sender, 
+        private void lvCompare_DrawColumnHeader(object sender, 
                         DrawListViewColumnHeaderEventArgs e)
         {
             e.DrawDefault = true;
         }
 
-        private void lvDiff_DrawSubItem(object sender, 
+        private void lvCompare_DrawSubItem(object sender, 
                                     DrawListViewSubItemEventArgs e)
         {
             if (e.ColumnIndex == 3)
@@ -224,13 +216,13 @@ namespace SyncSharp
 
         }
 
-        private void lvDiff_RetrieveVirtualItem(object sender, 
+        private void lvCompare_RetrieveVirtualItem(object sender, 
                             RetrieveVirtualItemEventArgs e)
         {
             e.Item = createListViewItem(e.ItemIndex);
         }
 
-        private void lvDiff_ColumnClick(object sender, ColumnClickEventArgs e)
+        private void lvCompare_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             if (e.Column != _sortColumn)
             {
@@ -256,14 +248,10 @@ namespace SyncSharp
         {
             _lvTable = createDataTable();
 
-            imageList.ColorDepth = ColorDepth.Depth32Bit;
-            lvCompare.SmallImageList = imageList;
-            lvCompare.ShowItemToolTips = true;
-
             _detector = new Detector();
-            _detector.CompareFolderPair(_source, _target);
+            //_detector.CompareFolderPair(_source, _target);
                
-             PopulateListView();
+            // PopulateListView();
 
              _itemView = _lvTable.DefaultView;
              lvCompare.VirtualListSize = _itemView.Count;
@@ -273,5 +261,41 @@ namespace SyncSharp
         {
             this.Close();
         }
+
+        private void selectAllMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void openMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void showNotInSrcMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void showNotInTargetMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void showChangedFilesMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void propertiesMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lvCompare_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
