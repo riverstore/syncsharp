@@ -17,6 +17,8 @@ namespace SyncSharp.Business
         private List<FileUnit> _deleteFilesFrmSource;
         private List<FileUnit> _deleteFilesFrmTarget;
         private List<FileUnit> _conflictFiles;
+
+        private string _source, _target;
         
         #endregion
 
@@ -64,12 +66,23 @@ namespace SyncSharp.Business
 
         #region Methods
 
+        public string Source
+        {
+            set { _source = value; }
+            get { return _source; }
+        }
+
+        public string Target
+        {
+            set { _target = value; }
+            get { return _target; }
+        }
+
+
         public void CompareFolderPair(string source, string target, 
             SyncMetaData sMetaData, SyncMetaData tMetaData)
         {
-            int sNameLength = source.Length;
-            int tNameLength = target.Length;
-
+            Source = source; Target = target;
             Stack<SyncTask> stack = new Stack<SyncTask>();
 
             stack.Push(new SyncTask(source, target));
@@ -95,23 +108,58 @@ namespace SyncSharp.Business
                 if (Directory.Exists(targetDir))
                     GetFolderContents(targetDir, tFiles, tDirs);
 
-                /* Peform file matching between the source and destination files */
                 PerformSourceTargetMatching(sFiles, tFiles);
+                PerformSourceTargetMatching(sDirs, tDirs);
+
+                foreach (FileUnit u in sDirs)
+                {
+                    string tDir = targetDir + "\\" + u.Name;
+
+                    if (u.Match == null)
+                    {
+                        u.TargetPath = targetDir;
+                        CheckSourceFileConflict(u, null, null);
+                    }
+                    
+                    stack.Push(new SyncTask(u.AbsolutePath, tDir));
+                }
 
                 foreach (FileUnit u in sFiles)
                 {
                     string tDir = targetDir + "\\" + u.Name;
 
-                    FileUnit sPrevState = sMetaData.MetaData[u.AbsolutePath];
-                    FileUnit tPrevState = sMetaData.MetaData[tDir];
+                    FileUnit sPrevState = null;
+                    FileUnit tPrevState = null;
+
+                    if (sMetaData != null && tMetaData != null)
+                    {
+                        sPrevState = sMetaData.MetaData[u.AbsolutePath];
+                        tPrevState = tMetaData.MetaData[tDir];
+                    }
+
+                    u.TargetPath = targetDir;
 
                     if (u.Match == null)
                     {
                         CheckSourceFileConflict(u, sPrevState, tPrevState);
-                        u.TargetPath = tDir;
                     }
                     else
+                    {
                         CheckMatchFilesConflict(u, sPrevState, tPrevState);
+                    }
+                }
+
+
+                foreach (FileUnit u in tDirs)
+                {
+                    if (u.Match == null)
+                    {
+                        string sDir = sourceDir + "\\" + u.Name;
+                        u.TargetPath = sourceDir;
+                        CheckTargetFileConflict(u, null, null);
+
+                        stack.Push(new SyncTask(sDir, u.AbsolutePath));
+                    }
                 }
 
                 foreach (FileUnit u in tFiles)
@@ -119,39 +167,17 @@ namespace SyncSharp.Business
                     if (u.Match == null)
                     {
                         string sDir = sourceDir + "\\" + u.Name;
-                        FileUnit tPrevState = sMetaData.MetaData[u.AbsolutePath];
-                        FileUnit sPrevState = sMetaData.MetaData[sDir];
 
+                         FileUnit sPrevState = null;
+                         FileUnit tPrevState = null;
+
+                        if (sMetaData != null && tMetaData != null)
+                        {
+                            tPrevState = sMetaData.MetaData[u.AbsolutePath];
+                            sPrevState = sMetaData.MetaData[sDir];
+                        }
                         u.TargetPath = sourceDir;
                         CheckTargetFileConflict(u, sPrevState, tPrevState);
-                    }
-                }
-
-                PerformSourceTargetMatching(sDirs, tDirs);
-
-                /* Recurse into subdirectories */
-                foreach (FileUnit u in sDirs)
-                {
-                    string tDir = targetDir + "\\" + u.Name;
-
-                    if (u.Match == null)
-                    {
-                        u.TargetPath = tDir;
-                        CheckSourceFileConflict(u, null, null);
-                    }
-                    
-                    stack.Push(new SyncTask(u.AbsolutePath, tDir));
-                }
-
-                foreach (FileUnit u in tDirs)
-                {
-                    if (u.Match == null)
-                    {
-                        string sDir = sourceDir + "\\" + u.Name;
-                        u.TargetPath = sDir;
-                        CheckTargetFileConflict(u, null, null);
-
-                        stack.Push(new SyncTask(sDir, u.AbsolutePath));
                     }
                 }
             }
@@ -162,17 +188,29 @@ namespace SyncSharp.Business
             if (sPrevState != null && tPrevState != null)
             {
                 // source & target files changed
-                if (sPrevState.LastWriteTime != u.LastWriteTime && 
+                if (sPrevState.LastWriteTime != u.LastWriteTime &&
                     tPrevState.LastWriteTime != u.Match.LastWriteTime)
                 {
-                    this._conflictFiles.Add(u);
-                }  
+                    if (u.Name.CompareTo("syncsharp.meta") != 0)
+                        this._conflictFiles.Add(u);
+                }
+                // source change, target unchanged
+                else if (sPrevState.LastWriteTime != u.LastWriteTime &&
+                    tPrevState.LastWriteTime == u.Match.LastWriteTime)
+                    this._filesInSourceOnly.Add(u);
+                //target changed, source unchanged
+                else if (sPrevState.LastWriteTime == u.LastWriteTime &&
+                    tPrevState.LastWriteTime != u.Match.LastWriteTime)
+                    this._filesInTargetOnly.Add(u);
             }
             else
             {
                 FileComparator comparator = new FileComparator(true, true, true, true);
-                if (comparator.Compare(u, u.Match)!= 0)
-                    this._conflictFiles.Add(u);
+                if (comparator.Compare(u, u.Match) != 0)
+                {
+                    if (u.Name.CompareTo("syncsharp.meta") != 0)
+                        this._conflictFiles.Add(u);
+                }
             }
         }
 
@@ -182,14 +220,21 @@ namespace SyncSharp.Business
             {
                 // target deleted only
                 if (sPrevState.LastWriteTime == u.LastWriteTime)
-                    this._deleteFilesFrmSource.Add(u);
+                {
+                    if (u.Name.CompareTo("syncsharp.meta") != 0)
+                        this._deleteFilesFrmSource.Add(u);
+                }
                 // source changed, target deleted
                 else if (sPrevState.LastWriteTime < u.LastWriteTime)
-                    this._conflictFiles.Add(u);
+                {
+                    if (u.Name.CompareTo("syncsharp.meta") != 0)
+                        this._conflictFiles.Add(u);
+                }
             }
             else
             {
-                this._filesInSourceOnly.Add(u);
+                if (u.Name.CompareTo("syncsharp.meta") != 0)
+                    this._filesInSourceOnly.Add(u);
             }
         }
 
@@ -199,14 +244,21 @@ namespace SyncSharp.Business
             {
                 // source deleted only
                 if (tPrevState.LastWriteTime == u.LastWriteTime)
-                    this._deleteFilesFrmTarget.Add(u);
+                {
+                    if (u.Name.CompareTo("syncsharp.meta") != 0)
+                        this._deleteFilesFrmTarget.Add(u);
+                }
                 //source deleted, target changed
                 else if (tPrevState.LastWriteTime < u.LastWriteTime)
-                    this._conflictFiles.Add(u);
+                {
+                    if (u.Name.CompareTo("syncsharp.meta") != 0)
+                        this._conflictFiles.Add(u);
+                }
             }
             else
             {
-                this._filesInTargetOnly.Add(u);
+                if (u.Name.CompareTo("syncsharp.meta") != 0)
+                    this._filesInTargetOnly.Add(u);
             }
         }
 
@@ -239,7 +291,11 @@ namespace SyncSharp.Business
             try
             {
                 foreach (string file in Directory.GetFiles(path))
-                    files.Add(new FileUnit(file));
+                {
+
+                    if (!string.Equals(Path.GetFileName(file), "syncsharp.meta"))
+                        files.Add(new FileUnit(file));
+                }
 
                 foreach (string dir in Directory.GetDirectories(path))
                     dirs.Add(new FileUnit(dir));

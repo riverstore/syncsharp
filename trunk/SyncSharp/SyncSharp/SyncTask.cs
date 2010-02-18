@@ -96,7 +96,7 @@ namespace SyncSharp.Storage
         {
         }
 
-        public SyncTask(string source, string target): this(null,source, target, true)
+        public SyncTask(string source, string target): this("",source, target, true)
         {
             
         }

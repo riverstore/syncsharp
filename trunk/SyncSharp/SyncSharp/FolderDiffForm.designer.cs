@@ -31,19 +31,19 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FolderDiffForm));
             this.lvMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.selectAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.open = new System.Windows.Forms.ToolStripMenuItem();
-            this.changeAction = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToSource = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToTarget = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.excludeAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.showFilesNotInSrc = new System.Windows.Forms.ToolStripMenuItem();
-            this.showFilesNotInTarget = new System.Windows.Forms.ToolStripMenuItem();
-            this.showChangedFiles = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectAllMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeActionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToSourceMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToTargetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteAllMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.excludeAllMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.hideFolderDiff = new System.Windows.Forms.ToolStripMenuItem();
+            this.showNotInSrcMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showNotInTargetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showChangedFilesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.propertiesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scMain = new System.Windows.Forms.SplitContainer();
             this.lvCompare = new System.Windows.Forms.ListView();
             this.colSource = new System.Windows.Forms.ColumnHeader();
@@ -79,6 +79,9 @@
             this.btnAbort = new System.Windows.Forms.Button();
             this.syncProgressBar = new System.Windows.Forms.ProgressBar();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.deleteFromSourceMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteFromTargetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.collisionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lvMenu.SuspendLayout();
             this.scMain.Panel1.SuspendLayout();
             this.scMain.Panel2.SuspendLayout();
@@ -96,114 +99,123 @@
             // lvMenu
             // 
             this.lvMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.selectAll,
-            this.open,
-            this.changeAction,
-            this.toolStripSeparator2,
-            this.showFilesNotInSrc,
-            this.showFilesNotInTarget,
-            this.showChangedFiles,
+            this.selectAllMenuItem,
+            this.openMenuItem,
+            this.changeActionMenuItem,
             this.toolStripSeparator1,
-            this.hideFolderDiff});
+            this.showNotInSrcMenuItem,
+            this.showNotInTargetMenuItem,
+            this.showChangedFilesMenuItem,
+            this.toolStripSeparator2,
+            this.propertiesMenuItem});
             this.lvMenu.Name = "listMenu";
-            this.lvMenu.Size = new System.Drawing.Size(223, 170);
+            this.lvMenu.Size = new System.Drawing.Size(241, 170);
             // 
-            // selectAll
+            // selectAllMenuItem
             // 
-            this.selectAll.Name = "selectAll";
-            this.selectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.selectAll.Size = new System.Drawing.Size(222, 22);
-            this.selectAll.Text = "Select all";
+            this.selectAllMenuItem.Name = "selectAllMenuItem";
+            this.selectAllMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.selectAllMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.selectAllMenuItem.Text = "Select all";
+            this.selectAllMenuItem.Click += new System.EventHandler(this.selectAllMenuItem_Click);
             // 
-            // open
+            // openMenuItem
             // 
-            this.open.Name = "open";
-            this.open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.open.Size = new System.Drawing.Size(222, 22);
-            this.open.Text = "Open";
+            this.openMenuItem.Name = "openMenuItem";
+            this.openMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.openMenuItem.Text = "Open";
+            this.openMenuItem.Click += new System.EventHandler(this.openMenuItem_Click);
             // 
-            // changeAction
+            // changeActionMenuItem
             // 
-            this.changeAction.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyToSource,
-            this.copyToTarget,
-            this.deleteAll,
-            this.excludeAll});
-            this.changeAction.Name = "changeAction";
-            this.changeAction.Size = new System.Drawing.Size(222, 22);
-            this.changeAction.Text = "Change action";
+            this.changeActionMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyToSourceMenuItem,
+            this.copyToTargetMenuItem,
+            this.deleteAllMenuItem,
+            this.deleteFromSourceMenuItem,
+            this.deleteFromTargetMenuItem,
+            this.excludeAllMenuItem,
+            this.collisionMenuItem});
+            this.changeActionMenuItem.Name = "changeActionMenuItem";
+            this.changeActionMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.changeActionMenuItem.Text = "Change action";
             // 
-            // copyToSource
+            // copyToSourceMenuItem
             // 
-            this.copyToSource.Image = ((System.Drawing.Image)(resources.GetObject("copyToSource.Image")));
-            this.copyToSource.Name = "copyToSource";
-            this.copyToSource.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.copyToSource.Size = new System.Drawing.Size(185, 22);
-            this.copyToSource.Text = "Copy to source";
+            this.copyToSourceMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyToSourceMenuItem.Image")));
+            this.copyToSourceMenuItem.Name = "copyToSourceMenuItem";
+            this.copyToSourceMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.copyToSourceMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.copyToSourceMenuItem.Text = "Copy to Source";
             // 
-            // copyToTarget
+            // copyToTargetMenuItem
             // 
-            this.copyToTarget.Image = ((System.Drawing.Image)(resources.GetObject("copyToTarget.Image")));
-            this.copyToTarget.Name = "copyToTarget";
-            this.copyToTarget.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.copyToTarget.Size = new System.Drawing.Size(185, 22);
-            this.copyToTarget.Text = "Copy to target";
+            this.copyToTargetMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyToTargetMenuItem.Image")));
+            this.copyToTargetMenuItem.Name = "copyToTargetMenuItem";
+            this.copyToTargetMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.copyToTargetMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.copyToTargetMenuItem.Text = "Copy to Target";
             // 
-            // deleteAll
+            // deleteAllMenuItem
             // 
-            this.deleteAll.Image = ((System.Drawing.Image)(resources.GetObject("deleteAll.Image")));
-            this.deleteAll.Name = "deleteAll";
-            this.deleteAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.deleteAll.Size = new System.Drawing.Size(185, 22);
-            this.deleteAll.Text = "Delete";
+            this.deleteAllMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteAllMenuItem.Image")));
+            this.deleteAllMenuItem.Name = "deleteAllMenuItem";
+            this.deleteAllMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.deleteAllMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.deleteAllMenuItem.Text = "Delete";
             // 
-            // excludeAll
+            // excludeAllMenuItem
             // 
-            this.excludeAll.Image = ((System.Drawing.Image)(resources.GetObject("excludeAll.Image")));
-            this.excludeAll.Name = "excludeAll";
-            this.excludeAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.excludeAll.Size = new System.Drawing.Size(185, 22);
-            this.excludeAll.Text = "Exclude";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(219, 6);
-            // 
-            // showFilesNotInSrc
-            // 
-            this.showFilesNotInSrc.Checked = true;
-            this.showFilesNotInSrc.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.showFilesNotInSrc.Name = "showFilesNotInSrc";
-            this.showFilesNotInSrc.Size = new System.Drawing.Size(222, 22);
-            this.showFilesNotInSrc.Text = "Show files not in source";
-            // 
-            // showFilesNotInTarget
-            // 
-            this.showFilesNotInTarget.Checked = true;
-            this.showFilesNotInTarget.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.showFilesNotInTarget.Name = "showFilesNotInTarget";
-            this.showFilesNotInTarget.Size = new System.Drawing.Size(222, 22);
-            this.showFilesNotInTarget.Text = "Show files not in target";
-            // 
-            // showChangedFiles
-            // 
-            this.showChangedFiles.Checked = true;
-            this.showChangedFiles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.showChangedFiles.Name = "showChangedFiles";
-            this.showChangedFiles.Size = new System.Drawing.Size(222, 22);
-            this.showChangedFiles.Text = "Show changed files";
+            this.excludeAllMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("excludeAllMenuItem.Image")));
+            this.excludeAllMenuItem.Name = "excludeAllMenuItem";
+            this.excludeAllMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.excludeAllMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.excludeAllMenuItem.Text = "Exclude";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(219, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(237, 6);
             // 
-            // hideFolderDiff
+            // showNotInSrcMenuItem
             // 
-            this.hideFolderDiff.Name = "hideFolderDiff";
-            this.hideFolderDiff.Size = new System.Drawing.Size(222, 22);
-            this.hideFolderDiff.Text = "Do not show this window again";
+            this.showNotInSrcMenuItem.Checked = true;
+            this.showNotInSrcMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showNotInSrcMenuItem.Name = "showNotInSrcMenuItem";
+            this.showNotInSrcMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.showNotInSrcMenuItem.Text = "Show files/folders not in source";
+            this.showNotInSrcMenuItem.Click += new System.EventHandler(this.showNotInSrcMenuItem_Click);
+            // 
+            // showNotInTargetMenuItem
+            // 
+            this.showNotInTargetMenuItem.Checked = true;
+            this.showNotInTargetMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showNotInTargetMenuItem.Name = "showNotInTargetMenuItem";
+            this.showNotInTargetMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.showNotInTargetMenuItem.Text = "Show files/folders not in target";
+            this.showNotInTargetMenuItem.Click += new System.EventHandler(this.showNotInTargetMenuItem_Click);
+            // 
+            // showChangedFilesMenuItem
+            // 
+            this.showChangedFilesMenuItem.Checked = true;
+            this.showChangedFilesMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showChangedFilesMenuItem.Name = "showChangedFilesMenuItem";
+            this.showChangedFilesMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.showChangedFilesMenuItem.Text = "Show changed files";
+            this.showChangedFilesMenuItem.Click += new System.EventHandler(this.showChangedFilesMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(237, 6);
+            // 
+            // propertiesMenuItem
+            // 
+            this.propertiesMenuItem.Name = "propertiesMenuItem";
+            this.propertiesMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.propertiesMenuItem.Text = "Properties";
+            this.propertiesMenuItem.Click += new System.EventHandler(this.propertiesMenuItem_Click);
             // 
             // scMain
             // 
@@ -222,7 +234,7 @@
             // 
             this.scMain.Panel2.Controls.Add(this.scBottom);
             this.scMain.Size = new System.Drawing.Size(650, 374);
-            this.scMain.SplitterDistance = 217;
+            this.scMain.SplitterDistance = 212;
             this.scMain.SplitterWidth = 5;
             this.scMain.TabIndex = 0;
             // 
@@ -244,15 +256,18 @@
             this.lvCompare.Location = new System.Drawing.Point(0, 0);
             this.lvCompare.Name = "lvCompare";
             this.lvCompare.OwnerDraw = true;
-            this.lvCompare.Size = new System.Drawing.Size(650, 217);
+            this.lvCompare.ShowItemToolTips = true;
+            this.lvCompare.Size = new System.Drawing.Size(650, 212);
+            this.lvCompare.SmallImageList = this.imageList;
             this.lvCompare.TabIndex = 3;
             this.lvCompare.UseCompatibleStateImageBehavior = false;
             this.lvCompare.View = System.Windows.Forms.View.Details;
             this.lvCompare.VirtualMode = true;
-            this.lvCompare.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvDiff_DrawColumnHeader);
-            this.lvCompare.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvDiff_ColumnClick);
-            this.lvCompare.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.lvDiff_RetrieveVirtualItem);
-            this.lvCompare.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvDiff_DrawSubItem);
+            this.lvCompare.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvCompare_DrawColumnHeader);
+            this.lvCompare.DoubleClick += new System.EventHandler(this.lvCompare_DoubleClick);
+            this.lvCompare.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvCompare_ColumnClick);
+            this.lvCompare.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.lvCompare_RetrieveVirtualItem);
+            this.lvCompare.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvCompare_DrawSubItem);
             // 
             // colSource
             // 
@@ -306,8 +321,8 @@
             // 
             this.scBottom.Panel2.Controls.Add(this.syncProgressBar);
             this.scBottom.Panel2MinSize = 18;
-            this.scBottom.Size = new System.Drawing.Size(650, 152);
-            this.scBottom.SplitterDistance = 130;
+            this.scBottom.Size = new System.Drawing.Size(650, 157);
+            this.scBottom.SplitterDistance = 135;
             this.scBottom.TabIndex = 0;
             // 
             // scView
@@ -325,7 +340,7 @@
             // scView.Panel2
             // 
             this.scView.Panel2.Controls.Add(this.groupBox2);
-            this.scView.Size = new System.Drawing.Size(650, 130);
+            this.scView.Size = new System.Drawing.Size(650, 135);
             this.scView.SplitterDistance = 510;
             this.scView.TabIndex = 0;
             // 
@@ -351,7 +366,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(510, 130);
+            this.groupBox1.Size = new System.Drawing.Size(510, 135);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Statistics";
@@ -520,7 +535,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(136, 130);
+            this.groupBox2.Size = new System.Drawing.Size(136, 135);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Controls";
@@ -569,9 +584,28 @@
             // 
             // imageList
             // 
-            this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
             this.imageList.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // deleteFromSourceMenuItem
+            // 
+            this.deleteFromSourceMenuItem.Name = "deleteFromSourceMenuItem";
+            this.deleteFromSourceMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.deleteFromSourceMenuItem.Text = "Delete from Source";
+            // 
+            // deleteFromTargetMenuItem
+            // 
+            this.deleteFromTargetMenuItem.Name = "deleteFromTargetMenuItem";
+            this.deleteFromTargetMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.deleteFromTargetMenuItem.Text = "Delete from Target";
+            // 
+            // collisionMenuItem
+            // 
+            this.collisionMenuItem.Image = global::SyncSharp.Properties.Resources.error_small;
+            this.collisionMenuItem.Name = "collisionMenuItem";
+            this.collisionMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.collisionMenuItem.Text = "Collision, prompt me";
             // 
             // FolderDiffForm
             // 
@@ -617,23 +651,23 @@
         private System.Windows.Forms.ColumnHeader colTarget;
         private System.Windows.Forms.ColumnHeader colTargetSize;
         private System.Windows.Forms.ColumnHeader colTargetDate;
-        private System.Windows.Forms.ToolStripMenuItem open;
-        private System.Windows.Forms.ToolStripMenuItem changeAction;
+        private System.Windows.Forms.ToolStripMenuItem openMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeActionMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem copyToSource;
-        private System.Windows.Forms.ToolStripMenuItem copyToTarget;
-        private System.Windows.Forms.ToolStripMenuItem deleteAll;
-        private System.Windows.Forms.ToolStripMenuItem excludeAll;
+        private System.Windows.Forms.ToolStripMenuItem copyToSourceMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyToTargetMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteAllMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem excludeAllMenuItem;
         private System.Windows.Forms.Button btnAbort;
         private System.Windows.Forms.Button btnSynchronize;
         private System.Windows.Forms.Button btnHelp;
-        private System.Windows.Forms.ToolStripMenuItem selectAll;
+        private System.Windows.Forms.ToolStripMenuItem selectAllMenuItem;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.SplitContainer scView;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ToolStripMenuItem showFilesNotInSrc;
-        private System.Windows.Forms.ToolStripMenuItem showFilesNotInTarget;
-        private System.Windows.Forms.ToolStripMenuItem showChangedFiles;
+        private System.Windows.Forms.ToolStripMenuItem showNotInSrcMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showNotInTargetMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showChangedFilesMenuItem;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
@@ -649,12 +683,15 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem hideFolderDiff;
+        private System.Windows.Forms.ToolStripMenuItem propertiesMenuItem;
         private System.Windows.Forms.SplitContainer scBottom;
         private System.Windows.Forms.ProgressBar syncProgressBar;
         private System.Windows.Forms.Label lblOlderTarget;
         private System.Windows.Forms.Label lblOlderSrc;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripMenuItem deleteFromSourceMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteFromTargetMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem collisionMenuItem;
     }
 }
 
