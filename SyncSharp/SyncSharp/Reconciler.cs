@@ -29,45 +29,45 @@ namespace SyncSharp.Business
 
         public static void update(Detector detector, TaskSettings settings)
         {
-            foreach (FileUnit u in detector.FilesInSourceOnly)
-            {
-                if (!u.IsDirectory)
-                {
-                    updateFile(u, null, true, false);
-                }
-                else
-                {   // u is a directory.
-                    updateDir(u, null, true, false);
-                }
-            }
+					foreach (FileUnit u in detector.FilesInSourceOnly)
+					{
+						if (!u.IsDirectory)
+						{
+							updateFile(u, null, true, false);
+						}
+						else
+						{   // u is a directory.
+							updateDir(u, null, true, false);
+						}
+					}
 
-            foreach (FileUnit u in detector.FilesInTargetOnly)
-            {
-                if (!u.IsDirectory)
-                {
-                    updateFile(null, u, false, true);
-                }
-                else
-                {   // u is a directory.
-                    updateDir(null, u, false, true);
-                }
-            }
+					foreach (FileUnit u in detector.FilesInTargetOnly)
+					{
+						if (!u.IsDirectory)
+						{
+							updateFile(null, u, false, true);
+						}
+						else
+						{   // u is a directory.
+							updateDir(null, u, false, true);
+						}
+					}
 
-            foreach (FileUnit u in detector.ConflictFiles)
-            {
-                if (u.Match != null)
-                {
-                    updateFile(u, u.Match, true, true);
-                }
-                else
-                {
-                    if (u.AbsolutePath.StartsWith(detector.Source))
-                        updateFile(u, null, true, true);
-                    else
-                        updateFile(null, u, true, true);
-                }
+					foreach (FileUnit u in detector.ConflictFiles)
+					{
+						if (u.Match != null)
+						{
+							updateFile(u, u.Match, true, true);
+						}
+						else
+						{
+							if (u.AbsolutePath.StartsWith(detector.Source))
+								updateFile(u, null, true, true);
+							else
+								updateFile(null, u, true, true);
+						}
 
-            }
+					}
 
             foreach (FileUnit u in detector.DeleteFilesFromSource)
             {
@@ -97,11 +97,11 @@ namespace SyncSharp.Business
             switch (chkFileUpdate(srcFile, dstFile, srcStatus, dstStatus))
             {
                 case SyncAction.CopyFileToSource:
-                    strTarget = dstFile.TargetPath;
+                    strTarget = dstFile.TargetPath + "\\" + dstFile.Name;
                     File.Copy(dstFile.AbsolutePath, strTarget, true);
                     break;
                 case SyncAction.CopyFileToTarget:
-                    strTarget = srcFile.TargetPath;
+                    strTarget = srcFile.TargetPath +  "\\" + srcFile.Name;
                     File.Copy(srcFile.AbsolutePath, strTarget, true);
                     break;
             }

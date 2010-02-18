@@ -164,21 +164,48 @@ namespace SyncSharp.Business
 
                 foreach (FileUnit u in tFiles)
                 {
-                    if (u.Match == null)
-                    {
-                        string sDir = sourceDir + "\\" + u.Name;
+									//if (u.Match == null)
+									//{
+									//  string sDir = sourceDir + "\\" + u.Name;
 
-                         FileUnit sPrevState = null;
-                         FileUnit tPrevState = null;
+									//  FileUnit sPrevState = null;
+									//  FileUnit tPrevState = null;
 
-                        if (sMetaData != null && tMetaData != null)
-                        {
-                            tPrevState = sMetaData.MetaData[u.AbsolutePath];
-                            sPrevState = sMetaData.MetaData[sDir];
-                        }
-                        u.TargetPath = sourceDir;
-                        CheckTargetFileConflict(u, sPrevState, tPrevState);
-                    }
+									//  if (sMetaData != null && tMetaData != null)
+									//  {
+									//    tPrevState = sMetaData.MetaData[u.AbsolutePath];
+									//    sPrevState = sMetaData.MetaData[sDir];
+									//  }
+									//  u.TargetPath = sourceDir;
+									//  CheckTargetFileConflict(u, sPrevState, tPrevState);
+									//}
+									//else
+									//{
+									//  CheckMatchFilesConflict(u, sPrevState, tPrevState);
+									//}
+
+									string sDir = sourceDir + "\\" + u.Name;
+
+									FileUnit sPrevState = null;
+									FileUnit tPrevState = null;
+
+									if (sMetaData != null && tMetaData != null)
+									{
+										tPrevState = tMetaData.MetaData[u.AbsolutePath];
+										sPrevState = sMetaData.MetaData[sDir];
+									}
+
+									u.TargetPath = sourceDir;
+
+									if (u.Match == null)
+									{
+										CheckTargetFileConflict(u, sPrevState, tPrevState);
+									}
+									else
+									{
+										CheckMatchFilesConflict(u, sPrevState, tPrevState);
+									}
+
                 }
             }
         }
@@ -225,11 +252,11 @@ namespace SyncSharp.Business
                         this._deleteFilesFrmSource.Add(u);
                 }
                 // source changed, target deleted
-                else if (sPrevState.LastWriteTime < u.LastWriteTime)
-                {
-                    if (u.Name.CompareTo("syncsharp.meta") != 0)
-                        this._conflictFiles.Add(u);
-                }
+								else if (sPrevState.LastWriteTime < u.LastWriteTime)
+								{
+									if (u.Name.CompareTo("syncsharp.meta") != 0)
+										this._conflictFiles.Add(u);
+								}
             }
             else
             {
