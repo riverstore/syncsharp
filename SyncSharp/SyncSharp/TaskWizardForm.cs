@@ -66,7 +66,14 @@ namespace SyncSharp
 			{
 				if (logic.Profile.taskExists(GetTaskName.Trim()))
 				{
-					MessageBox.Show("Task name '" + GetTaskName.Trim() + "' already exists, please choose a unique name");
+					MessageBox.Show("Task name '" + GetTaskName.Trim() +
+						"' already exists, please choose a unique name",
+						"FolderDiff", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				}
+				else if (GetTaskName.Trim().Equals(""))
+				{
+					MessageBox.Show("Please enter a task name",
+						"FolderDiff", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
 				else
 				{
@@ -80,7 +87,8 @@ namespace SyncSharp
 			{
 				if (!radBackup.Checked && !radSync.Checked)
 				{
-					MessageBox.Show("Please choose a synchronization type");
+					MessageBox.Show("Please choose a synchronization type",
+						"FolderDiff", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
 				else
 				{
