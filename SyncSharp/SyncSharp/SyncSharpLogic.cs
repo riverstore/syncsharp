@@ -54,19 +54,32 @@ namespace SyncSharp.Business
 
 		private String getMachineID()
 		{
-			string cpuInfo = string.Empty;
+			string cpuInfo = "";
 			ManagementClass mc = new ManagementClass("win32_processor");
 			ManagementObjectCollection moc = mc.GetInstances();
-
 			foreach (ManagementObject mo in moc)
 			{
 				if (cpuInfo == "")
 				{
-					//Get only the first CPU's ID
 					cpuInfo = mo.Properties["processorID"].Value.ToString();
 					break;
 				}
 			}
+			String drive = "";
+			foreach (DriveInfo di in DriveInfo.GetDrives())
+			{
+				if (di.IsReady)
+				{
+					drive = di.RootDirectory.ToString();
+					break;
+				}
+			}
+			drive = drive.Substring(0, 1);
+			ManagementObject dsk = new ManagementObject(@"win32_logicaldisk.deviceid=""" + drive + @":""");
+			dsk.Get();
+			string volumeSerial = dsk["VolumeSerialNumber"].ToString();
+			String uniqueID = cpuInfo + volumeSerial;
+			MessageBox.Show(uniqueID);
 			return cpuInfo;
 		}
 

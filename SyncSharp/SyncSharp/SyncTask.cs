@@ -13,7 +13,7 @@ namespace SyncSharp.Storage
     class SyncTask
     {
         // Data Members
-				private String folderA, folderB, name, result, lastRun;
+				private String sourceFolder, targetFolder, name, result, lastRun;
 				private bool typeOfSync;
         private List<FileInfo> fiA, fiB;
         private TaskSettings settings;
@@ -22,12 +22,12 @@ namespace SyncSharp.Storage
         // Properties
         internal String Source
         {
-            get { return folderA; }
+            get { return sourceFolder; }
             //set { folderA = value; }
         }
         internal String Target
         {
-            get { return folderB; }
+            get { return targetFolder; }
             //set { folderB = value; }
         }
         internal String Name
@@ -110,14 +110,14 @@ namespace SyncSharp.Storage
             if (folderB.Trim().Equals(""))
                 throw new ApplicationException("Folder B cannot be empty");
             this.name = name.Trim();
-            this.folderA = folderA.Trim();
-            this.folderB = folderB.Trim();
+            this.sourceFolder = folderA.Trim();
+            this.targetFolder = folderB.Trim();
             this.fiA = new List<FileInfo>();
             this.fiB = new List<FileInfo>();
             this.settings = new TaskSettings();
             this.filters = new Filter();
 						this.typeOfSync = type;
-						this.lastRun = "";
+						this.lastRun = "Never";
 						this.result = "";
         }
 
