@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using SyncSharp.DataModel;
 
 namespace SyncSharp.Storage
@@ -23,18 +25,31 @@ namespace SyncSharp.Storage
             return File.Exists(name);
         }
 
-        public static void WriteMetaData(string path)
+        public void WriteMetaData(string path)
         {
-            var stmMetaFile   = new FileStream(path +"MetaFile", FileMode.Create);
-            var bfMetaFile = new BinaryFormatter();
-            bfmMetaFile.Serialize(stmMetaFile, this);
+            try
+            {
+                var fsMetaFile = new FileStream(path + "\\syncsharp.meta", FileMode.Create);
+                var bfMetaFile = new BinaryFormatter();
+                bfMetaFile.Serialize(fsMetaFile, this);
+            }
+            catch
+            {
+            }
         }
 
-        public static SyncMetaData ReadMetaData(string path)
+        public SyncMetaData ReadMetaData(string path)
         {
-            var stmMetaFile   = new FileStream(path+"MetaFile", FileMode.Open);
-            var bfMetaFile = new BinaryFormatter();
-            return (SyncMetaData)bfMetaFile.Deserialize(stmMetaFile);
+            try
+            {
+                var fsMetaFile = new FileStream(path + "\\syncsharp.meta", FileMode.Open);
+                var bfMetaFile = new BinaryFormatter();
+                return (SyncMetaData)bfMetaFile.Deserialize(fsMetaFile);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

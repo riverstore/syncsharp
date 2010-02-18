@@ -12,54 +12,60 @@ namespace SyncSharp.Business
     {
         #region attributes
 
-        private List<FileUnit> _unMatchedSFiles;
-        private List<FileUnit> _unMatchedTFiles;
-        private List<FileUnit> _unMatchedSDirs;
-        private List<FileUnit> _unMatchedTDirs;
-        private List<FileUnit> _matchedFiles;
-
+        private List<FileUnit> _filesInSourceOnly;
+        private List<FileUnit> _filesInTargetOnly;
+        private List<FileUnit> _deleteFilesFrmSource;
+        private List<FileUnit> _deleteFilesFrmTarget;
+        private List<FileUnit> _conflictFiles;
+        
         #endregion
+
+        #region constructors
 
         public Detector()
         {
-            _unMatchedSFiles = new List<FileUnit>();
-            _unMatchedTFiles = new List<FileUnit>();
-            _unMatchedSDirs = new List<FileUnit>();
-            _unMatchedTDirs = new List<FileUnit>();
-
-            _matchedFiles = new List<FileUnit>();
-        }
-
-        #region properties
-
-        public List<FileUnit> UnMatchedSourceFiles
-        {
-            get { return _unMatchedSFiles; }
-        }
-
-        public List<FileUnit> UnMatchedTargetFiles
-        {
-            get { return _unMatchedTFiles; }
-        }
-
-        public List<FileUnit> UnMatchedSourceDirs
-        {
-            get { return _unMatchedSDirs; }
-        }
-
-        public List<FileUnit> UnMatchedTargetDirs
-        {
-            get { return _unMatchedTDirs; }
-        }
-
-        public List<FileUnit> MatchedFiles
-        {
-            get { return _matchedFiles; }
+            _filesInSourceOnly = new List<FileUnit>();
+            _filesInTargetOnly = new List<FileUnit>();
+            _deleteFilesFrmSource = new List<FileUnit>();
+            _deleteFilesFrmTarget = new List<FileUnit>();
+            _conflictFiles = new List<FileUnit>();
         }
 
         #endregion
 
-        public void CompareFolderPair(string source, string target, SyncMetaData sMetaData, SyncMetaData tMetaData)
+        #region properties
+
+        public List<FileUnit> FilesInSourceOnly
+        {
+            get { return _filesInSourceOnly; }
+        }
+
+        public List<FileUnit> FilesInTargetOnly
+        {
+            get { return _filesInTargetOnly; }
+        }
+
+        public List<FileUnit> DeleteFilesFromSource
+        {
+            get { return _deleteFilesFrmSource; }
+        }
+
+        public List<FileUnit> DeleteFilesFromTarget
+        {
+            get { return _deleteFilesFrmTarget; }
+        }
+
+        public List<FileUnit> ConflictFiles
+        {
+            get { return _conflictFiles; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public void CompareFolderPair(string source, string target, 
+            SyncMetaData sMetaData, SyncMetaData tMetaData)
         {
             int sNameLength = source.Length;
             int tNameLength = target.Length;
@@ -97,83 +103,27 @@ namespace SyncSharp.Business
 
                 foreach (FileUnit u in sFiles)
                 {
+                    string tDir = targetDir + sourceDirName + "\\" + u.Name;
+
+                    FileUnit sPrevState = sMetaData.MetaData[u.AbsolutePath];
+                    FileUnit tPrevState = sMetaData.MetaData[tDir];
+
                     if (u.Match == null)
-                    {
-                        _unMatchedSFiles.Add(u);
-                        FileUnit sPrev = sMetaData.MetaData[u.AbsolutePath];
-
-                        string tDir = targetDir + sourceDirName + Path.DirectorySeparatorChar + u.Name;
-                        FileUnit tPrev = sMetaData.MetaData[tDir];
-                        
-                        if (tPrev != null && sPrev != null)
-                        {
-                            if (sPrev.Time == u.Time) // target deleted only
-                                deleteFromSourceList.Add(u);
-                            else if (sPrev.Time < u.Time) // source changed, target deleted
-                                copyToTargetList.Add(u);
-                        }
-                        else
-                        {
-                            copyToTargetList.Add(u);
-                        }
-                    }
+                        CheckSourceFileConflict(u, sPrevState, tPrevState);
                     else
-                    {
-                        _matchedFiles.Add(u);
-
-                        FileUnit sPrev = sMetaData.MetaData[u.AbsolutePath];
-                        FileUnit tPrev = sMetaData.MetaData[u.Match.AbsolutePath];
-
-                        if (sPrev != null && tPrev != null)
-                        {
-                            // source & target files changed
-                            if (sPrev.Time < u.Time && tPrev < u.Match.Time)
-                            {
-                                if (u.Time > u.Match.Time)
-                                    copyToTargetList.Add(u);
-                                else
-                                    copyToSourceList.Add(u.Match);
-                            }
-                            else if (sPrev.Time == u.Time && tPrev.Time < u.Match.Time)
-                            {
-                                copyToSourceList.Add(u.Match);
-                            }
-                            else if (sPrev.Time < u.Time && tPrev.Time == u.Match.Time)
-                            {
-                                copyToTargetList.Add(u);
-                            }
-                        }
-                        else
-                        {
-                            if (u.Time > u.Match.Time)
-                                copyToTargetList.Add(u);
-                            else
-                                copyToSourceList.Add(u.Match);
-                        }
-                    }
+                        CheckMatchFilesConflict(u, sPrevState, tPrevState);
                 }
 
                 foreach (FileUnit u in tFiles)
                 {
                     if (u.Match == null)
                     {
-                        _unMatchedTFiles.Add(u);
-                        FileUnit tPrev = sMetaData.MetaData[u.AbsolutePath];
+                        string sDir = sourceDir + targetDirName + "\\" + u.Name;
 
-                        string sDir = sourceDir + targetDirName + Path.DirectorySeparatorChar + u.Name;
-                        FileUnit sPrev = sMetaData.MetaData[sDir];
+                        FileUnit tPrevState = sMetaData.MetaData[u.AbsolutePath];
+                        FileUnit sPrevState = sMetaData.MetaData[sDir];
 
-                        if (tPrev != null && sPrev != null)
-                        {
-                            if (tPrev.Time == u.Time) // source deleted only
-                                deleteFromTargetList.Add(u);
-                            else if (tPrev.Time < u.Time) //source deleted, target changed
-                                copyToSourceList.Add(u);
-                        }
-                        else
-                        {
-                            copyToSourceList.Add(u);
-                        }
+                        CheckTargetFileConflict(u, sPrevState, tPrevState);
                     }
                 }
 
@@ -186,9 +136,8 @@ namespace SyncSharp.Business
 
                     if (u.Match == null)
                     {
-                        tDir = targetDir + sourceDirName +
-                                    Path.DirectorySeparatorChar + u.Name;
-                        _unMatchedSDirs.Add(u);
+                        tDir = targetDir + sourceDirName + "\\" + u.Name;
+                        CheckSourceFileConflict(u, null, null);
                     }
                     else
                         tDir = u.Match.AbsolutePath;
@@ -200,15 +149,65 @@ namespace SyncSharp.Business
                 {
                     if (u.Match == null)
                     {
-                        string sDir = sourceDir + targetDirName +
-                                Path.DirectorySeparatorChar + u.Name;
-                        _unMatchedTDirs.Add(u);
+                        string sDir = sourceDir + targetDirName + "\\" + u.Name;
+                        CheckTargetFileConflict(u, null, null);
 
                         stack.Push(new SyncTask(sDir, u.AbsolutePath));
                     }
-
                 }
+            }
+        }
 
+        private void CheckMatchFilesConflict(FileUnit u, FileUnit sPrevState, FileUnit tPrevState)
+        {
+            if (sPrevState != null && tPrevState != null)
+            {
+                // source & target files changed
+                if (sPrevState.LastWriteTime != u.LastWriteTime && 
+                    tPrevState.LastWriteTime != u.Match.LastWriteTime)
+                {
+                    this._conflictFiles.Add(u);
+                }  
+            }
+            else
+            {
+                FileComparator comparator = new FileComparator(true, true, true, true);
+                if (comparator.Compare(u, u.Match)!= 0)
+                    this._conflictFiles.Add(u);
+            }
+        }
+
+        private void CheckSourceFileConflict(FileUnit u, FileUnit sPrevState, FileUnit tPrevState)
+        {
+            if (tPrevState != null && sPrevState != null)
+            {
+                // target deleted only
+                if (sPrevState.LastWriteTime == u.LastWriteTime)
+                    this._deleteFilesFrmSource.Add(u);
+                // source changed, target deleted
+                else if (sPrevState.LastWriteTime < u.LastWriteTime)
+                    this._conflictFiles.Add(u);
+            }
+            else
+            {
+                this._filesInSourceOnly.Add(u);
+            }
+        }
+
+        private void CheckTargetFileConflict(FileUnit u, FileUnit sPrevState, FileUnit tPrevState)
+        {
+            if (tPrevState != null && sPrevState != null)
+            {
+                // source deleted only
+                if (tPrevState.LastWriteTime == u.LastWriteTime)
+                    this._deleteFilesFrmTarget.Add(u);
+                //source deleted, target changed
+                else if (tPrevState.LastWriteTime < u.LastWriteTime)
+                    this._conflictFiles.Add(u);
+            }
+            else
+            {
+                this._filesInTargetOnly.Add(u);
             }
         }
 
@@ -250,5 +249,7 @@ namespace SyncSharp.Business
             {
             }
         }
+
+        #endregion
     }
 }
