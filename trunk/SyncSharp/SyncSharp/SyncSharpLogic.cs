@@ -97,8 +97,8 @@ namespace SyncSharp.Business
 			SyncMetaData meta = new SyncMetaData();
 			detect.CompareFolderPair(source, target, meta.ReadMetaData(source), meta.ReadMetaData(target));
 			Reconciler.update(detect, null);
-			meta.getContent(source);
-			meta.getContent(target);
+			meta.UpdateMetaData(source);
+			meta.UpdateMetaData(target);
 		}
 
 		internal void removeTask(string name)

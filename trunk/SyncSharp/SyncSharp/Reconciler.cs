@@ -29,47 +29,46 @@ namespace SyncSharp.Business
 
         public static void update(Detector detector, TaskSettings settings)
         {
-					foreach (FileUnit u in detector.FilesInSourceOnly)
-					{
-						if (!u.IsDirectory)
-						{
-							updateFile(u, null, true, false);
-						}
-						else
-						{   // u is a directory.
-							updateDir(u, null, true, false);
-						}
-					}
+			foreach (FileUnit u in detector.CopyToTargetList)
+			{
+				if (!u.IsDirectory)
+				{
+					updateFile(u, null, true, false);
+				}
+				else
+				{   
+					updateDir(u, null, true, false);
+				}
+			}
 
-					foreach (FileUnit u in detector.FilesInTargetOnly)
-					{
-						if (!u.IsDirectory)
-						{
-							updateFile(null, u, false, true);
-						}
-						else
-						{   // u is a directory.
-							updateDir(null, u, false, true);
-						}
-					}
+			foreach (FileUnit u in detector.CopyToSourceList)
+			{
+				if (!u.IsDirectory)
+				{
+					updateFile(null, u, false, true);
+				}
+				else
+				{   
+					updateDir(null, u, false, true);
+				}
+			}
 
-					foreach (FileUnit u in detector.ConflictFiles)
-					{
-						if (u.Match != null)
-						{
-							updateFile(u, u.Match, true, true);
-						}
-						else
-						{
-							if (u.AbsolutePath.StartsWith(detector.Source))
-								updateFile(u, null, true, true);
-							else
-								updateFile(null, u, true, true);
-						}
+			foreach (FileUnit u in detector.ConflictFilesList)
+			{
+				if (u.Match != null)
+				{
+					updateFile(u, u.Match, true, true);
+				}
+				else
+				{
+					if (u.AbsolutePath.StartsWith(detector.Source))
+						updateFile(u, null, true, true);
+					else
+						updateFile(null, u, true, true);
+				}
+			}
 
-					}
-
-            foreach (FileUnit u in detector.DeleteFilesFromSource)
+            foreach (FileUnit u in detector.DeleteFilesFrmSourceList)
             {
                 switch (chkFileDelete(u, null))
                 {
@@ -79,7 +78,7 @@ namespace SyncSharp.Business
                 }
             }
 
-            foreach (FileUnit u in detector.DeleteFilesFromTarget)
+            foreach (FileUnit u in detector.DeleteFilesFrmTargetList)
             {
                 switch (chkFileDelete(null, u))
                 {
@@ -88,7 +87,6 @@ namespace SyncSharp.Business
                         break;
                 }
             }
-
         }
 
         static void updateFile(FileUnit srcFile, FileUnit dstFile, bool srcStatus, bool dstStatus)
