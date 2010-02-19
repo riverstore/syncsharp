@@ -43,7 +43,7 @@ namespace SyncSharp
 
 		}
 
-		private void tsbtnNew_Click(object sender, EventArgs e)
+		private void btnNew_Click(object sender, EventArgs e)
 		{
 			logicController.addNewTask();
 			updateListView();
@@ -68,7 +68,7 @@ namespace SyncSharp
 			logicController.saveProfile();
 		}
 
-		private void tsbtnSync_Click(object sender, EventArgs e)
+		private void btnSync_Click(object sender, EventArgs e)
 		{
 			string source = taskListView.FocusedItem.SubItems[3].Text;
 			string target = taskListView.FocusedItem.SubItems[4].Text;
@@ -87,14 +87,14 @@ namespace SyncSharp
 
 		}
 
-		private void tsbtnDelete_Click(object sender, EventArgs e)
+		private void btnDelete_Click(object sender, EventArgs e)
 		{
 			string name = taskListView.FocusedItem.SubItems[0].Text;
 			logicController.removeTask(name);
 			updateListView();
 		}
 
-		private void tsbtnExit_Click(object sender, EventArgs e)
+		private void btnExit_Click(object sender, EventArgs e)
 		{
 			this.Close();
 		}

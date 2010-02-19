@@ -12,11 +12,11 @@ namespace SyncSharp.Business
     {
         #region attributes
 
-        private List<FileUnit> _filesInSourceOnly;
-        private List<FileUnit> _filesInTargetOnly;
-        private List<FileUnit> _deleteFilesFrmSource;
-        private List<FileUnit> _deleteFilesFrmTarget;
-        private List<FileUnit> _conflictFiles;
+        private List<FileUnit> _copyToTargetList;
+        private List<FileUnit> _copyToSourceList;
+        private List<FileUnit> _deleteFilesFrmSourceList;
+        private List<FileUnit> _deleteFilesFrmTargetList;
+        private List<FileUnit> _conflictFilesList;
 
         private string _source, _target;
         
@@ -26,45 +26,41 @@ namespace SyncSharp.Business
 
         public Detector()
         {
-            _filesInSourceOnly = new List<FileUnit>();
-            _filesInTargetOnly = new List<FileUnit>();
-            _deleteFilesFrmSource = new List<FileUnit>();
-            _deleteFilesFrmTarget = new List<FileUnit>();
-            _conflictFiles = new List<FileUnit>();
+            _copyToTargetList = new List<FileUnit>();
+            _copyToSourceList = new List<FileUnit>();
+            _deleteFilesFrmSourceList = new List<FileUnit>();
+            _deleteFilesFrmTargetList = new List<FileUnit>();
+            _conflictFilesList = new List<FileUnit>();
         }
 
         #endregion
 
         #region properties
 
-        public List<FileUnit> FilesInSourceOnly
+        public List<FileUnit> CopyToTargetList
         {
-            get { return _filesInSourceOnly; }
+            get { return _copyToTargetList; }
         }
 
-        public List<FileUnit> FilesInTargetOnly
+        public List<FileUnit> CopyToSourceList
         {
-            get { return _filesInTargetOnly; }
+            get { return _copyToSourceList; }
         }
 
-        public List<FileUnit> DeleteFilesFromSource
+        public List<FileUnit> DeleteFilesFrmSourceList
         {
-            get { return _deleteFilesFrmSource; }
+            get { return _deleteFilesFrmSourceList; }
         }
 
-        public List<FileUnit> DeleteFilesFromTarget
+        public List<FileUnit> DeleteFilesFrmTargetList
         {
-            get { return _deleteFilesFrmTarget; }
+            get { return _deleteFilesFrmTargetList; }
         }
 
-        public List<FileUnit> ConflictFiles
+        public List<FileUnit> ConflictFilesList
         {
-            get { return _conflictFiles; }
+            get { return _conflictFilesList; }
         }
-
-        #endregion
-
-        #region Methods
 
         public string Source
         {
@@ -78,6 +74,9 @@ namespace SyncSharp.Business
             get { return _target; }
         }
 
+        #endregion
+
+        #region Methods
 
         public void CompareFolderPair(string source, string target, 
             SyncMetaData sMetaData, SyncMetaData tMetaData)
@@ -145,11 +144,10 @@ namespace SyncSharp.Business
 
                     u.TargetPath = tDir;
                     if (u.Match == null)
-                    {
                         CheckSourceFileConflict(u, sPrevState, tPrevState);
-                    }
                     else
                     {
+                        u.Match.TargetPath = sourceDir + "\\" + u.Name;
                         CheckMatchFilesConflict(u, sPrevState, tPrevState);
                     }
                 }
@@ -203,23 +201,23 @@ namespace SyncSharp.Business
                 if (sPrevState.LastWriteTime != u.LastWriteTime &&
                     tPrevState.LastWriteTime != u.Match.LastWriteTime)
                 {
-                        this._conflictFiles.Add(u);
+                        this._conflictFilesList.Add(u);
                 }
                 // source change, target unchanged
                 else if (sPrevState.LastWriteTime != u.LastWriteTime &&
                     tPrevState.LastWriteTime == u.Match.LastWriteTime)
-                    this._filesInSourceOnly.Add(u);
+                    this._copyToTargetList.Add(u);
                 //target changed, source unchanged
                 else if (sPrevState.LastWriteTime == u.LastWriteTime &&
                     tPrevState.LastWriteTime != u.Match.LastWriteTime)
-                    this._filesInTargetOnly.Add(u);
+                    this._copyToSourceList.Add(u.Match);
             }
             else
             {
                 FileComparator comparator = new FileComparator(true, true, true, true);
                 if (comparator.Compare(u, u.Match) != 0)
                 {
-                        this._conflictFiles.Add(u);
+                        this._conflictFilesList.Add(u);
                 }
             }
         }
@@ -231,17 +229,17 @@ namespace SyncSharp.Business
                 // target deleted only
                 if (sPrevState.LastWriteTime == u.LastWriteTime)
                 {
-                        this._deleteFilesFrmSource.Add(u);
+                        this._deleteFilesFrmSourceList.Add(u);
                 }
                 // source changed, target deleted
                 else if (sPrevState.LastWriteTime < u.LastWriteTime)
                 {
-                        this._conflictFiles.Add(u);
+                        this._conflictFilesList.Add(u);
                 }
             }
             else
             {
-                    this._filesInSourceOnly.Add(u);
+                  this._copyToTargetList.Add(u);
             }
         }
 
@@ -252,17 +250,17 @@ namespace SyncSharp.Business
                 // source deleted only
                 if (tPrevState.LastWriteTime == u.LastWriteTime)
                 {
-                        this._deleteFilesFrmTarget.Add(u);
+                        this._deleteFilesFrmTargetList.Add(u);
                 }
                 //source deleted, target changed
                 else if (tPrevState.LastWriteTime < u.LastWriteTime)
                 {
-                        this._conflictFiles.Add(u);
+                        this._conflictFilesList.Add(u);
                 }
             }
             else
             {
-                  this._filesInTargetOnly.Add(u);
+                  this._copyToSourceList.Add(u);
             }
         }
 

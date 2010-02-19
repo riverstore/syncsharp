@@ -32,15 +32,13 @@ namespace SyncSharp.Storage
 
         public void WriteMetaData(string path)
         {
-            
             try
             {
                 FileStream fsMetaFile = null;
                 fsMetaFile = new FileStream(path + "\\syncsharp.meta", FileMode.Create);
                 var bfMetaFile = new BinaryFormatter();
                 bfMetaFile.Serialize(fsMetaFile, this);
-								fsMetaFile.Close();
-
+                fsMetaFile.Close();
             }
             catch
             {
@@ -49,33 +47,34 @@ namespace SyncSharp.Storage
             {
                 //fsMetaFile.Close();
             }
-            
+
         }
 
         public SyncMetaData ReadMetaData(string path)
         {
-            
-						try
-						{
+            try
+            {
                 FileStream fsMetaFile = null;
                 fsMetaFile = new FileStream(path + "\\syncsharp.meta", FileMode.Open);
                 BinaryFormatter bfMetaFile = new BinaryFormatter();
                 SyncMetaData metadata = (SyncMetaData)bfMetaFile.Deserialize(fsMetaFile);
-								fsMetaFile.Close();
-								return metadata;
-						}
-						catch
-						{
-							return null;
-						}
-						finally
-						{
-							//fsMetaFile.Close();
-						}
+                fsMetaFile.Close();
+                return metadata;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                //fsMetaFile.Close();
+            }
         }
 
-        public void getContent(string fullPath)
+        public void UpdateMetaData(string fullPath)
         {
+            _metaData.Clear();
+
             Stack<string> stack = new Stack<string>();
             stack.Push(fullPath);
 

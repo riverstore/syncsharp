@@ -121,7 +121,7 @@
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="tsbtnNew.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnNew.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAPlJREFUSEvtlb0K
@@ -132,7 +132,7 @@
         zGDwX2C02gAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="tsbtnEdit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnEdit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAr9JREFUSEu9lctr
@@ -150,7 +150,7 @@
         g25C89At6DZ0F7pj3/OzG9BV6AI0a6f3Pgtjx/sfH/wB0nLNQe0O32sAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="tsbtnDelete.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnDelete.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAABAVJREFUSEu9lVlP
@@ -174,7 +174,7 @@
         ktw31eAI2AAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="tsbtnSync.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnSync.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAABMxJREFUSEudVPtP
@@ -201,7 +201,7 @@
         QBVWNhaUVLdnytSazRWvkv8v1CIVqFH/v8oAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="tsbtnExit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnExit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAA3lJREFUSEu1lUlM
@@ -222,7 +222,7 @@
         Rc1SXqAjVhBpXlnQHwX/XHRU41fQtDoQO1P5LTISBiKeGP0n4d8Bb+BdZKGj2MUAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="tsbtnHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAABd1JREFUSEuNVmlQ
@@ -254,7 +254,7 @@
         AAAASUVORK5CYII=
 </value>
   </data>
-  <data name="stopToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnStop.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAABH5JREFUSEvdlvlP
@@ -296,8 +296,8 @@
   <data name="editMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALBQAA
-        CwUByY3ISQAAAVNJREFUOE+FU7tOwzAUTX+KBYkF+g0s/QNGJARCTLwKExJiQUJITNBKwMJEUQVFhYmJ
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALBAAA
+        CwQBG8oqrQAAAVNJREFUOE+FU7tOwzAUTX+KBYkF+g0s/QNGJARCTLwKExJiQUJITNBKwMJEUQVFhYmJ
         qUgsifNwImVqlqAcfJ04NdiBSEd2rn3OPde+bjmzb757uPus/TdN2+trmwNjUZBRFIWBPM9ByLJMjrRP
         YKlRIEkSxHGMmMfgnCPiEV7GY1zf9uExr1lEOSBySeQIowhhGAoEODs/RZqmUoRA+3+4UAI84spmPfq+
         j6vepRQ5Pjmq41YByhgEhEDAB/OZzDj5mGDwcI+n0SPeOo5CpxZRDohYHZR1JPL03cHXzYIUMQTILmNl
@@ -383,8 +383,8 @@
   <data name="optionsMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALBgAA
-        CwYBZDTpJAAAAj5JREFUOE+lkklrU2EUho9Lf4D+Af0HunJIHYOoG0UwFXEhqQh2IQXpQpEqKtZaS4Zi
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALBQAA
+        CwUByY3ISQAAAj5JREFUOE+lkklrU2EUho9Lf4D+Af0HunJIHYOoG0UwFXEhqQh2IQXpQpEqKtZaS4Zi
         HRZFF7UVdFMQFRwKDtC6sIouqraxTdomTXIzTzd5PPc2TS6oG/0+zt29z3nf97urAPmvYwNuZe7rIP1J
         xBdDesNI9wxyaQrp+oKc/YicGUdOv0FOvUROPMXS2Fr7M5BmfA6efYOhSQi8h64X0D4KnmHYPQgbbsK6
         Plh7FVZfVNGRhypdAQTjTIQVMKWATxB0AFpHwK2AjQOwXgFrVgCHLAMrgL555NpP5PJ35MJX5Nwk0jmB
