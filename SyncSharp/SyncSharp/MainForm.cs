@@ -35,7 +35,9 @@ namespace SyncSharp
 
 		private void editMenuItem_Click(object sender, EventArgs e)
 		{
-
+			string name = taskListView.FocusedItem.SubItems[0].Text;
+			logicController.modifySelectedTask(name);
+			updateListView();
 		}
 
 		private void analyzeMenuItem_Click(object sender, EventArgs e)
@@ -97,6 +99,71 @@ namespace SyncSharp
 		private void btnExit_Click(object sender, EventArgs e)
 		{
 			this.Close();
+		}
+
+		private void btnEdit_Click(object sender, EventArgs e)
+		{
+			string name = taskListView.FocusedItem.SubItems[0].Text;
+			logicController.modifySelectedTask(name);
+			updateListView();
+		}
+
+		private void newMenuItem_Click(object sender, EventArgs e)
+		{
+			logicController.addNewTask();
+			updateListView();
+		}
+
+		private void deleteMenuItem_Click(object sender, EventArgs e)
+		{
+			string name = taskListView.FocusedItem.SubItems[0].Text;
+			logicController.removeTask(name);
+			updateListView();
+		}
+
+		private void renameMenuItem_Click(object sender, EventArgs e)
+		{
+			string name = taskListView.FocusedItem.SubItems[0].Text;
+			logicController.renameSelectedTask(name);
+			updateListView();
+		}
+
+		private void syncMenuItem_Click(object sender, EventArgs e)
+		{
+			string source = taskListView.FocusedItem.SubItems[3].Text;
+			string target = taskListView.FocusedItem.SubItems[4].Text;
+			try
+			{
+				logicController.syncFolderPair(source, target);
+				logicController.updateSyncTaskResult(taskListView.FocusedItem.SubItems[0].Text, "Successful");
+			}
+			catch (Exception)
+			{
+				logicController.updateSyncTaskResult(taskListView.FocusedItem.SubItems[0].Text, "Unsuccessful");
+			}
+
+			logicController.updateSyncTaskTime(taskListView.FocusedItem.SubItems[0].Text, DateTime.Now.ToString());
+			updateListView();
+		}
+
+		private void openSourceMenuItem_Click(object sender, EventArgs e)
+		{
+			if(System.IO.Directory.Exists(taskListView.FocusedItem.SubItems[3].Text))
+			{
+			System.Diagnostics.Process.Start(taskListView.FocusedItem.SubItems[3].Text);
+			}
+			else
+				MessageBox.Show("Source folder cannot be found");
+		}
+
+		private void openTargetMenuItem_Click(object sender, EventArgs e)
+		{
+			if(System.IO.Directory.Exists(taskListView.FocusedItem.SubItems[3].Text))
+			{
+			System.Diagnostics.Process.Start(taskListView.FocusedItem.SubItems[4].Text);
+			}
+			else
+				MessageBox.Show("Target folder cannot be found");
 		}
 	}
 }

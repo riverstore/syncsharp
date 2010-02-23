@@ -13,6 +13,7 @@ namespace SyncSharp.Business
 {
 	public class SyncSharpLogic
 	{
+		private String ID = "";
 		private SyncProfile currentProfile;
 
 		public SyncProfile Profile
@@ -22,7 +23,8 @@ namespace SyncSharp.Business
 
 		public void loadProfile()
 		{
-			String ID = getMachineID();
+			//String ID = getMachineID();
+			ID = getMachineID();
 			if (checkProfileExists(ID))
 			{
 				Stream str = File.OpenRead(@".\Profiles\" + ID);
@@ -38,7 +40,7 @@ namespace SyncSharp.Business
 
 		public void saveProfile()
 		{
-			String ID = getMachineID();
+			//String ID = getMachineID();
 			if (!Directory.Exists(@".\Profiles\"))
 				Directory.CreateDirectory(@".\Profiles\");
 			Stream str = File.OpenWrite(@".\Profiles\" + ID);
@@ -118,6 +120,18 @@ namespace SyncSharp.Business
 		internal void updateSyncTaskResult(string name, string result)
 		{
 			currentProfile.updateSyncTaskResult(name, result);
+		}
+
+		internal void modifySelectedTask(string name)
+		{
+			TaskSetupForm form = new TaskSetupForm(currentProfile.getTask(name));
+			form.ShowDialog();
+		}
+
+		internal void renameSelectedTask(string name)
+		{
+			RenameTaskForm form = new RenameTaskForm(currentProfile, currentProfile.getTask(name));
+			form.ShowDialog();
 		}
 	}
 }

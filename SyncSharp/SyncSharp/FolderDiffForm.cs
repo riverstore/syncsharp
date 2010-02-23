@@ -113,18 +113,18 @@ namespace SyncSharp
             if (_itemView != null) _itemView.Sort = "";
         }
 
-        private void PopulateListView()
-        {
-            foreach (FileUnit u in _detector.ConflictFiles)
-                AddChangedItem(u);
+				//private void PopulateListView()
+				//{
+				//    foreach (FileUnit u in _detector.ConflictFiles)
+				//        AddChangedItem(u);
 
-            foreach (FileUnit u in _detector.FilesInSourceOnly)
-                AddNotInTargetItem(u);
+				//    foreach (FileUnit u in _detector.FilesInSourceOnly)
+				//        AddNotInTargetItem(u);
 
-            foreach (FileUnit u in _detector.FilesInTargetOnly)
-                AddNotInSourceItem(u);
+				//    foreach (FileUnit u in _detector.FilesInTargetOnly)
+				//        AddNotInSourceItem(u);
 
-        }
+				//}
 
         private DataTable createDataTable()
         {
