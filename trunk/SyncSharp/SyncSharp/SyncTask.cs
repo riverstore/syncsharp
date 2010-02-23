@@ -10,7 +10,7 @@ using System.Diagnostics;
 namespace SyncSharp.Storage
 {
 	[Serializable]
-	class SyncTask
+	public class SyncTask
 	{
 		// Data Members
 		private String sourceFolder, targetFolder, name, result, lastRun;
@@ -33,7 +33,7 @@ namespace SyncSharp.Storage
 		internal String Name
 		{
 			get { return name; }
-			//set { name = value; }
+			set { name = value; }
 		}
 		internal String Result
 		{
