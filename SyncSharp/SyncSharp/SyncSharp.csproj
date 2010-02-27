@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomDictionary.cs" />
     <Compile Include="CustomException.cs" />
     <Compile Include="Detector.cs" />
     <Compile Include="FileComparator.cs" />

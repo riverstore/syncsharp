@@ -18,17 +18,19 @@ namespace SyncSharp.Storage
 		private List<FileInfo> fiA, fiB;
 		private TaskSettings settings;
 		private Filter filters;
+		private bool srcOnRemovable;
+		private bool destOnRemovable;
 
 		// Properties
 		internal String Source
 		{
 			get { return sourceFolder; }
-			//set { folderA = value; }
+			set { sourceFolder = value; }
 		}
 		internal String Target
 		{
 			get { return targetFolder; }
-			//set { folderB = value; }
+			set { targetFolder = value; }
 		}
 		internal String Name
 		{
@@ -86,6 +88,16 @@ namespace SyncSharp.Storage
 			get { return lastRun; }
 			set { lastRun = value; }
 		}
+		internal bool SrcOnRemovable
+		{
+			get { return srcOnRemovable; }
+			set { srcOnRemovable = value; }
+		}
+		internal bool DestOnRemovable
+		{
+			get { return destOnRemovable; }
+			set { destOnRemovable = value; }
+		}
 
 		// Constructor
 		// name:  Unique name for SyncTask
@@ -97,12 +109,12 @@ namespace SyncSharp.Storage
 		}
 
 		public SyncTask(string source, string target)
-			: this("", source, target, true)
+			: this("", source, target, true, false, false)
 		{
 
 		}
 
-		public SyncTask(String name, String folderA, String folderB, bool type)
+		public SyncTask(String name, String folderA, String folderB, bool type, bool srcOnRemovable, bool destOnRemovable)
 		{
 			//if (name.Trim().Equals(""))
 			//    throw new ApplicationException("SyncTask name cannot be empty");
@@ -120,6 +132,8 @@ namespace SyncSharp.Storage
 			this.typeOfSync = type;
 			this.lastRun = "Never";
 			this.result = "";
+			this.srcOnRemovable = srcOnRemovable;
+			this.destOnRemovable = destOnRemovable;
 		}
 		// Methods:
 	}

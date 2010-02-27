@@ -261,6 +261,7 @@
 					this.copyMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
 					this.copyMenuItem.Size = new System.Drawing.Size(184, 22);
 					this.copyMenuItem.Text = "Copy";
+					this.copyMenuItem.Click += new System.EventHandler(this.copyMenuItem_Click);
 					// 
 					// toolStripSeparator1
 					// 
@@ -360,14 +361,14 @@
 					// hideToolBarMenuItem
 					// 
 					this.hideToolBarMenuItem.Name = "hideToolBarMenuItem";
-					this.hideToolBarMenuItem.Size = new System.Drawing.Size(152, 22);
+					this.hideToolBarMenuItem.Size = new System.Drawing.Size(143, 22);
 					this.hideToolBarMenuItem.Text = "&Hide Toolbar";
 					// 
 					// optionsMenuItem
 					// 
 					this.optionsMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("optionsMenuItem.Image")));
 					this.optionsMenuItem.Name = "optionsMenuItem";
-					this.optionsMenuItem.Size = new System.Drawing.Size(152, 22);
+					this.optionsMenuItem.Size = new System.Drawing.Size(143, 22);
 					this.optionsMenuItem.Text = "&Options...";
 					// 
 					// helpMenuItem
@@ -384,13 +385,13 @@
 					this.showHelpMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showHelpMenuItem.Image")));
 					this.showHelpMenuItem.Name = "showHelpMenuItem";
 					this.showHelpMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-					this.showHelpMenuItem.Size = new System.Drawing.Size(152, 22);
+					this.showHelpMenuItem.Size = new System.Drawing.Size(118, 22);
 					this.showHelpMenuItem.Text = "Help";
 					// 
 					// aboutMenuItem
 					// 
 					this.aboutMenuItem.Name = "aboutMenuItem";
-					this.aboutMenuItem.Size = new System.Drawing.Size(152, 22);
+					this.aboutMenuItem.Size = new System.Drawing.Size(118, 22);
 					this.aboutMenuItem.Text = "&About...";
 					// 
 					// ssSyncSharp

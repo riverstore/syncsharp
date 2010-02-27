@@ -107,7 +107,9 @@ namespace SyncSharp
 				{
 					try
 					{
-						SyncTask task = new SyncTask(GetTaskName, GetSource, GetTarget, GetTaskType);
+						String root = Path.GetPathRoot(Directory.GetCurrentDirectory());
+						root = root.Substring(0, 1);
+						SyncTask task = new SyncTask(GetTaskName, GetSource, GetTarget, GetTaskType, GetSource.StartsWith(root), GetTarget.StartsWith(root));
 						logic.Profile.addTask(task);
 
 						this.Close();
@@ -140,6 +142,7 @@ namespace SyncSharp
 				state = 1;
 			}
 		}
+
 		private bool CheckFolderPair()
 		{
 			string source = Environment.ExpandEnvironmentVariables(txtSource.Text);

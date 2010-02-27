@@ -27,7 +27,7 @@ namespace SyncSharp.Business
 			ID = getMachineID();
 			if (checkProfileExists(ID))
 			{
-				Stream str = File.OpenRead(@".\Profiles\" + ID);
+				Stream str = File.OpenRead(@".\Profiles\" + ID + @"\" + ID);
 				BinaryFormatter formatter = new BinaryFormatter();
 				currentProfile = (SyncProfile)formatter.Deserialize(str);
 				str.Close();
@@ -41,9 +41,9 @@ namespace SyncSharp.Business
 		public void saveProfile()
 		{
 			//String ID = getMachineID();
-			if (!Directory.Exists(@".\Profiles\"))
-				Directory.CreateDirectory(@".\Profiles\");
-			Stream str = File.OpenWrite(@".\Profiles\" + ID);
+			if (!Directory.Exists(@".\Profiles\" + ID + @"\"))
+				Directory.CreateDirectory(@".\Profiles\" + ID + @"\");
+			Stream str = File.OpenWrite(@".\Profiles\" + ID + @"\" + ID);
 			BinaryFormatter formatter = new BinaryFormatter();
 			formatter.Serialize(str, currentProfile);
 			str.Close();
@@ -51,7 +51,7 @@ namespace SyncSharp.Business
 
 		private bool checkProfileExists(String id)
 		{
-			return File.Exists(@".\Profiles\" + id);
+			return File.Exists(@".\Profiles\" + ID + @"\" + id);
 		}
 
 		private String getMachineID()
@@ -132,6 +132,18 @@ namespace SyncSharp.Business
 		{
 			RenameTaskForm form = new RenameTaskForm(currentProfile, currentProfile.getTask(name));
 			form.ShowDialog();
+		}
+
+		internal void updateRemovableRoot()
+		{
+			String root = Path.GetPathRoot(Directory.GetCurrentDirectory());
+			root = root.Substring(0, 1);
+			currentProfile.updateRemovableRoot(root);
+		}
+
+		internal void copySelectedTask(string name)
+		{
+			currentProfile.copyTask(name);
 		}
 	}
 }
