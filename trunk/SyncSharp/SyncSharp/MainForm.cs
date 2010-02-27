@@ -30,14 +30,21 @@ namespace SyncSharp
 		{
 			logicController = new SyncSharpLogic();
 			logicController.loadProfile();
+			logicController.updateRemovableRoot();
 			updateListView();
 		}
 
 		private void editMenuItem_Click(object sender, EventArgs e)
 		{
-			string name = taskListView.FocusedItem.SubItems[0].Text;
-			logicController.modifySelectedTask(name);
-			updateListView();
+			try
+			{
+				string name = taskListView.FocusedItem.SubItems[0].Text;
+				logicController.modifySelectedTask(name);
+				updateListView();
+			}
+			catch (Exception)
+			{
+			}		
 		}
 
 		private void analyzeMenuItem_Click(object sender, EventArgs e)
@@ -72,28 +79,35 @@ namespace SyncSharp
 
 		private void btnSync_Click(object sender, EventArgs e)
 		{
-			string source = taskListView.FocusedItem.SubItems[3].Text;
-			string target = taskListView.FocusedItem.SubItems[4].Text;
 			try
 			{
+				string source = taskListView.FocusedItem.SubItems[3].Text;
+				string target = taskListView.FocusedItem.SubItems[4].Text;
 				logicController.syncFolderPair(source, target);
 				logicController.updateSyncTaskResult(taskListView.FocusedItem.SubItems[0].Text, "Successful");
+				logicController.updateSyncTaskTime(taskListView.FocusedItem.SubItems[0].Text, DateTime.Now.ToString());
+			}
+			catch (NullReferenceException)
+			{
 			}
 			catch (Exception)
 			{
 				logicController.updateSyncTaskResult(taskListView.FocusedItem.SubItems[0].Text, "Unsuccessful");
 			}
-			
-			logicController.updateSyncTaskTime(taskListView.FocusedItem.SubItems[0].Text, DateTime.Now.ToString());
 			updateListView();
-
 		}
 
 		private void btnDelete_Click(object sender, EventArgs e)
 		{
-			string name = taskListView.FocusedItem.SubItems[0].Text;
-			logicController.removeTask(name);
-			updateListView();
+			try
+			{
+				string name = taskListView.FocusedItem.SubItems[0].Text;
+				logicController.removeTask(name);
+				updateListView();
+			}
+			catch (Exception)
+			{
+			}		
 		}
 
 		private void btnExit_Click(object sender, EventArgs e)
@@ -103,9 +117,15 @@ namespace SyncSharp
 
 		private void btnEdit_Click(object sender, EventArgs e)
 		{
-			string name = taskListView.FocusedItem.SubItems[0].Text;
-			logicController.modifySelectedTask(name);
-			updateListView();
+			try
+			{
+				string name = taskListView.FocusedItem.SubItems[0].Text;
+				logicController.modifySelectedTask(name);
+				updateListView();
+			}
+			catch (Exception)
+			{
+			}
 		}
 
 		private void newMenuItem_Click(object sender, EventArgs e)
@@ -116,33 +136,47 @@ namespace SyncSharp
 
 		private void deleteMenuItem_Click(object sender, EventArgs e)
 		{
-			string name = taskListView.FocusedItem.SubItems[0].Text;
-			logicController.removeTask(name);
-			updateListView();
+			try
+			{
+				string name = taskListView.FocusedItem.SubItems[0].Text;
+				logicController.removeTask(name);
+				updateListView();
+			}
+			catch (Exception)
+			{
+			}
 		}
 
 		private void renameMenuItem_Click(object sender, EventArgs e)
 		{
-			string name = taskListView.FocusedItem.SubItems[0].Text;
-			logicController.renameSelectedTask(name);
-			updateListView();
+			try
+			{
+				string name = taskListView.FocusedItem.SubItems[0].Text;
+				logicController.renameSelectedTask(name);
+				updateListView();
+			}
+			catch (Exception)
+			{
+			}
 		}
 
 		private void syncMenuItem_Click(object sender, EventArgs e)
 		{
-			string source = taskListView.FocusedItem.SubItems[3].Text;
-			string target = taskListView.FocusedItem.SubItems[4].Text;
 			try
 			{
+				string source = taskListView.FocusedItem.SubItems[3].Text;
+				string target = taskListView.FocusedItem.SubItems[4].Text;
 				logicController.syncFolderPair(source, target);
 				logicController.updateSyncTaskResult(taskListView.FocusedItem.SubItems[0].Text, "Successful");
+				logicController.updateSyncTaskTime(taskListView.FocusedItem.SubItems[0].Text, DateTime.Now.ToString());
+			}
+			catch (NullReferenceException)
+			{
 			}
 			catch (Exception)
 			{
 				logicController.updateSyncTaskResult(taskListView.FocusedItem.SubItems[0].Text, "Unsuccessful");
 			}
-
-			logicController.updateSyncTaskTime(taskListView.FocusedItem.SubItems[0].Text, DateTime.Now.ToString());
 			updateListView();
 		}
 
@@ -164,6 +198,19 @@ namespace SyncSharp
 			}
 			else
 				MessageBox.Show("Target folder cannot be found");
+		}
+
+		private void copyMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				string name = taskListView.FocusedItem.SubItems[0].Text;
+				logicController.copySelectedTask(name);
+				updateListView();
+			}
+			catch (Exception)
+			{
+			}
 		}
 	}
 }
