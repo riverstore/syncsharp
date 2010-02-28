@@ -31,6 +31,7 @@ namespace SyncSharp
 			logicController = new SyncSharpLogic();
 			logicController.loadProfile();
 			logicController.updateRemovableRoot();
+			logicController.checkAutoRun();
 			updateListView();
 		}
 
