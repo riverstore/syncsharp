@@ -145,5 +145,49 @@ namespace SyncSharp.Business
 		{
 			currentProfile.copyTask(name);
 		}
+
+		internal void checkAutoRun()
+		{
+			bool needAction = true;
+			bool needOpen = true;
+			if (File.Exists(@".\Autorun.inf"))
+			{
+				StreamReader sr = new StreamReader(@".\Autorun.inf");
+				String line = sr.ReadLine();
+				while (line != null)
+				{
+					if (line.Contains("OPEN=SyncSharp.exe"))
+					{
+						needOpen = false;
+					}
+					if (line.Contains("Action=Run SyncSharp"))
+					{
+						needAction = false;
+					}
+					line = sr.ReadLine();
+				}
+				sr.Close();
+				if (needAction || needOpen)
+				{
+					File.Move(@".\Autorun.inf", @".\Autorun.inf.backup");
+					StreamWriter sw = new StreamWriter(@".\Autorun.inf");
+					sw.WriteLine("[AutoRun]");
+					sw.WriteLine("OPEN=SyncSharp.exe");
+					sw.WriteLine("Action=Run SyncSharp");
+					sw.Close();	
+				}
+				else
+				{
+				}			
+			}
+			else
+			{
+				StreamWriter sw = File.CreateText(@".\Autorun.inf");
+				sw.WriteLine("[AutoRun]");
+				sw.WriteLine("OPEN=SyncSharp.exe");
+				sw.WriteLine("Action=Run SyncSharp");
+				sw.Close();	
+			}
+		}
 	}
 }
