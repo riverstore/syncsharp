@@ -49,6 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoRunForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutoRunForm.Designer.cs">
+      <DependentUpon>AutoRunForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomException.cs" />
     <Compile Include="Detector.cs" />
     <Compile Include="ExListView.cs">
@@ -94,6 +100,10 @@
     </Compile>
     <Compile Include="SyncSharp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AutoRunForm.resx">
+      <DependentUpon>AutoRunForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="FolderDiffForm.resx">
       <DependentUpon>FolderDiffForm.cs</DependentUpon>
       <SubType>Designer</SubType>

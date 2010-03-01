@@ -14,9 +14,13 @@ namespace SyncSharp.GUI
 	public partial class MainForm : Form
 	{
 
-		public MainForm()
+		public MainForm(SyncSharpLogic logic)
 		{
-			InitializeComponent();
+            InitializeComponent();
+            logicController = logic;
+            logicController.updateRemovableRoot();
+            logicController.checkAutorun();
+            updateListView();
 		}
 
 		SyncSharpLogic logicController;
@@ -27,12 +31,7 @@ namespace SyncSharp.GUI
 		}
 
 		private void MainForm_Load(object sender, EventArgs e)
-		{
-			logicController = new SyncSharpLogic();
-			logicController.loadProfile();
-      logicController.updateRemovableRoot();
-			logicController.checkAutorun();
-			updateListView();
+		{			
 		}
 
 		private void editMenuItem_Click(object sender, EventArgs e)

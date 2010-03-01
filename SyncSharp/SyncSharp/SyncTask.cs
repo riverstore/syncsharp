@@ -116,5 +116,15 @@ namespace SyncSharp.Storage
             this.srcOnRemovable = srcOnRemovable;
             this.destOnRemovable = destOnRemovable;
 		}
+
+        public override bool Equals(object obj)
+        {
+            return (obj is SyncTask && ((SyncTask)obj).Name.Equals(this.Name));
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
 	}
 }
