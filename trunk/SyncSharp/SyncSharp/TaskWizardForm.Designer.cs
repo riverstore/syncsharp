@@ -1,4 +1,4 @@
-﻿namespace SyncSharp
+﻿namespace SyncSharp.GUI
 {
     partial class TaskWizardForm
     {

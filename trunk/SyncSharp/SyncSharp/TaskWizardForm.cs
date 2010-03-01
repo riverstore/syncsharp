@@ -10,7 +10,7 @@ using SyncSharp.Storage;
 using SyncSharp.Business;
 using System.IO;
 
-namespace SyncSharp
+namespace SyncSharp.GUI
 {
 	public partial class TaskWizardForm : Form
 	{
@@ -68,12 +68,12 @@ namespace SyncSharp
 				{
 					MessageBox.Show("Task name '" + GetTaskName.Trim() +
 						"' already exists, please choose a unique name",
-						"FolderDiff", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
 				else if (GetTaskName.Trim().Equals(""))
 				{
 					MessageBox.Show("Please enter a task name",
-						"FolderDiff", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
 				else
 				{
@@ -88,7 +88,7 @@ namespace SyncSharp
 				if (!radBackup.Checked && !radSync.Checked)
 				{
 					MessageBox.Show("Please choose a synchronization type",
-						"FolderDiff", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
 				else
 				{
@@ -107,10 +107,11 @@ namespace SyncSharp
 				{
 					try
 					{
-						String root = Path.GetPathRoot(Directory.GetCurrentDirectory());
-						root = root.Substring(0, 1);
-						SyncTask task = new SyncTask(GetTaskName, GetSource, GetTarget, GetTaskType, GetSource.StartsWith(root), GetTarget.StartsWith(root));
-						logic.Profile.addTask(task);
+                        String root = Path.GetPathRoot(Directory.GetCurrentDirectory());
+                        root = root.Substring(0, 1);
+                        SyncTask task = new SyncTask(GetTaskName, GetSource, GetTarget, GetTaskType, 
+                            GetSource.StartsWith(root), GetTarget.StartsWith(root));
+                        logic.Profile.addTask(task);
 
 						this.Close();
 					}
@@ -142,7 +143,6 @@ namespace SyncSharp
 				state = 1;
 			}
 		}
-
 		private bool CheckFolderPair()
 		{
 			string source = Environment.ExpandEnvironmentVariables(txtSource.Text);
@@ -151,28 +151,28 @@ namespace SyncSharp
 			if (String.IsNullOrEmpty(source))
 			{
 				MessageBox.Show("Please provide a source directory.",
-						"FolderDiff", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return false;
 			}
 
 			if (String.IsNullOrEmpty(target))
 			{
 				MessageBox.Show("Please provide a destination directory.",
-						"FolderDiff", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return false;
 			}
 
 			if (!Directory.Exists(source))
 			{
 				MessageBox.Show("Source directory does not exist.",
-						"FolderDiff", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return false;
 			}
 
 			if (!Directory.Exists(target))
 			{
 				MessageBox.Show("Destination directory does not exist.",
-						"FolderDiff", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return false;
 			}
 
@@ -180,7 +180,7 @@ namespace SyncSharp
 			{
 				MessageBox.Show("Source directory cannot be the same " +
 						"as the destination directory.",
-						"FolderDiff", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return false;
 			}
 
@@ -188,7 +188,7 @@ namespace SyncSharp
 			{
 				MessageBox.Show("Source directory cannot be a " +
 					 "subdirectory of the destination directory.",
-					 "FolderDiff", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					 "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return false;
 			}
 
@@ -196,7 +196,7 @@ namespace SyncSharp
 			{
 				MessageBox.Show("Destination directory cannot be a " +
 					 "subdirectory of the source directory.",
-					"FolderDiff", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return false;
 			}
 			return true;

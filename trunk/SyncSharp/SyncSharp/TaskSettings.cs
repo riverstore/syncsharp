@@ -7,7 +7,7 @@ using System.Diagnostics;
 namespace SyncSharp.Storage
 {
 	[Serializable]
-	class TaskSettings
+	public class TaskSettings
 	{
 		// Advanced
 		public bool PlugSync { get; set; }
