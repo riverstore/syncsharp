@@ -7,102 +7,106 @@ using System.IO;
 namespace SyncSharp.DataModel
 {
     [Serializable]
-    public class FileUnit
+
+    public enum Flag
+    {
+        modified,
+        deleted,
+        create,
+        renam
+    }
+
+    class FileUnit
     {
         #region attributes
 
-        private readonly string name;
-        private readonly string absolutePath;
-        private readonly long size;
-        private readonly DateTime lastWriteTime;
-        private readonly long hashValue;
-        private readonly string extension;
-        private string matchingPath;
+        private readonly string _name;
+        private readonly string _absolutePath;
+        private readonly long _size;
+        private readonly DateTime _time;
+        private readonly long _hashValue;
+        private readonly string _extension;
+        private Flag _flag;
+        private readonly bool _isDirectory;
 
-        private readonly bool isDirectory;
 
-        private FileUnit match = null;
+
+
+        private FileUnit _match = null;
 
         #endregion
 
-        #region constructors
-
         public FileUnit(string path)
         {
-            isDirectory = Directory.Exists(path);
-            name = Path.GetFileName(path);
-            absolutePath = path;
-            matchingPath = "";
+            _isDirectory = Directory.Exists(path);
+            _name = Path.GetFileName(path);
+            _absolutePath = path;
 
-            if (isDirectory)
+            if (_isDirectory)
             {
-                size = 0L;
-                hashValue = 0L;
-                //lastWriteTime = Directory.GetLastWriteTime(path);
-                lastWriteTime = DateTime.MinValue;
-                extension = "dir";
+                _size = 0L;
+                _hashValue = 0L;
+                _time = Directory.GetLastWriteTime(path);
+                _extension = "dir";
             }
             else
             {
                 FileInfo file = new FileInfo(path);
-                size = file.Length;
-                lastWriteTime = File.GetLastWriteTime(path);
-                extension = file.Extension;
+                _size = file.Length;
+                _time = File.GetLastWriteTime(path);
+                _extension = file.Extension;
             }
         }
 
-        #endregion
-
         #region properties
-
-        public string MatchingPath
-        {
-            set { matchingPath = value; }
-            get { return matchingPath; }
-        }
 
         public FileUnit Match
         {
-            get { return match; }
-            set { match = value; }
+            get { return _match; }
+            set { _match = value; }
+        }
+
+        public Flag Flag
+        {
+            get { return _flag; }
+            set { _flag = value; }
         }
 
         public string AbsolutePath
         {
-            get { return absolutePath; }
+            get { return _absolutePath; }
         }
 
         public string Name
         {
-            get { return name; }
+            get { return _name; }
         }
 
         public long Size
         {
-            get { return size; }
+            get { return _size; }
         }
 
         public long Hash
         {
-            get { return hashValue; }
+            get { return _hashValue; }
         }
 
         public string Extension
         {
-            get { return extension; }
+            get { return _extension; }
         }
 
-        public DateTime LastWriteTime
+        public DateTime Time
         {
-            get { return lastWriteTime; }
+            get { return _time; }
         }
 
         public bool IsDirectory
         {
-            get { return isDirectory; }
+            get { return _isDirectory; }
         }
 
         #endregion
-
     }
 }
