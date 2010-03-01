@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using SyncSharp.Storage;
 
-namespace SyncSharp
+namespace SyncSharp.GUI
 {
 	public partial class RenameTaskForm : Form
 	{
@@ -45,5 +45,6 @@ namespace SyncSharp
 				this.Close();
 			}
 		}
+
 	}
 }

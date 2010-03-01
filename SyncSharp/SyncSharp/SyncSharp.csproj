@@ -49,9 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomDictionary.cs" />
     <Compile Include="CustomException.cs" />
     <Compile Include="Detector.cs" />
+    <Compile Include="ExListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ExListView.Designer.cs">
+      <DependentUpon>ExListView.cs</DependentUpon>
+    </Compile>
     <Compile Include="FileComparator.cs" />
     <Compile Include="FileUnit.cs" />
     <Compile Include="Filter.cs" />

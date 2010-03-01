@@ -8,213 +8,257 @@ using SyncSharp.Storage;
 
 namespace SyncSharp.Business
 {
-    class Reconciler
+    public enum SyncAction
     {
+        CopyFileToSource,
+        CopyFileToTarget,
+        DeleteBothFile,
+        DeleteSourceFile,
+        DeleteTargetFile,
+        CreateSourceDir,
+        CreateTargetDir,
+        RenameSourceFile,
+        RenameTargetFile,
+        SkipNExclude,
+        CollisionPromptUser
+    }
 
-        public enum SyncAction
+    static class SynActionExtension
+    {
+        public static string Text(this SyncAction action)
         {
-            CopyFileToSource,
-            CopyFileToTarget,
-            DeleteFileFromSource,
-            DeleteFileFromTarget,
-            CreateSourceDir,
-            CreateTargetDir,
-            RenameSourceFile,
-            RenameTargetFile,
-            RenameSourceFolder,
-            RenameTargetFolder,
-            DeleteSourceFolder,
-            DeleteTargetFolder
+            string retVal = "";
+            switch (action)
+            {
+                case SyncAction.CopyFileToSource:
+                    retVal = "Copy To Source";
+                    break;
+                case SyncAction.CopyFileToTarget:
+                    retVal = "Copy To Target";
+                    break;
+                case SyncAction.DeleteBothFile:
+                    retVal = "Delete Both";
+                    break;
+                case SyncAction.DeleteSourceFile:
+                    retVal = "Delete from Source";
+                    break;
+                case SyncAction.DeleteTargetFile:
+                    retVal = "Delete from Target";
+                    break;
+                case SyncAction.SkipNExclude:
+                    retVal = "Skip and Exclude";
+                    break;
+                case SyncAction.CollisionPromptUser:
+                    retVal = "Collision, prompt me";
+                    break;
+            }
+            return retVal;
         }
+    }
 
+    public class Reconciler
+    {
         public static void update(Detector detector, TaskSettings settings)
         {
-			foreach (FileUnit u in detector.CopyToTargetList)
-			{
-				if (!u.IsDirectory)
-				{
-					updateFile(u, null, true, false);
-				}
-				else
-				{   
-					updateDir(u, null, true, false);
-				}
-			}
+            Dictionary<string, FileUnit> sMeta = new Dictionary<string, FileUnit>();
+            Dictionary<string, FileUnit> tMeta = new Dictionary<string, FileUnit>();
 
-			foreach (FileUnit u in detector.CopyToSourceList)
-			{
-				if (!u.IsDirectory)
-				{
-					updateFile(null, u, false, true);
-				}
-				else
-				{   
-					updateDir(null, u, false, true);
-				}
-			}
+            foreach (FileUnit u in detector.NewSourceFilesList)
+            {
+                if (!u.IsDirectory)
+                    updateFile(u, null, true, false, sMeta, tMeta);
+                else
+                    updateDir(u, null, true, false, sMeta, tMeta);
+            }
 
-			foreach (FileUnit u in detector.ConflictFilesList)
-			{
-				if (u.Match != null)
-				{
-					updateFile(u, u.Match, true, true);
-				}
-				else
-				{
-					if (u.AbsolutePath.StartsWith(detector.Source))
-						updateFile(u, null, true, true);
-					else
-						updateFile(null, u, true, true);
-				}
-			}
+            foreach (FileUnit u in detector.NewTargetFilesList)
+            {
+                if (!u.IsDirectory)
+                    updateFile(null, u, false, true, sMeta, tMeta);
+                else
+                    updateDir(null, u, false, true, sMeta, tMeta);
+            }
 
-            foreach (FileUnit u in detector.DeleteFilesFrmSourceList)
+            foreach (FileUnit u in detector.ConflictFilesList)
+            {
+                if (u.Match != null)
+                    updateFile(u, u.Match, true, true, sMeta, tMeta);
+                else
+                {
+                    if (u.AbsolutePath.StartsWith(detector.Source))
+                        updateFile(u, null, true, true, sMeta, tMeta);
+                    else
+                        updateFile(null, u, true, true, sMeta, tMeta);
+                }
+            }
+
+            detector.DeleteSourceFilesList.Reverse();
+            foreach (FileUnit u in detector.DeleteSourceFilesList)
             {
                 switch (chkFileDelete(u, null))
                 {
-                    case SyncAction.DeleteFileFromSource:
-                        File.Delete(u.AbsolutePath);
+                    case SyncAction.DeleteSourceFile:
+                        if (!u.IsDirectory) 
+                            File.Delete(u.AbsolutePath);
+                        deleteEmptyFolders(u);
                         break;
                 }
             }
 
-            foreach (FileUnit u in detector.DeleteFilesFrmTargetList)
+            detector.DeleteTargetFilesList.Reverse();
+            foreach (FileUnit u in detector.DeleteTargetFilesList)
             {
                 switch (chkFileDelete(null, u))
                 {
-                    case SyncAction.DeleteFileFromTarget:
-                        File.Delete(u.AbsolutePath);
+                    case SyncAction.DeleteTargetFile:
+                        if (!u.IsDirectory)
+                            File.Delete(u.AbsolutePath);
+                        deleteEmptyFolders(u);
                         break;
                 }
             }
+
+            detector.UnChangedFilesList.Reverse();
+            foreach (FileUnit u in detector.UnChangedFilesList)
+            {
+                sMeta.Add(u.AbsolutePath, u);
+                tMeta.Add(u.Match.AbsolutePath, u.Match);
+                u.Match.Match = null;
+                u.Match = null;
+                
+                if (u.IsDirectory)
+                    deleteEmptyFolders(u);
+            }
+
+            SyncMetaData.WriteMetaData(detector.Source, sMeta);
+            SyncMetaData.WriteMetaData(detector.Target, tMeta);
         }
 
-        static void updateFile(FileUnit srcFile, FileUnit dstFile, bool srcStatus, bool dstStatus)
+        static void deleteEmptyFolders(FileUnit u)
         {
-            string strTarget;
-            switch (chkFileUpdate(srcFile, dstFile, srcStatus, dstStatus))
+            string sDir = (u.IsDirectory) ? u.AbsolutePath : 
+                Directory.GetParent(u.AbsolutePath).FullName;
+            string tDir = (u.IsDirectory) ? u.MatchingPath : 
+                Directory.GetParent(u.MatchingPath).FullName;
+
+            try
+            {
+                Directory.Delete(sDir);
+                Directory.Delete(tDir);
+            }
+            catch
+            {
+            }
+        }
+
+        static void updateFile(FileUnit sFile, FileUnit tFile, bool isSDirty,
+            bool isTDirty, Dictionary<string, FileUnit> sMeta,
+            Dictionary<string, FileUnit> tMeta)
+        {
+            switch (chkFileUpdate(sFile, tFile, isSDirty, isTDirty))
             {
                 case SyncAction.CopyFileToSource:
-                    strTarget = dstFile.TargetPath;
-                    File.Copy(dstFile.AbsolutePath, strTarget, true);
+                    
+                    string parent = Directory.GetParent(tFile.MatchingPath).FullName;
+                    
+                    if (!Directory.Exists(parent))
+                        Directory.CreateDirectory(parent);
+
+                    File.Copy(tFile.AbsolutePath, tFile.MatchingPath, true);
+                    tMeta.Add(tFile.AbsolutePath, tFile);
+                    FileUnit newSource = new FileUnit(tFile.MatchingPath);
+                    sMeta.Add(newSource.AbsolutePath, newSource);
+
                     break;
                 case SyncAction.CopyFileToTarget:
-                    strTarget = srcFile.TargetPath;
-                    File.Copy(srcFile.AbsolutePath, strTarget, true);
+
+                    parent = Directory.GetParent(sFile.MatchingPath).FullName;
+
+                    if (!Directory.Exists(parent))
+                        Directory.CreateDirectory(parent);
+                    
+                    File.Copy(sFile.AbsolutePath, sFile.MatchingPath, true);
+                    sMeta.Add(sFile.AbsolutePath, sFile);
+                    FileUnit newTarget = new FileUnit(sFile.MatchingPath);
+                    tMeta.Add(newTarget.AbsolutePath, newTarget);
+                    
                     break;
             }
         }
 
-        static SyncAction chkFileUpdate(FileUnit sFile, FileUnit dFile, bool srcFile, bool dstFile)
+        public static SyncAction chkFileUpdate(FileUnit sFile, FileUnit tFile, bool isSDirty, bool isTDirty)
         {
-            if (srcFile == true && dstFile == false)// source file is dirty,but destination file is not dirty
-            {
-                return SyncAction.CopyFileToTarget; // copy source file to destination file
-            }
-            else if (srcFile == false && dstFile == true)// destination file is dirty, but source file is not dirty
-            {
-                return SyncAction.CopyFileToSource; // copy destination file to source file
-            }
-            //else if (srcFile == true && dstFile == true)// both source file and destination file are dirty
+            if (isSDirty == true && isTDirty == false)
+                return SyncAction.CopyFileToTarget;
+            else if (isSDirty == false && isTDirty == true)
+                return SyncAction.CopyFileToSource;
             else
             {
-                if (sFile != null && dFile != null)
+                if (sFile != null && tFile != null)
                 {
-                    if (sFile.LastWriteTime > dFile.LastWriteTime)
-                    {
-                        return SyncAction.CopyFileToTarget; // source file is the latest, so copy source file to destination file
-                    }
+                    if (sFile.LastWriteTime > tFile.LastWriteTime)
+                        return SyncAction.CopyFileToTarget;
                     else
-                        return SyncAction.CopyFileToSource; // destination file is the latest, so copy destination file to source file
+                        return SyncAction.CopyFileToSource;
                 }
                 else
                 {
-                    if (sFile == null && dFile != null)
-                    {
-                        return SyncAction.CopyFileToSource;// copy destination file to source file
-                    }
-                    //else if (sFile != null && dFile == null)
+                    if (sFile == null && tFile != null)
+                        return SyncAction.CopyFileToSource;
                     else
-                    {
-                        return SyncAction.CopyFileToTarget;// copy source file to destination file
-                    }
+                        return SyncAction.CopyFileToTarget;
                 }
             }
-
         }
 
-        static void updateDir(FileUnit srcDir, FileUnit dstDir, bool srcStatus, bool dstStatus)
+        static void updateDir(FileUnit sDir, FileUnit tDir, bool isSDirty,
+            bool isTDirty, Dictionary<string, FileUnit> sMeta,
+            Dictionary<string, FileUnit> tMeta)
         {
-            switch (chkDirUpdate(srcDir, dstDir, srcStatus, dstStatus))
+            switch (chkDirUpdate(sDir, tDir, isSDirty, isTDirty))
             {
                 case SyncAction.CreateSourceDir:
-                    Directory.CreateDirectory(dstDir.TargetPath);
+
+                    Directory.CreateDirectory(tDir.MatchingPath);
+                    tMeta.Add(tDir.AbsolutePath, tDir);
+                    FileUnit newSource = new FileUnit(tDir.MatchingPath);
+                    sMeta.Add(newSource.AbsolutePath, newSource);
+                    
                     break;
                 case SyncAction.CreateTargetDir:
-                    Directory.CreateDirectory(srcDir.TargetPath);
+                    
+                    Directory.CreateDirectory(sDir.MatchingPath);
+                    sMeta.Add(sDir.AbsolutePath, sDir);
+                    FileUnit newTarget = new FileUnit(sDir.MatchingPath);
+                    tMeta.Add(newTarget.AbsolutePath, newTarget);
+                    
                     break;
             }
         }
 
-
-        static SyncAction chkDirUpdate(FileUnit sDirectory, FileUnit dDirectory, bool srcStatus, bool dstStatus)
+        public static SyncAction chkDirUpdate(FileUnit sDir, FileUnit tDir, bool isSDirty, bool isTDirty)
         {
-            if (sDirectory != null && dDirectory == null)
-            { // source directory is dirty, but destination directory is not dirty
-                return SyncAction.CreateTargetDir; // copy source directory to destination directory
-            }
-            //else if (sDirectory == null && dDirectory != null)
+            if (sDir != null && tDir == null)
+                return SyncAction.CreateTargetDir;
             else
-            { // destination directory is dirty, but source directory is not dirty
                 return SyncAction.CreateSourceDir;
-            }
-
         }
 
-        static SyncAction chkFileDelete(FileUnit sFile, FileUnit dFile)
+        static SyncAction chkFileDelete(FileUnit sFile, FileUnit tFile)
         {
             if (sFile == null)
-            {
-                return SyncAction.DeleteFileFromTarget; //delete from destination
-            }
-
-            /*else if(dFile == null){
-                return SyncAction.DeleteFileFromSource; // delete from source
-            }*/
+                return SyncAction.DeleteTargetFile;
             else
-                return SyncAction.DeleteFileFromSource;
+                return SyncAction.DeleteSourceFile;
 
         }
 
-        /*static SyncAction childCreateParentDelete(FileUnit sFile, FileUnit dFile)
+        static SyncAction fileRename(FileUnit sFile, FileUnit tFile)
         {
-            if(!dFile.Exits && !dFolder.Exits){
-                return SyncAction.CopyFileToTarget; // copy all files under source folder to destinatination
-            }
-            else if(!sFile.Exits && sFolder.Exists){
-                return SyncAction.CopyFileToSource; // copy all files under destination folder to source
-            }
-        }*/
-
-        /*static SyncAction folderRename(FileUnit sDirectory, FileUnit dDirectory){
-            if(sDirectory.GetHashCode() == dDirectory.GetHashCode() && 
-                sDirectory.LastWriteTime == dDirectory.LastWriteTime){
-                return SyncAction.RenameSourceFile ; // two folders have the same contents
-            }
-            else{
-                return SyncAction.RenameTargetFolder;
-            }
-           
-        }
-        
-        static SyncAction fileRename(FileUnit sFile, FileUnit dFile){
-            if(sFile.GetHashCode() == dFile.GetHashCode() && sFile.LastWriteTime == dFile.LastWriteTime){
-                return SyncAction.RenameSourceFile; // two files have the same contents
-            }
-            else{
+            if (sFile.LastWriteTime < tFile.LastWriteTime)
+                return SyncAction.RenameSourceFile;
+            else
                 return SyncAction.RenameTargetFile;
-            }
-            }
-        } */
+        }
     }
 }

@@ -5,8 +5,8 @@ using System.Text;
 
 namespace SyncSharp.Business
 {
-		[Serializable]
-    class Filter
+	[Serializable]
+    public class Filter
     {
         // Data Members
 		private List<String> fileNameInclude, fileNameExclude, subDirectoryExclude, fileAttributeExclude;

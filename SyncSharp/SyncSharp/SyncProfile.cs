@@ -6,7 +6,6 @@ using System.Management;
 using SyncSharp.DataModel;
 using System.IO;
 using System.Diagnostics;
-using System.Windows.Forms;
 
 namespace SyncSharp.Storage
 {
@@ -67,7 +66,7 @@ namespace SyncSharp.Storage
 		{
 			foreach (SyncTask task in taskCollection)
 			{
-				if (task.Name.ToUpper().Equals(name.ToUpper().Trim()))
+                if (task.Name.ToUpper().Equals(name.ToUpper().Trim()))
 					return true;
 			}
 			return false;
@@ -96,56 +95,56 @@ namespace SyncSharp.Storage
 			getTask(name).Result = result;
 		}
 
-		internal void updateRemovableRoot(string root)
-		{
-			foreach (var task in taskCollection)
-			{
-				if (task.SrcOnRemovable && !task.Source.StartsWith(root))
-					task.Source = root + task.Source.Substring(1);
-				if (task.DestOnRemovable && !task.Target.StartsWith(root))
-					task.Target = root + task.Target.Substring(1);
-			}
-		}
+        internal void updateRemovableRoot(string root)
+        {
+            foreach (var task in taskCollection)
+            {
+                if (task.SrcOnRemovable && !task.Source.StartsWith(root))
+                    task.Source = root + task.Source.Substring(1);
+                if (task.DestOnRemovable && !task.Target.StartsWith(root))
+                    task.Target = root + task.Target.Substring(1);
+            }
+        }
 
-		internal void copyTask(string name)
-		{
-			SyncTask newTask = new SyncTask();
-			SyncTask temp = getTask(name);
-			newTask.Source = temp.Source;
-			newTask.Target = temp.Target;
-			newTask.Result = "";
-			newTask.LastRun = "Never";
-			newTask.TypeOfSync = temp.TypeOfSync;
-			newTask.FileInfoA = temp.FileInfoA;
-			newTask.FileInfoB = temp.FileInfoB;
-			newTask.Settings = temp.Settings;
-			newTask.Filters = temp.Filters;
-			newTask.SrcOnRemovable = temp.SrcOnRemovable;
-			newTask.DestOnRemovable = temp.DestOnRemovable;
-			int newValue;
-			if (!temp.Name.Contains("("))
-			{
-				newTask.Name = temp.Name + " Copy(1)";
-				newValue = 0;
-				while (true)
-				{
-					newValue++;
-					newTask.Name = newTask.Name.Substring(0, newTask.Name.LastIndexOf("(") + 1) + newValue.ToString() + ")";
-					if (!taskExists(newTask.Name)) break;
-				}
-			}
-			else
-			{
-				newValue = Int32.Parse(temp.Name.Substring(temp.Name.LastIndexOf("(") + 1, temp.Name.LastIndexOf(")") - temp.Name.LastIndexOf("(") - 1));
-			
-				while (true)
-				{
-					newValue++;
-					newTask.Name = temp.Name.Substring(0, temp.Name.LastIndexOf("(") + 1) + newValue.ToString() + ")";
-					if (!taskExists(newTask.Name)) break;
-				}
-			}
-			taskCollection.Add(newTask);
-		}
+        internal void copyTask(string name)
+        {
+            SyncTask newTask = new SyncTask();
+            SyncTask temp = getTask(name);
+            newTask.Source = temp.Source;
+            newTask.Target = temp.Target;
+            newTask.Result = "";
+            newTask.LastRun = "Never";
+            newTask.TypeOfSync = temp.TypeOfSync;
+            newTask.Settings = temp.Settings;
+            newTask.Filters = temp.Filters;
+            newTask.SrcOnRemovable = temp.SrcOnRemovable;
+            newTask.DestOnRemovable = temp.DestOnRemovable;
+
+            int newValue;
+            if (!temp.Name.Contains("("))
+            {
+                newTask.Name = temp.Name + " Copy(1)";
+                newValue = 0;
+                while (true)
+                {
+                    newValue++;
+                    newTask.Name = newTask.Name.Substring(0, newTask.Name.LastIndexOf("(") + 1) + newValue.ToString() + ")";
+                    if (!taskExists(newTask.Name)) break;
+                }
+            }
+            else
+            {
+                newValue = Int32.Parse(temp.Name.Substring(temp.Name.LastIndexOf("(") + 1, 
+                    temp.Name.LastIndexOf(")") - temp.Name.LastIndexOf("(") - 1));
+
+                while (true)
+                {
+                    newValue++;
+                    newTask.Name = temp.Name.Substring(0, temp.Name.LastIndexOf("(") + 1) + newValue.ToString() + ")";
+                    if (!taskExists(newTask.Name)) break;
+                }
+            }
+            taskCollection.Add(newTask);
+        }
 	}
 }
