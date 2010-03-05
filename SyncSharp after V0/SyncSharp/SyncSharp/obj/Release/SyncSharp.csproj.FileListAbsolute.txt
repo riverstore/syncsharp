@@ -1,0 +1,13 @@
+D:\VS2008Projects\SyncSharp V0.0 Submission\SyncSharp\SyncSharp\bin\Release\SyncSharp.exe
+D:\VS2008Projects\SyncSharp V0.0 Submission\SyncSharp\SyncSharp\bin\Release\SyncSharp.pdb
+D:\VS2008Projects\SyncSharp V0.0 Submission\SyncSharp\SyncSharp\obj\Release\ResolveAssemblyReference.cache
+D:\VS2008Projects\SyncSharp V0.0 Submission\SyncSharp\SyncSharp\obj\Release\SyncSharp.GUI.AutoRunForm.resources
+D:\VS2008Projects\SyncSharp V0.0 Submission\SyncSharp\SyncSharp\obj\Release\SyncSharp.GUI.FolderDiffForm.resources
+D:\VS2008Projects\SyncSharp V0.0 Submission\SyncSharp\SyncSharp\obj\Release\SyncSharp.GUI.MainForm.resources
+D:\VS2008Projects\SyncSharp V0.0 Submission\SyncSharp\SyncSharp\obj\Release\SyncSharp.GUI.RenameTaskForm.resources
+D:\VS2008Projects\SyncSharp V0.0 Submission\SyncSharp\SyncSharp\obj\Release\SyncSharp.GUI.TaskSetupForm.resources
+D:\VS2008Projects\SyncSharp V0.0 Submission\SyncSharp\SyncSharp\obj\Release\SyncSharp.Properties.Resources.resources
+D:\VS2008Projects\SyncSharp V0.0 Submission\SyncSharp\SyncSharp\obj\Release\SyncSharp.GUI.TaskWizardForm.resources
+D:\VS2008Projects\SyncSharp V0.0 Submission\SyncSharp\SyncSharp\obj\Release\SyncSharp.csproj.GenerateResource.Cache
+D:\VS2008Projects\SyncSharp V0.0 Submission\SyncSharp\SyncSharp\obj\Release\SyncSharp.exe
+D:\VS2008Projects\SyncSharp V0.0 Submission\SyncSharp\SyncSharp\obj\Release\SyncSharp.pdb
