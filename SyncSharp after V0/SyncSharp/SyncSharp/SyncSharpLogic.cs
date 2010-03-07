@@ -15,7 +15,7 @@ namespace SyncSharp.Business
 {
 	public class SyncSharpLogic
 	{
-        private String ID = "";
+		private String ID = "";
 		private SyncProfile currentProfile;
 
 		public SyncProfile Profile
@@ -28,7 +28,7 @@ namespace SyncSharp.Business
 			ID = getMachineID();
 			if (checkProfileExists(ID))
 			{
-                Stream str = File.OpenRead(@".\Profiles\" + ID + @"\" + ID);
+				Stream str = File.OpenRead(@".\Profiles\" + ID + @"\" + ID);
 				BinaryFormatter formatter = new BinaryFormatter();
 				currentProfile = (SyncProfile)formatter.Deserialize(str);
 				str.Close();
@@ -41,10 +41,10 @@ namespace SyncSharp.Business
 
 		public void saveProfile()
 		{
-            if (!Directory.Exists(@".\Profiles\" + ID + @"\"))
-                Directory.CreateDirectory(@".\Profiles\" + ID + @"\");
+			if (!Directory.Exists(@".\Profiles\" + ID + @"\"))
+				Directory.CreateDirectory(@".\Profiles\" + ID + @"\");
 
-            Stream str = File.OpenWrite(@".\Profiles\" + ID + @"\" + ID);
+			Stream str = File.OpenWrite(@".\Profiles\" + ID + @"\" + ID);
 			BinaryFormatter formatter = new BinaryFormatter();
 			formatter.Serialize(str, currentProfile);
 			str.Close();
@@ -52,7 +52,7 @@ namespace SyncSharp.Business
 
 		private bool checkProfileExists(String id)
 		{
-            return File.Exists(@".\Profiles\" + ID + @"\" + id);
+			return File.Exists(@".\Profiles\" + ID + @"\" + id);
 		}
 
 		private String getMachineID()
@@ -65,7 +65,7 @@ namespace SyncSharp.Business
 				cpuID = mo["processorID"].ToString();
 				break;
 			}
-            
+
 			String drive = "";
 			foreach (DriveInfo di in DriveInfo.GetDrives())
 			{
@@ -77,11 +77,11 @@ namespace SyncSharp.Business
 			}
 			drive = drive.Substring(0, 1);
 			ManagementObject dsk = new ManagementObject(
-                    @"win32_logicaldisk.deviceid=""" + drive + @":""");
+										@"win32_logicaldisk.deviceid=""" + drive + @":""");
 			dsk.Get();
 			string volumeSerial = dsk["VolumeSerialNumber"].ToString();
-			
-            return cpuID + volumeSerial;
+
+			return cpuID + volumeSerial;
 		}
 
 		public void addNewTask()
@@ -91,83 +91,79 @@ namespace SyncSharp.Business
 			form.GetFolderPairPanel.Show();
 			form.ShowDialog();
 		}
-        
-        public void analyzeFolderPair(string source, string target, string taskName)
-        {
-            /*
-            Detector detector = new Detector(source, target);
-            if (!detector.IsFolderPairSync())
-            {
-                try
-                {
-                    FolderDiffForm form = new FolderDiffForm(detector);
-                    DialogResult result = form.ShowDialog();
-                    if (result == DialogResult.OK)
-                    {
-                        Reconciler.update(detector, null);
-                        this.updateSyncTaskResult(taskName, "Successful");
-                        this.updateSyncTaskTime(taskName, DateTime.Now.ToString());
-                    }
-                }
-                catch
-                {
-                    this.updateSyncTaskResult(taskName, "Unsuccessful");
-                    this.updateSyncTaskTime(taskName, DateTime.Now.ToString());
-                }
-            }
-            else
-                MessageBox.Show(source + " is in sync with " + target, 
-                    "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-             */
-        }
-        
-        public void syncFolderPair(string source, string target, string taskName)
-				{
-					/*
+
+		public void analyzeFolderPair(string source, string target, string taskName)
+		{
+			/*
+			Detector detector = new Detector(source, target);
+			if (!detector.IsFolderPairSync())
+			{
 					try
 					{
-						Detector detector = new Detector(source, target);
-
-						if (!detector.IsFolderPairSync())
-							Reconciler.update(detector, null);
-
-							this.updateSyncTaskResult(taskName, "Successful");
+							FolderDiffForm form = new FolderDiffForm(detector);
+							DialogResult result = form.ShowDialog();
+							if (result == DialogResult.OK)
+							{
+									Reconciler.update(detector, null);
+									this.updateSyncTaskResult(taskName, "Successful");
+									this.updateSyncTaskTime(taskName, DateTime.Now.ToString());
+							}
 					}
 					catch
 					{
 							this.updateSyncTaskResult(taskName, "Unsuccessful");
+							this.updateSyncTaskTime(taskName, DateTime.Now.ToString());
 					}
+			}
+			else
+					MessageBox.Show(source + " is in sync with " + target, 
+							"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			 */
+		}
 
-					this.updateSyncTaskTime(taskName, DateTime.Now.ToString());
-					*/
-					Detector_New2 detector = new Detector_New2("", Profile.getTask(taskName));
+		public void syncFolderPair(string source, string target, string taskName)
+		{
+			/*
+			try
+			{
+				Detector detector = new Detector(source, target);
 
-					if (detector.metaDataExists())
-					{
-					  //syncwithmeta
-					}
-					else
-					{
-						//syncwithoutmeta
-						Reconciler reconciler = new Reconciler(detector.getSrcList(), detector.getDestList(), Profile.getTask(taskName).Settings);
-						reconciler.SyncWithoutMetaData(source, target);
-						SyncMetaData2.WriteMetaData(source, reconciler._updatedList);
-						SyncMetaData2.WriteMetaData(target,reconciler._updatedList);
+				if (!detector.IsFolderPairSync())
+					Reconciler.update(detector, null);
 
-						CustomDictionary<String, String, FileUnit> test = new CustomDictionary<string, string, FileUnit>();
-						test = SyncMetaData2.ReadMetaData(source);
-						String output = "";
-						foreach (var item in test.Primary)
-						{
-							output += item.Key + item.Value.IsDirectory.ToString() + "\n";
-						}
-						MessageBox.Show(output);
+					this.updateSyncTaskResult(taskName, "Successful");
+			}
+			catch
+			{
+					this.updateSyncTaskResult(taskName, "Unsuccessful");
+			}
 
+			this.updateSyncTaskTime(taskName, DateTime.Now.ToString());
+			*/
+			Detector_New2 detector = new Detector_New2(Profile.ID, Profile.getTask(taskName));
+			if (detector.metaDataExists())
+			{
+				detector.compareFolders();
+			}
+			else
+			{
+				//syncwithoutmeta
+				Reconciler reconciler = new Reconciler(detector.getSrcList(), detector.getDestList(), Profile.getTask(taskName).Settings);
+				reconciler.SyncWithoutMetaData(source, target);
+				SyncMetaData2.WriteMetaData(source, reconciler._updatedList);
+				SyncMetaData2.WriteMetaData(target, reconciler._updatedList);
 
-					}
-					
-				}
-        
+				//CustomDictionary<String, String, FileUnit> test = new CustomDictionary<string, string, FileUnit>();
+				//test = SyncMetaData2.ReadMetaData(source);
+				//String output = "";
+				//foreach (var item in test.Primary)
+				//{
+				//  output += item.Key + item.Value.IsDirectory.ToString() + "\n";
+				//}
+				//MessageBox.Show(output);
+			}
+		}
+
 		public void removeTask(string name)
 		{
 			if (MessageBox.Show("Delete task: " + name + "?", "Confirm task deletion",
@@ -187,73 +183,101 @@ namespace SyncSharp.Business
 			currentProfile.updateSyncTaskResult(name, result);
 		}
 
-        public void modifySelectedTask(string name)
-        {
-            TaskSetupForm form = new TaskSetupForm(currentProfile.getTask(name));
-            form.ShowDialog();
-        }
+		public void modifySelectedTask(string name)
+		{
+			TaskSetupForm form = new TaskSetupForm(currentProfile.getTask(name));
+			form.ShowDialog();
+		}
 
-        public void renameSelectedTask(string name)
-        {
-            RenameTaskForm form = new RenameTaskForm(currentProfile, currentProfile.getTask(name));
-            form.ShowDialog();
-        }
+		public void renameSelectedTask(string name)
+		{
+			RenameTaskForm form = new RenameTaskForm(currentProfile, currentProfile.getTask(name));
+			form.ShowDialog();
+		}
 
-        public void updateRemovableRoot()
-        {
-            String root = Path.GetPathRoot(Directory.GetCurrentDirectory());
-            root = root.Substring(0, 1);
-            currentProfile.updateRemovableRoot(root);
-        }
+		public void updateRemovableRoot()
+		{
+			String root = Path.GetPathRoot(Directory.GetCurrentDirectory());
+			root = root.Substring(0, 1);
+			currentProfile.updateRemovableRoot(root);
+		}
 
-        public void copySelectedTask(string name)
-        {
-            currentProfile.copyTask(name);
-        }
+		public void copySelectedTask(string name)
+		{
+			currentProfile.copyTask(name);
+		}
 
-        public void checkAutorun()
-        {
-            bool needAction = true;
-            bool needOpen = true;
-            if (File.Exists(@".\Autorun.inf"))
-            {
-                StreamReader sr = new StreamReader(@".\Autorun.inf");
-                String line = sr.ReadLine();
-                while (line != null)
-                {
-                    if (line.Contains("OPEN=SyncSharp.exe"))
-                    {
-                        needOpen = false;
-                    }
-                    if (line.Contains("Action=Run SyncSharp"))
-                    {
-                        needAction = false;
-                    }
-                    line = sr.ReadLine();
-                }
-                sr.Close();
-                if (needAction || needOpen)
-                {
-                    File.Move(@".\Autorun.inf", @".\Autorun.inf.backup");
-                    StreamWriter sw = new StreamWriter(@".\Autorun.inf");
-                    sw.WriteLine("[AutoRun]");
-                    sw.WriteLine("OPEN=SyncSharp.exe");
-                    sw.WriteLine("Action=Run SyncSharp");
-                    sw.Close();
-                }
-                else
-                {
-                }
-            }
-            else
-            {
-                StreamWriter sw = File.CreateText(@".\Autorun.inf");
-                sw.WriteLine("[AutoRun]");
-                sw.WriteLine("OPEN=SyncSharp.exe");
-                sw.WriteLine("Action=Run SyncSharp");
-                sw.Close();
-            }
+		public void checkAutorun()
+		{
+			bool needAction = true;
+			bool needOpen = true;
+			if (File.Exists(@".\Autorun.inf"))
+			{
+				StreamReader sr = new StreamReader(@".\Autorun.inf");
+				String line = sr.ReadLine();
+				while (line != null)
+				{
+					if (line.Contains("OPEN=SyncSharp.exe"))
+					{
+						needOpen = false;
+					}
+					if (line.Contains("Action=Run SyncSharp"))
+					{
+						needAction = false;
+					}
+					line = sr.ReadLine();
+				}
+				sr.Close();
+				if (needAction || needOpen)
+				{
+					File.Move(@".\Autorun.inf", @".\Autorun.inf.backup");
+					StreamWriter sw = new StreamWriter(@".\Autorun.inf");
+					sw.WriteLine("[AutoRun]");
+					sw.WriteLine("OPEN=SyncSharp.exe");
+					sw.WriteLine("Action=Run SyncSharp");
+					sw.Close();
+				}
+				else
+				{
+				}
+			}
+			else
+			{
+				StreamWriter sw = File.CreateText(@".\Autorun.inf");
+				sw.WriteLine("[AutoRun]");
+				sw.WriteLine("OPEN=SyncSharp.exe");
+				sw.WriteLine("Action=Run SyncSharp");
+				sw.Close();
+			}
+		}
 
-        }
-    }
+		internal void exportProfile(string fileName)
+		{
+			Stream str = File.OpenWrite(fileName);
+			BinaryFormatter formatter = new BinaryFormatter();
+			formatter.Serialize(str, currentProfile);
+			str.Close();
+		}
+
+		internal void importProfile(string fileName)
+		{
+			SyncProfile importedProfile;
+			Stream str = File.OpenRead(fileName);
+			BinaryFormatter formatter = new BinaryFormatter();
+			importedProfile = (SyncProfile)formatter.Deserialize(str);
+			str.Close();
+			foreach (SyncTask item in importedProfile.TaskCollection)
+			{
+				if (!currentProfile.taskExists(item.Name))
+				{
+					currentProfile.addTask(item);
+				}
+				else
+				{
+					item.Name = item.Name + " - Imported";
+					currentProfile.addTask(item);
+				}
+			}
+		}
+	}
 }

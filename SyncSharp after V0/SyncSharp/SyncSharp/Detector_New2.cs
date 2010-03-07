@@ -8,7 +8,7 @@ using System.IO;
 
 namespace SyncSharp.Business
 {
-	class Detector_New2
+	public class Detector_New2
 	{
 		public CustomDictionary<string, string, FileUnit> sCleanFiles;
 		public CustomDictionary<string, string, FileUnit> sDirtyFiles;
@@ -20,10 +20,7 @@ namespace SyncSharp.Business
 		public CustomDictionary<string, string, FileUnit> tCleanDirs;
 		public FileList sourceList;
 		public FileList destList;
-
-
 		private string source, target;
-
 		private CustomDictionary<string, string, FileUnit> sMetaData, tMetaData;
 
 		public Detector_New2(String machineID, SyncTask syncTask)
@@ -36,11 +33,8 @@ namespace SyncSharp.Business
 			sCleanDirs = new CustomDictionary<string, string, FileUnit>();
 			tDirtyDirs = new CustomDictionary<string, string, FileUnit>();
 			tCleanDirs = new CustomDictionary<string, string, FileUnit>();
-
-
 			this.source = syncTask.Source;
 			this.target = syncTask.Target;
-
 			sMetaData = SyncMetaData2.ReadMetaData(source);
 			tMetaData = SyncMetaData2.ReadMetaData(target);
 		}
@@ -56,128 +50,174 @@ namespace SyncSharp.Business
 			int tRevPathLen = target.Length;
 
 			List<FileUnit> srcFiles = new List<FileUnit>();
-			List<FileUnit> srcDirs = new List<FileUnit>();
-
+			//List<FileUnit> srcDirs = new List<FileUnit>();
 			Stack<string> stack = new Stack<string>();
 			stack.Push(source);
+			getCurrentSrcInfo(srcFiles, stack);
 
+			List<FileUnit> destFiles = new List<FileUnit>();
+			//List<FileUnit> destDirs = new List<FileUnit>();
+			stack.Push(target);
+			getCurrentTgtInfo(destFiles, stack);
+
+			compareSrcFileUnits(sRevPathLen, srcFiles);
+			compareTgtFileUnits(tRevPathLen, destFiles);
+
+			addSrcDeletionToList();
+			addTgtDeletionToList();
+
+			createFileLists();
+		}
+
+		private static void getCurrentSrcInfo(List<FileUnit> srcFiles, Stack<string> stack)
+		{
 			while (stack.Count > 0)
 			{
 				string folder = stack.Pop();
 
 				foreach (string fileName in Directory.GetFiles(folder))
 				{
-					if (!String.Equals(fileName, "syncsharp.meta"))
+					//if (!String(fileName, "syncsharp.meta"))
+					if(!fileName.Contains("syncsharp.meta"))
 						srcFiles.Add(new FileUnit(fileName));
 				}
 
 				foreach (string folderName in Directory.GetDirectories(folder))
 				{
 					stack.Push(folderName);
-					srcDirs.Add(new FileUnit(folderName));
+					srcFiles.Add(new FileUnit(folderName));
 				}
 			}
+		}
 
-			List<FileUnit> destFiles = new List<FileUnit>();
-			List<FileUnit> destDirs = new List<FileUnit>();
-
-			stack.Push(target);
-
+		private static void getCurrentTgtInfo(List<FileUnit> destFiles, Stack<string> stack)
+		{
 			while (stack.Count > 0)
 			{
 				string folder = stack.Pop();
 
 				foreach (string fileName in Directory.GetFiles(folder))
 				{
-					if (!String.Equals(fileName, "syncsharp.meta"))
+					//if (!String.Equals(fileName, "syncsharp.meta"))
+					if (!fileName.Contains("syncsharp.meta"))
 						destFiles.Add(new FileUnit(fileName));
 				}
 
 				foreach (string folderName in Directory.GetDirectories(folder))
 				{
 					stack.Push(folderName);
-					destDirs.Add(new FileUnit(folderName));
+					destFiles.Add(new FileUnit(folderName));
 				}
 			}
+		}
 
+		private void compareSrcFileUnits(int sRevPathLen, List<FileUnit> srcFiles)
+		{
 			foreach (FileUnit u in srcFiles)
 			{
 				String folderRelativePath = u.AbsolutePath.Substring(sRevPathLen);
-
 				if (u.IsDirectory)
 				{
-					if (sMetaData.Primary.ContainsKey(folderRelativePath))
-					{
-						sCleanDirs.add(folderRelativePath, u);
-					}
-					else
-					{
-						sDirtyDirs.add(folderRelativePath, "C-" + folderRelativePath, u);
-					}
+					compareSrcDirs(u, folderRelativePath);
 				}
 				else
 				{
 					String relativePath = u.AbsolutePath.Substring(sRevPathLen);
-					if (sMetaData.Primary.ContainsKey(relativePath))
-					{
-						if (u.LastWriteTime == sMetaData.getByPrimary(relativePath).LastWriteTime)
-						{
-							sCleanFiles.add(relativePath, sMetaData.PriSub[relativePath], u);
-							sMetaData.removeByPrimary(relativePath);
-						}
-						else
-						{
-							sDirtyFiles.add(relativePath, "M-" + sMetaData.PriSub[relativePath], u);
-							sMetaData.removeByPrimary(relativePath);
-						}
-					}
-					else
-					{
-						u.Hash = "C-" + MyUtility.computeMyHash(u);
-						sDirtyFiles.add(relativePath, u.Hash, u);
-					}
+					compareSrcFiles(u, relativePath);
 				}
 			}
+		}
 
+		private void compareSrcDirs(FileUnit u, String folderRelativePath)
+		{
+			if (sMetaData.Primary.ContainsKey(folderRelativePath))
+			{
+				sCleanDirs.add(folderRelativePath, u);
+				sMetaData.removeByPrimary(folderRelativePath);
+			}
+			else
+			{
+				sDirtyDirs.add(folderRelativePath, "C-" + folderRelativePath, u);
+			}
+		}
+
+		private void compareSrcFiles(FileUnit u, String relativePath)
+		{
+			if (sMetaData.Primary.ContainsKey(relativePath))
+			{
+				if (u.LastWriteTime == sMetaData.getByPrimary(relativePath).LastWriteTime)
+				{
+					sCleanFiles.add(relativePath, sMetaData.PriSub[relativePath], u);
+					sMetaData.removeByPrimary(relativePath);
+				}
+				else
+				{
+					sDirtyFiles.add(relativePath, "M-" + sMetaData.PriSub[relativePath], u);
+					sMetaData.removeByPrimary(relativePath);
+				}
+			}
+			else
+			{
+				u.Hash = "C-" + MyUtility.computeMyHash(u);
+				sDirtyFiles.add(relativePath, u.Hash, u);
+			}
+		}
+
+		private void compareTgtFileUnits(int tRevPathLen, List<FileUnit> destFiles)
+		{
 			foreach (FileUnit u in destFiles)
 			{
 				String folderRelativePath = u.AbsolutePath.Substring(tRevPathLen);
 
 				if (u.IsDirectory)
 				{
-					if (tMetaData.Primary.ContainsKey(folderRelativePath))
-					{
-						tCleanDirs.add(folderRelativePath, u);
-					}
-					else
-					{
-						tDirtyDirs.add(folderRelativePath, "C-" + folderRelativePath, u);
-					}
+					compareTgtDirs(u, folderRelativePath);
 				}
 				else
 				{
-					String relativePath = u.AbsolutePath.Substring(sRevPathLen);
-					if (tMetaData.Primary.ContainsKey(relativePath))
-					{
-						if (u.LastWriteTime == tMetaData.getByPrimary(relativePath).LastWriteTime)
-						{
-							tCleanFiles.add(relativePath, tMetaData.PriSub[relativePath], u);
-							tMetaData.removeByPrimary(relativePath);
-						}
-						else
-						{
-							tDirtyFiles.add(relativePath, "M-" + tMetaData.PriSub[relativePath], u);
-							tMetaData.removeByPrimary(relativePath);
-						}
-					}
-					else
-					{
-						u.Hash = "C-" + MyUtility.computeMyHash(u);
-						tDirtyFiles.add(relativePath, u.Hash, u);
-					}
+					String relativePath = u.AbsolutePath.Substring(tRevPathLen);
+					compareTgtFiles(u, relativePath);
 				}
 			}
+		}
 
+		private void compareTgtDirs(FileUnit u, String folderRelativePath)
+		{
+			if (tMetaData.Primary.ContainsKey(folderRelativePath))
+			{
+				tCleanDirs.add(folderRelativePath, u);
+				tMetaData.removeByPrimary(folderRelativePath);
+			}
+			else
+			{
+				tDirtyDirs.add(folderRelativePath, "C-" + folderRelativePath, u);
+			}
+		}
+
+		private void compareTgtFiles(FileUnit u, String relativePath)
+		{
+			if (tMetaData.Primary.ContainsKey(relativePath))
+			{
+				if (u.LastWriteTime == tMetaData.getByPrimary(relativePath).LastWriteTime)
+				{
+					tCleanFiles.add(relativePath, tMetaData.PriSub[relativePath], u);
+					tMetaData.removeByPrimary(relativePath);
+				}
+				else
+				{
+					tDirtyFiles.add(relativePath, "M-" + tMetaData.PriSub[relativePath], u);
+					tMetaData.removeByPrimary(relativePath);
+				}
+			}
+			else
+			{
+				u.Hash = "C-" + MyUtility.computeMyHash(u);
+				tDirtyFiles.add(relativePath, u.Hash, u);
+			}
+		}
+
+		private void addSrcDeletionToList()
+		{
 			foreach (var item in sMetaData.Primary)
 			{
 				if (item.Value.IsDirectory)
@@ -189,7 +229,10 @@ namespace SyncSharp.Business
 					sDirtyFiles.add(item.Key, "D-" + sMetaData.PriSub[item.Key], item.Value);
 				}
 			}
+		}
 
+		private void addTgtDeletionToList()
+		{
 			foreach (var item in tMetaData.Primary)
 			{
 				if (item.Value.IsDirectory)
@@ -201,14 +244,19 @@ namespace SyncSharp.Business
 					tDirtyFiles.add(item.Key, "D-" + tMetaData.PriSub[item.Key], item.Value);
 				}
 			}
+		}
+
+		private void createFileLists()
+		{
 			sourceList = new FileList(sCleanFiles, sDirtyFiles, sDirtyDirs, sCleanDirs);
 			destList = new FileList(tCleanFiles, tDirtyFiles, tDirtyDirs, tCleanDirs);
-
 		}
+
 		public FileList getSrcList()
 		{
 			return sourceList;
 		}
+
 		public FileList getDestList()
 		{
 			return destList;

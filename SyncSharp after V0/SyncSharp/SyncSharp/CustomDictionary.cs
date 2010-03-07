@@ -38,8 +38,11 @@ namespace SyncSharp.Storage
 
 		public void removeByPrimary(K1 primaryKey)
 		{
-			subPri.Remove(priSub[primaryKey]);
-			priSub.Remove(primaryKey);
+			if (priSub.ContainsKey(primaryKey))
+			{
+				subPri.Remove(priSub[primaryKey]);
+				priSub.Remove(primaryKey);
+			}
 			primary.Remove(primaryKey);
 		}
 

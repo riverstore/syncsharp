@@ -16,11 +16,11 @@ namespace SyncSharp.GUI
 
 		public MainForm(SyncSharpLogic logic)
 		{
-            InitializeComponent();
-            logicController = logic;
-            logicController.updateRemovableRoot();
-            logicController.checkAutorun();
-            updateListView();
+			InitializeComponent();
+			logicController = logic;
+			logicController.updateRemovableRoot();
+			logicController.checkAutorun();
+			updateListView();
 		}
 
 		SyncSharpLogic logicController;
@@ -32,17 +32,17 @@ namespace SyncSharp.GUI
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-            
+
 		}
 
 		private void editMenuItem_Click(object sender, EventArgs e)
 		{
-            btnEdit_Click(sender, e);
+			btnEdit_Click(sender, e);
 		}
 
 		private void analyzeMenuItem_Click(object sender, EventArgs e)
 		{
-            btnAnalyze_Click(sender, e);
+			btnAnalyze_Click(sender, e);
 		}
 
 		private void btnNew_Click(object sender, EventArgs e)
@@ -72,19 +72,19 @@ namespace SyncSharp.GUI
 
 		private void btnSync_Click(object sender, EventArgs e)
 		{
-            if (taskListView.FocusedItem == null) return;
+			if (taskListView.FocusedItem == null) return;
 
 			string source = taskListView.FocusedItem.SubItems[3].Text;
 			string target = taskListView.FocusedItem.SubItems[4].Text;
-            string taskname = taskListView.FocusedItem.SubItems[0].Text;
+			string taskname = taskListView.FocusedItem.SubItems[0].Text;
 
-		  logicController.syncFolderPair(source, target, taskname);
+			logicController.syncFolderPair(source, target, taskname);
 			updateListView();
 		}
 
 		private void btnDelete_Click(object sender, EventArgs e)
 		{
-            if (taskListView.FocusedItem == null) return;
+			if (taskListView.FocusedItem == null) return;
 
 			string name = taskListView.FocusedItem.SubItems[0].Text;
 			logicController.removeTask(name);
@@ -96,76 +96,100 @@ namespace SyncSharp.GUI
 			this.Close();
 		}
 
-        private void btnAnalyze_Click(object sender, EventArgs e)
-        {
-            if (taskListView.FocusedItem == null) return;
+		private void btnAnalyze_Click(object sender, EventArgs e)
+		{
+			if (taskListView.FocusedItem == null) return;
 
-            string source = taskListView.FocusedItem.SubItems[3].Text;
-            string target = taskListView.FocusedItem.SubItems[4].Text;
-            string taskname = taskListView.FocusedItem.SubItems[0].Text;
+			string source = taskListView.FocusedItem.SubItems[3].Text;
+			string target = taskListView.FocusedItem.SubItems[4].Text;
+			string taskname = taskListView.FocusedItem.SubItems[0].Text;
 
-            logicController.analyzeFolderPair(source, target, taskname);
-            updateListView();
-        }
+			logicController.analyzeFolderPair(source, target, taskname);
+			updateListView();
+		}
 
-        private void syncMenuItem_Click(object sender, EventArgs e)
-        {
-            btnSync_Click(sender, e);
-        }
+		private void syncMenuItem_Click(object sender, EventArgs e)
+		{
+			btnSync_Click(sender, e);
+		}
 
-        private void newMenuItem_Click(object sender, EventArgs e)
-        {
-            btnNew_Click(sender, e);
-        }
+		private void newMenuItem_Click(object sender, EventArgs e)
+		{
+			btnNew_Click(sender, e);
+		}
 
-        private void deleteMenuItem_Click(object sender, EventArgs e)
-        {
-            btnDelete_Click(sender, e);
-        }
+		private void deleteMenuItem_Click(object sender, EventArgs e)
+		{
+			btnDelete_Click(sender, e);
+		}
 
-        private void renameMenuItem_Click(object sender, EventArgs e)
-        {
-            if (taskListView.FocusedItem == null) return;
+		private void renameMenuItem_Click(object sender, EventArgs e)
+		{
+			if (taskListView.FocusedItem == null) return;
 
-            string name = taskListView.FocusedItem.SubItems[0].Text;
-            logicController.renameSelectedTask(name);
-            updateListView();
-        }
+			string name = taskListView.FocusedItem.SubItems[0].Text;
+			logicController.renameSelectedTask(name);
+			updateListView();
+		}
 
-        private void openFolder(string path)
-        {
-            if (System.IO.Directory.Exists(path))
-                System.Diagnostics.Process.Start(path);
-            else
-                MessageBox.Show(path + " cannot be found");
-        }
+		private void openFolder(string path)
+		{
+			if (System.IO.Directory.Exists(path))
+				System.Diagnostics.Process.Start(path);
+			else
+				MessageBox.Show(path + " cannot be found");
+		}
 
-        private void openSourceMenuItem_Click(object sender, EventArgs e)
-        {
-            openFolder(taskListView.FocusedItem.SubItems[3].Text);
-        }
+		private void openSourceMenuItem_Click(object sender, EventArgs e)
+		{
+			openFolder(taskListView.FocusedItem.SubItems[3].Text);
+		}
 
-        private void openTargetMenuItem_Click(object sender, EventArgs e)
-        {
-            openFolder(taskListView.FocusedItem.SubItems[4].Text);
-        }
+		private void openTargetMenuItem_Click(object sender, EventArgs e)
+		{
+			openFolder(taskListView.FocusedItem.SubItems[4].Text);
+		}
 
-        private void copyMenuItem_Click(object sender, EventArgs e)
-        {
-            if (taskListView.FocusedItem == null) return;
+		private void copyMenuItem_Click(object sender, EventArgs e)
+		{
+			if (taskListView.FocusedItem == null) return;
 
-            string name = taskListView.FocusedItem.SubItems[0].Text;
-            logicController.copySelectedTask(name);
-            updateListView();
-        }
+			string name = taskListView.FocusedItem.SubItems[0].Text;
+			logicController.copySelectedTask(name);
+			updateListView();
+		}
 
-        private void btnEdit_Click(object sender, EventArgs e)
-        {
-            if (taskListView.FocusedItem == null) return;
+		private void btnEdit_Click(object sender, EventArgs e)
+		{
+			if (taskListView.FocusedItem == null) return;
 
-            string name = taskListView.FocusedItem.SubItems[0].Text;
-            logicController.modifySelectedTask(name);
-            updateListView();
-        }
+			string name = taskListView.FocusedItem.SubItems[0].Text;
+			logicController.modifySelectedTask(name);
+			updateListView();
+		}
+
+		private void importMenuItem_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog importFrom = new OpenFileDialog();
+			importFrom.Filter = "SyncSharp Profile|*.profile";
+			importFrom.DefaultExt = "profile";
+			if (importFrom.ShowDialog() == DialogResult.OK)
+			{
+				logicController.importProfile(importFrom.FileName);
+				updateListView();
+			}
+		}
+
+		private void exportMenuItem_Click(object sender, EventArgs e)
+		{
+			SaveFileDialog exportTo = new SaveFileDialog();
+			exportTo.Title = "Export Profile";
+			exportTo.Filter = "SyncSharp Profile|*.profile";
+			exportTo.DefaultExt = "profile";
+			if (exportTo.ShowDialog() == DialogResult.OK)
+			{
+				logicController.exportProfile(exportTo.FileName);
+			}
+		}
 	}
 }
