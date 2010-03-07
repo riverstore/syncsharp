@@ -75,7 +75,7 @@ namespace SyncSharp.Storage
 		// Retrieves a SyncTask
 		// name:  Name of SyncTask to retrieve
 		// returns:  SyncTask object if exists, else null
-		internal SyncTask getTask(String name)
+		public SyncTask getTask(String name)
 		{
 			foreach (SyncTask task in taskCollection)
 			{
