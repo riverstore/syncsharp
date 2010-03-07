@@ -58,7 +58,6 @@
     <Compile Include="CustomDictionary.cs" />
     <Compile Include="CustomException.cs" />
     <Compile Include="Detector.cs" />
-    <Compile Include="Detector_new.cs" />
     <Compile Include="Detector_New2.cs" />
     <Compile Include="ExListView.cs">
       <SubType>Component</SubType>
@@ -69,7 +68,6 @@
     <Compile Include="FileComparator.cs" />
     <Compile Include="FileList.cs" />
     <Compile Include="FileUnit.cs" />
-    <Compile Include="FileUnit_new.cs" />
     <Compile Include="Filters.cs" />
     <Compile Include="FolderDiffForm.cs">
       <SubType>Form</SubType>
