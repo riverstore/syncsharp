@@ -142,6 +142,7 @@ namespace SyncSharp.Business
 			_srcRenameList = new CustomDictionary<string, string, FileUnit>();
 			_tgtRenameList = new CustomDictionary<string, string, FileUnit>();
 
+            Logger.CloseLog();
 			Logger.CreateLog(_taskName + ".log");
 			_summary = new SyncSummary();
 			_summary.logFile = _taskName + ".log";
@@ -496,11 +497,13 @@ namespace SyncSharp.Business
 				{
 					if (!Directory.Exists(_srcPath + relativePath))
 					{
-						previewLists.SingleSourceFilesList.Add(new FileUnit(_srcPath + relativePath));
+                        previewLists.SingleTargetFilesList.Add(new FileUnit(_tgtPath + relativePath));
+						//previewLists.SingleSourceFilesList.Add(new FileUnit(_srcPath + relativePath));
 					}
 					if (!Directory.Exists(_tgtPath + relativePath))
 					{
-						previewLists.SingleTargetFilesList.Add(new FileUnit(_tgtPath + relativePath));
+                        previewLists.SingleSourceFilesList.Add(new FileUnit(_srcPath + relativePath));
+						//previewLists.SingleTargetFilesList.Add(new FileUnit(_tgtPath + relativePath));
 					}
 				}
 				else if (srcFlag.Equals("D"))
@@ -1626,8 +1629,8 @@ namespace SyncSharp.Business
 						String srcFileName = srcFile.Name;
 						String tgtFileName = tgtFile.Name;
 
-						FileUnit src = new FileUnit(srcFileName);
-						src.Match = new FileUnit(tgtFileName);
+                        FileUnit src = new FileUnit(srcPath + "\\" + srcFileName);
+                        src.Match = new FileUnit(tgtPath + "\\" + tgtFileName);
 						previewList.KeepBothFilesList.Add(src);
 					}
 					break;

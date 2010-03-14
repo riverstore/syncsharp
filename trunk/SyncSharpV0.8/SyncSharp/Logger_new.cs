@@ -27,7 +27,8 @@ namespace SyncSharp.Storage
 
         public static void CloseLog()
         {
-            logText.Close();
+            if (logText != null)
+                logText.Close();
         }
     }
 }

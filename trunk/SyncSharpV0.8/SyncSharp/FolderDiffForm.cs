@@ -211,7 +211,7 @@ namespace SyncSharp.GUI
                 sFilesCpySize += u.Size;
                 tFilesCpySize += u.Match.Size;
 
-                AddDataRow(u, SyncAction.keepBothCopy);
+                AddDataRow(u, SyncAction.KeepBothFiles);
             }
         }
 
