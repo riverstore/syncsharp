@@ -536,11 +536,13 @@ namespace SyncSharp.Business
 				{
 					if (!Directory.Exists(_srcPath + relativePath))
 					{
-						previewLists.SingleSourceFilesList.Add(new FileUnit(_srcPath + relativePath));
+                        previewLists.SingleTargetFilesList.Add(new FileUnit(_tgtPath + relativePath));
+						//previewLists.SingleSourceFilesList.Add(new FileUnit(_srcPath + relativePath));
 					}
 					if (!Directory.Exists(_tgtPath + relativePath))
 					{
-						previewLists.SingleTargetFilesList.Add(new FileUnit(_tgtPath + relativePath));
+                        previewLists.SingleSourceFilesList.Add(new FileUnit(_srcPath + relativePath));
+						//previewLists.SingleTargetFilesList.Add(new FileUnit(_tgtPath + relativePath));
 					}
 				}
 				else if (tgtFlag.Equals("D"))
