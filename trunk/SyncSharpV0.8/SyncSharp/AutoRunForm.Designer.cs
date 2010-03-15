@@ -42,6 +42,7 @@
             this.btnUp = new System.Windows.Forms.Button();
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.scMain.Panel1.SuspendLayout();
             this.scMain.Panel2.SuspendLayout();
@@ -69,7 +70,7 @@
             this.scMain.Panel2.Controls.Add(this.btnCancel);
             this.scMain.Panel2.Controls.Add(this.btnUp);
             this.scMain.Size = new System.Drawing.Size(524, 302);
-            this.scMain.SplitterDistance = 469;
+            this.scMain.SplitterDistance = 475;
             this.scMain.SplitterWidth = 2;
             this.scMain.TabIndex = 0;
             // 
@@ -79,7 +80,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(469, 302);
+            this.groupBox1.Size = new System.Drawing.Size(475, 302);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Task List";
@@ -91,11 +92,12 @@
             this.colSource,
             this.colTarget});
             this.lvTaskList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvTaskList.ForeColor = System.Drawing.SystemColors.WindowText;
             this.lvTaskList.FullRowSelect = true;
             this.lvTaskList.Location = new System.Drawing.Point(3, 17);
             this.lvTaskList.MultiSelect = false;
             this.lvTaskList.Name = "lvTaskList";
-            this.lvTaskList.Size = new System.Drawing.Size(463, 282);
+            this.lvTaskList.Size = new System.Drawing.Size(469, 282);
             this.lvTaskList.TabIndex = 0;
             this.lvTaskList.UseCompatibleStateImageBehavior = false;
             this.lvTaskList.View = System.Windows.Forms.View.Details;
@@ -118,7 +120,7 @@
             // btnDown
             // 
             this.btnDown.Image = ((System.Drawing.Image)(resources.GetObject("btnDown.Image")));
-            this.btnDown.Location = new System.Drawing.Point(4, 102);
+            this.btnDown.Location = new System.Drawing.Point(1, 102);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(39, 25);
             this.btnDown.TabIndex = 0;
@@ -130,7 +132,7 @@
             // btnRemove
             // 
             this.btnRemove.Image = ((System.Drawing.Image)(resources.GetObject("btnRemove.Image")));
-            this.btnRemove.Location = new System.Drawing.Point(4, 133);
+            this.btnRemove.Location = new System.Drawing.Point(1, 133);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(39, 25);
             this.btnRemove.TabIndex = 0;
@@ -142,7 +144,7 @@
             // btnCancel
             // 
             this.btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("btnCancel.Image")));
-            this.btnCancel.Location = new System.Drawing.Point(4, 17);
+            this.btnCancel.Location = new System.Drawing.Point(1, 17);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(39, 25);
             this.btnCancel.TabIndex = 0;
@@ -154,7 +156,7 @@
             // btnUp
             // 
             this.btnUp.Image = ((System.Drawing.Image)(resources.GetObject("btnUp.Image")));
-            this.btnUp.Location = new System.Drawing.Point(4, 71);
+            this.btnUp.Location = new System.Drawing.Point(1, 71);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(39, 25);
             this.btnUp.TabIndex = 0;
@@ -166,10 +168,12 @@
             // statusBar
             // 
             this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblStatus});
+            this.lblStatus,
+            this.progressBar});
             this.statusBar.Location = new System.Drawing.Point(0, 302);
             this.statusBar.Name = "statusBar";
             this.statusBar.Size = new System.Drawing.Size(524, 22);
+            this.statusBar.SizingGrip = false;
             this.statusBar.TabIndex = 1;
             this.statusBar.Text = "statusBar";
             // 
@@ -179,8 +183,16 @@
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(509, 17);
             this.lblStatus.Spring = true;
-            this.lblStatus.Text = "Performing synchronization in 5 seconds...";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // progressBar
+            // 
+            this.progressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.progressBar.MarqueeAnimationSpeed = 20;
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(100, 16);
+            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progressBar.Visible = false;
             // 
             // AutoRunForm
             // 
@@ -191,11 +203,12 @@
             this.Controls.Add(this.statusBar);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AutoRunForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PlugSync";
+            this.Text = "SyncSharp PlugSync";
             this.Load += new System.EventHandler(this.AutoRunForm_Load);
             this.scMain.Panel1.ResumeLayout(false);
             this.scMain.Panel2.ResumeLayout(false);
@@ -223,5 +236,6 @@
         private System.Windows.Forms.StatusStrip statusBar;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.ToolStripProgressBar progressBar;
     }
 }
