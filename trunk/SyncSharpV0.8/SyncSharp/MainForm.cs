@@ -16,10 +16,10 @@ namespace SyncSharp.GUI
 	public partial class MainForm : Form
 	{
         SyncSharpLogic logicController;
-        private delegate void SyncAnalyzeCaller(SyncTask task);
+        private delegate void SyncAnalyzeCaller(SyncTask task, bool isPlugSync);
         private SyncAnalyzeCaller syncCaller, analyzeCaller;
 
-        private delegate void SyncAllFolderPair();
+        private delegate void SyncAllFolderPair(bool isPlugSync);
         private SyncAllFolderPair syncAll;
 
         private delegate void UpdateListViewCallback();
@@ -133,7 +133,7 @@ namespace SyncSharp.GUI
                 taskListView.Enabled = false;
                 taskListView.SelectedItems.Clear();
                 
-                syncCaller.BeginInvoke(selTask, SyncAnalyzeCompleted, syncCaller);
+                syncCaller.BeginInvoke(selTask,false, SyncAnalyzeCompleted, syncCaller);
             }
             else
             {
@@ -175,7 +175,7 @@ namespace SyncSharp.GUI
                 taskListView.Enabled = false;
                 taskListView.SelectedItems.Clear();
                
-                analyzeCaller.BeginInvoke(selTask, SyncAnalyzeCompleted, analyzeCaller);
+                analyzeCaller.BeginInvoke(selTask,false, SyncAnalyzeCompleted, analyzeCaller);
             }
             else
             {
@@ -271,7 +271,7 @@ namespace SyncSharp.GUI
             taskListView.Enabled = false;
             taskListView.SelectedItems.Clear();
 
-            syncAll.BeginInvoke(SyncAnalyzeCompleted, syncAll);
+            syncAll.BeginInvoke(true,SyncAnalyzeCompleted, syncAll);
         }
 
         private void showBackupMenuItem_Click(object sender, EventArgs e)
