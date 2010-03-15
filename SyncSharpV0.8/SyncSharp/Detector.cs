@@ -22,6 +22,7 @@ namespace SyncSharp.Business
 		public FileList destList;
 		private string source, target;
 		private SyncTask task;
+		private long srcDirtySize, tgtDirtySize;
 		private CustomDictionary<string, string, FileUnit> sMetaData, tMetaData;
 
 		public Detector(String machineID, SyncTask syncTask)
@@ -39,6 +40,8 @@ namespace SyncSharp.Business
 			this.target = syncTask.Target;
 			sMetaData = SyncMetaData.ReadMetaData(source);
 			tMetaData = SyncMetaData.ReadMetaData(target);
+			srcDirtySize = 0;
+			tgtDirtySize = 0;
 		}
 
 		public bool isSynchronized()
@@ -75,6 +78,17 @@ namespace SyncSharp.Business
 			addTgtDeletionToList();
 
 			createFileLists();
+		}
+
+		public long SrcDirtySize
+		{
+			get { return srcDirtySize; }
+			set { srcDirtySize = value; }
+		}
+		public long TgtDirtySize
+		{
+			get { return tgtDirtySize; }
+			set { tgtDirtySize = value; }
 		}
 
 		private void getCurrentSrcInfo(List<FileUnit> srcFiles, Stack<string> stack)
@@ -171,18 +185,21 @@ namespace SyncSharp.Business
 					}
 					else
 					{
+						srcDirtySize += u.Size;
 						sDirtyFiles.add(relativePath, "M-" + sMetaData.PriSub[relativePath], u);
 						sMetaData.removeByPrimary(relativePath);
 					}
 				}
 				else
 				{
+					srcDirtySize += u.Size;
 					u.Hash = "C-" + MyUtility.computeMyHash(u);
 					sDirtyFiles.add(relativePath, u.Hash, u);
 				} 
 			}
 			else
 			{
+				srcDirtySize += u.Size;
 				u.Hash = "C-" + MyUtility.computeMyHash(u);
 				sDirtyFiles.add(relativePath, u.Hash, u);
 			}
@@ -239,18 +256,21 @@ namespace SyncSharp.Business
 					}
 					else
 					{
+						tgtDirtySize += u.Size;
 						tDirtyFiles.add(relativePath, "M-" + tMetaData.PriSub[relativePath], u);
 						tMetaData.removeByPrimary(relativePath);
 					}
 				}
 				else
 				{
+					tgtDirtySize += u.Size;
 					u.Hash = "C-" + MyUtility.computeMyHash(u);
 					tDirtyFiles.add(relativePath, u.Hash, u);
 				} 
 			}
 			else
 			{
+				tgtDirtySize += u.Size;
 				u.Hash = "C-" + MyUtility.computeMyHash(u);
 				tDirtyFiles.add(relativePath, u.Hash, u);
 			}

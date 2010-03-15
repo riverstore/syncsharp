@@ -39,7 +39,7 @@ namespace SyncSharp.GUI
 
         private int counter;
 
-        private delegate void AsyncMethodCaller(SyncTask task);
+        private delegate void AsyncMethodCaller(SyncTask task, bool isPlugSync);
 
         private AsyncMethodCaller syncCaller;
 
@@ -71,7 +71,7 @@ namespace SyncSharp.GUI
             lblStatus.Text = "Synchronizing folder pair in " + name;
             statusBar.Refresh();
             
-            syncCaller.BeginInvoke(curTask, AsyncMethodCompleted, name);
+            syncCaller.BeginInvoke(curTask,true, AsyncMethodCompleted, name);
         }
 
         private void AsyncMethodCompleted(IAsyncResult result)
