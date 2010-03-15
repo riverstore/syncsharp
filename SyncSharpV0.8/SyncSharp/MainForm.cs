@@ -16,10 +16,11 @@ namespace SyncSharp.GUI
 	public partial class MainForm : Form
 	{
         SyncSharpLogic logicController;
-        private delegate void SyncAnalyzeCaller(SyncTask task, bool isPlugSync);
+        private delegate void SyncAnalyzeCaller(SyncTask task,
+                                        ToolStripStatusLabel status, bool isPlugSync);
         private SyncAnalyzeCaller syncCaller, analyzeCaller;
 
-        private delegate void SyncAllFolderPair(bool isPlugSync);
+        private delegate void SyncAllFolderPair(ToolStripStatusLabel status, bool isPlugSync);
         private SyncAllFolderPair syncAll;
 
         private delegate void UpdateListViewCallback();
@@ -96,7 +97,7 @@ namespace SyncSharp.GUI
                     addTaskViewItem(item);
                 }
 			}
-            lblStatus.Text = "Ready";
+            if (taskListView.Enabled) lblStatus.Text = "Ready";
 		}
 
         private void addTaskViewItem(SyncTask item)
@@ -119,6 +120,13 @@ namespace SyncSharp.GUI
             if (!taskListView.Enabled) e.Cancel = true;
 		}
 
+        private void lockFormForSyncAnalyze()
+        {
+            ShowProgress(true);
+            taskListView.Enabled = false;
+            taskListView.SelectedItems.Clear();
+        }
+
 		private void btnSync_Click(object sender, EventArgs e)
 		{
             if (taskListView.SelectedItems.Count == 0) return;
@@ -128,12 +136,9 @@ namespace SyncSharp.GUI
 
             if (Directory.Exists(selTask.Source) && Directory.Exists(selTask.Target))
             {
-                lblStatus.Text = "Synchronizing " + selTask.Name + "...";
-                ShowProgress(true);
-                taskListView.Enabled = false;
-                taskListView.SelectedItems.Clear();
+                lockFormForSyncAnalyze();
                 
-                syncCaller.BeginInvoke(selTask,false, SyncAnalyzeCompleted, syncCaller);
+                syncCaller.BeginInvoke(selTask, lblStatus, false, SyncAnalyzeCompleted, syncCaller);
             }
             else
             {
@@ -170,26 +175,22 @@ namespace SyncSharp.GUI
 
             if (Directory.Exists(selTask.Source) && Directory.Exists(selTask.Target))
             {
-                lblStatus.Text = "Analyzing " + selTask.Name + "...";
-                ShowProgress(true);
-                taskListView.Enabled = false;
-                taskListView.SelectedItems.Clear();
+                lockFormForSyncAnalyze();
                
-                analyzeCaller.BeginInvoke(selTask,false, SyncAnalyzeCompleted, analyzeCaller);
+                analyzeCaller.BeginInvoke(selTask, lblStatus, false, SyncAnalyzeCompleted, analyzeCaller);
             }
             else
             {
                 MessageBox.Show("Either source or target folder does not exist",
                 "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void SyncAnalyzeCompleted(IAsyncResult result)
         {
-            this.Invoke(listViewCallback);
-            ShowProgress(false);
             taskListView.Enabled = true;
+            ShowProgress(false);
+            this.Invoke(listViewCallback);
         }
 
         private void syncMenuItem_Click(object sender, EventArgs e)
@@ -257,7 +258,7 @@ namespace SyncSharp.GUI
         {
             if (taskListView.SelectedItems.Count == 0)
             {
-                lblStatus.Text =  (taskListView.Enabled) ? "" : lblStatus.Text;
+                lblStatus.Text = (taskListView.Enabled) ? "" : lblStatus.Text;
                 return;
             }
 
@@ -266,12 +267,9 @@ namespace SyncSharp.GUI
 
         private void syncAllMenuItem_Click(object sender, EventArgs e)
         {
-            lblStatus.Text = "Synchronizing all folder pairs...";
-            ShowProgress(true);
-            taskListView.Enabled = false;
-            taskListView.SelectedItems.Clear();
+            lockFormForSyncAnalyze();
 
-            syncAll.BeginInvoke(true,SyncAnalyzeCompleted, syncAll);
+            syncAll.BeginInvoke(lblStatus, true, SyncAnalyzeCompleted, syncAll);
         }
 
         private void showBackupMenuItem_Click(object sender, EventArgs e)
@@ -325,6 +323,31 @@ namespace SyncSharp.GUI
         {
             AboutBox aboutBox = new AboutBox();
             aboutBox.ShowDialog();
+        }
+
+        private void hideToolBarMenuItem_Click(object sender, EventArgs e)
+        {
+            this.toolBar.Visible = !this.toolBar.Visible;
+            this.hideToolBarMenuItem.Text = (toolBar.Visible) ? "&Hide Toolbar" : "&Unhide Toolbar";
+        }
+
+        private void viewLogMenuItem_Click(object sender, EventArgs e)
+        {
+             if (taskListView.SelectedItems.Count == 0) return;
+
+             string taskName = taskListView.FocusedItem.SubItems[0].Text;
+             string logFile = @".\Profiles\" + logicController.Profile.ID + 
+                              @"\" +  taskName + ".log";
+
+             if (!File.Exists(logFile))
+             {
+                 MessageBox.Show("No log file generated for " + taskName + " yet.", "SyncSharp",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                 return;
+             }
+
+             ViewLog logForm = new ViewLog(taskName, logFile);
+             logForm.ShowDialog();
         }
 	}
 }

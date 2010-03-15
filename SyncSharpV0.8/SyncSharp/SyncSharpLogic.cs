@@ -89,8 +89,9 @@ namespace SyncSharp.Business
 			form.ShowDialog();
 		}
 
-		public void analyzeFolderPair(SyncTask curTask, bool isPlugSync)
+        public void analyzeFolderPair(SyncTask curTask, ToolStripStatusLabel status, bool isPlugSync)
 		{
+            status.Text = "Analyzing " + curTask.Name + "...";
 			Detector detector = new Detector(ID, curTask);
 			detector.compareFolders();
 			if (!detector.isSynchronized())
@@ -106,15 +107,16 @@ namespace SyncSharp.Business
 						if (!checkSufficientDiskSpace(curTask.Source.Substring(0, 1), detector.TgtDirtySize, isPlugSync) ||
 							!checkSufficientDiskSpace(curTask.Target.Substring(0, 1), detector.SrcDirtySize, isPlugSync))
 						{
-							return;
+                            throw new Exception("Insufficient disk space");
 						}
+                        status.Text = "Synchronizing " + curTask.Name + "...";
 						reconciler.SyncPreviewAction(previewLists);
 						this.updateSyncTaskResult(curTask, "Successful");
 					}
 					else
 						this.updateSyncTaskResult(curTask, "Aborted");
 				}
-				catch
+				catch(Exception)
 				{
 					this.updateSyncTaskResult(curTask, "Unsuccessful");
 				}
@@ -130,10 +132,11 @@ namespace SyncSharp.Business
 			this.updateSyncTaskTime(curTask, DateTime.Now.ToString());
 		}
 
-		public void syncFolderPair(SyncTask curTask, bool isPlugSync)
+        public void syncFolderPair(SyncTask curTask, ToolStripStatusLabel status, bool isPlugSync)
 		{
 			try
 			{
+                status.Text = "Analyzing " + curTask.Name + "...";
 				if (curTask.TypeOfSync)
 				{
 					Detector detector = new Detector(ID, curTask);
@@ -144,10 +147,12 @@ namespace SyncSharp.Business
 						if (!checkSufficientDiskSpace(curTask.Source.Substring(0, 1), detector.TgtDirtySize, isPlugSync) ||
 							!checkSufficientDiskSpace(curTask.Target.Substring(0, 1), detector.SrcDirtySize, isPlugSync))
 						{
-							return;
+                            throw new Exception("Insufficient disk space");
 						}
+                        
 						Reconciler reconciler = new Reconciler(detector.sourceList, detector.destList, curTask);
-						reconciler.SyncWithMeta();
+                        status.Text = "Synchronizing " + curTask.Name + "...";
+                        reconciler.SyncWithMeta();
 						SyncMetaData.WriteMetaData(curTask.Source, reconciler._updatedList);
 						SyncMetaData.WriteMetaData(curTask.Target, reconciler._updatedList);
 					}
@@ -159,17 +164,17 @@ namespace SyncSharp.Business
 					if (!checkSufficientDiskSpace(curTask.Source.Substring(0, 1), detector.TgtDirtySize, isPlugSync) ||
 								!checkSufficientDiskSpace(curTask.Target.Substring(0, 1), detector.SrcDirtySize, isPlugSync))
 					{
-						return;
+                        throw new Exception("Insufficient disk space");
 					}
+                    
 					Reconciler reconciler = new Reconciler(detector.sourceList, detector.destList, curTask);
-					reconciler.BackupSource(detector.sDirtyFiles);
-
-
+                    status.Text = "Synchronizing " + curTask.Name + "...";
+                    reconciler.BackupSource(detector.sDirtyFiles);
 				}
 
 				this.updateSyncTaskResult(curTask, "Successful");
 			}
-			catch
+			catch(Exception e)
 			{
 				this.updateSyncTaskResult(curTask, "Unsuccessful");
 			}
@@ -177,14 +182,14 @@ namespace SyncSharp.Business
 			this.updateSyncTaskTime(curTask, DateTime.Now.ToString());
 		}
 
-		public void syncAllFolderPairs(bool isPlugSync)
+		public void syncAllFolderPairs(ToolStripStatusLabel status, bool isPlugSync)
 		{
 			foreach (SyncTask task in currentProfile.TaskCollection)
 			{
 				try
 				{
 					if (Directory.Exists(task.Source) && Directory.Exists(task.Target))
-						syncFolderPair(task, true);
+						syncFolderPair(task, status, true);
 					else
 						throw new Exception("Source or target folder does not exist");
 				}
@@ -357,8 +362,11 @@ namespace SyncSharp.Business
 			DriveInfo d = new DriveInfo(drive);
 			if (!(d.AvailableFreeSpace >= dirtySize) && !isPlugSync)
 			{
-				MessageBox.Show("Warning: " + drive + ":\\ drive may require up to " + FormatSize(dirtySize) + " of disk space for synchronization" +
-										"\nSpace currently available: " + FormatSize(d.AvailableFreeSpace));
+                string display = drive + ":\\ drive does not have enough disk space for synchronization\n";
+                display += "Required disk space: " + FormatSize(dirtySize) + "\n";
+                display += "Disk space currently available: " + FormatSize(d.AvailableFreeSpace) + "\n";
+
+                MessageBox.Show(display, "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 			}
 
 			return (d.AvailableFreeSpace >= dirtySize);

@@ -39,13 +39,17 @@ namespace SyncSharp.GUI
 
         private int counter;
 
-        private delegate void AsyncMethodCaller(SyncTask task, bool isPlugSync);
+        private delegate void AsyncMethodCaller(SyncTask task, 
+                                ToolStripStatusLabel status, bool isPlugSync);
 
         private AsyncMethodCaller syncCaller;
 
         public AutoRunForm(SyncSharpLogic logic)
         {
             InitializeComponent();
+
+            Form.CheckForIllegalCrossThreadCalls = false;
+
             this.logic = logic;
             this.counter = logic.Profile.CountDown;
 
@@ -68,10 +72,10 @@ namespace SyncSharp.GUI
             string name = lvTaskList.Items[0].SubItems[0].Text;
             SyncTask curTask = logic.Profile.getTask(name);
 
-            lblStatus.Text = "Synchronizing folder pair in " + name;
-            statusBar.Refresh();
+            //lblStatus.Text = "Synchronizing folder pair in " + name;
+            //statusBar.Refresh();
             
-            syncCaller.BeginInvoke(curTask,true, AsyncMethodCompleted, name);
+            syncCaller.BeginInvoke(curTask, lblStatus, true, AsyncMethodCompleted, name);
         }
 
         private void AsyncMethodCompleted(IAsyncResult result)
@@ -155,11 +159,15 @@ namespace SyncSharp.GUI
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            if (lvTaskList.SelectedItems.Count == 0) return;
+            if (lvTaskList.SelectedItems.Count == 0 || 
+                (counter <= 0  && lvTaskList.SelectedItems[0].Index == 0)) return;
 
             plugSyncList.Remove(new SyncTask(
                 lvTaskList.FocusedItem.SubItems[0].Text, "", ""));
             updateListView();
+
+            if (plugSyncList.Count == 0)
+                this.Close();
         }
 
         private void Timer_Tick(object state)
@@ -177,6 +185,8 @@ namespace SyncSharp.GUI
         private void ProcessStartUp()
         {
             btnCancel.Enabled = false;
+            lblStatus.BorderSides = ToolStripStatusLabelBorderSides.Right;
+            progressBar.Visible = true;
         }
 
         private void AutoRunForm_Load(object sender, EventArgs e)
