@@ -38,8 +38,8 @@ namespace SyncSharp.Business
 			task = syncTask;
 			this.source = syncTask.Source;
 			this.target = syncTask.Target;
-			sMetaData = SyncMetaData.ReadMetaData(source);
-			tMetaData = SyncMetaData.ReadMetaData(target);
+			sMetaData = SyncMetaData.ReadMetaData(@".\Profiles\" + machineID + @"\" + syncTask.Name + "src.meta");
+			tMetaData = SyncMetaData.ReadMetaData(@".\Profiles\" + machineID + @"\" + syncTask.Name + "src.meta");
 			srcDirtySize = 0;
 			tgtDirtySize = 0;
 		}

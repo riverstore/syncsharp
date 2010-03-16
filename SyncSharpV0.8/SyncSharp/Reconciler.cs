@@ -130,7 +130,7 @@ namespace SyncSharp.Business
 		CustomDictionary<string, string, FileUnit> _srcRenameList;
 		CustomDictionary<string, string, FileUnit> _tgtRenameList;
 
-		public Reconciler(FileList srcList, FileList tgtList, SyncTask task)
+		public Reconciler(FileList srcList, FileList tgtList, SyncTask task, String id)
 		{
 			_srcList = srcList;
 			_tgtList = tgtList;
@@ -142,8 +142,8 @@ namespace SyncSharp.Business
 			_srcRenameList = new CustomDictionary<string, string, FileUnit>();
 			_tgtRenameList = new CustomDictionary<string, string, FileUnit>();
 
-            Logger.CloseLog();
-			Logger.CreateLog(_taskName + ".log");
+      Logger.CloseLog();
+			Logger.CreateLog(@".\Profiles\" + id + @"\" + task.Name + ".log");
 			_summary = new SyncSummary();
 			_summary.logFile = _taskName + ".log";
 		}
@@ -176,6 +176,7 @@ namespace SyncSharp.Business
 				{
 					if (!File.Exists(tgtFile))
 					{
+						checkAndCreateFolder(tgtFile);
 						File.Copy(srcFile, tgtFile);
 						_summary.iSrcFileCopy++;
 						Logger.WriteEntry("FILE ACTION - Copy " + srcFile + " to " + tgtFile);
@@ -349,6 +350,7 @@ namespace SyncSharp.Business
 							{
 								FileUnit fileMeta = _srcDirtyFilesList.getByPrimary(relativePath);
 								_updatedList.add(relativePath, fileMeta.Hash, fileMeta);
+								checkAndCreateFolder(_tgtPath + relativePath);
 								File.Move(_tgtPath + delRelativePath, _tgtPath + relativePath);
 								_tgtCleanFilesList.removeByPrimary(delRelativePath);
 							}
@@ -478,6 +480,7 @@ namespace SyncSharp.Business
 							{
 								FileUnit fileMeta = _tgtDirtyFilesList.getByPrimary(relativePath);
 								_updatedList.add(relativePath, fileMeta.Hash, fileMeta);
+								checkAndCreateFolder(_srcPath + relativePath);
 								File.Move(_srcPath + delRelativePath, _srcPath + relativePath);
 								_srcCleanFilesList.removeByPrimary(delRelativePath);
 							}
@@ -591,6 +594,7 @@ namespace SyncSharp.Business
 				}
 				else
 				{
+					checkAndCreateFolder(_tgtPath + strRelativePath);
 					File.Copy(_srcPath + strRelativePath, _tgtPath + strRelativePath, true);
 					_updatedList.add(strRelativePath, myRecord.Hash, myRecord);
 					_summary.iSrcFileCopy++;
@@ -615,6 +619,7 @@ namespace SyncSharp.Business
 				}
 				else
 				{
+					checkAndCreateFolder(_srcPath + strRelativePath);
 					File.Copy(_tgtPath + strRelativePath, _srcPath + strRelativePath, true);
 					_updatedList.add(strRelativePath, myRecord.Hash, myRecord);
 					_summary.iTgtFileCopy++;
@@ -640,6 +645,7 @@ namespace SyncSharp.Business
 				}
 				else
 				{
+					checkAndCreateFolder(_tgtPath + strRelativePath);
 					File.Copy(_srcPath + strRelativePath, _tgtPath + strRelativePath, true);
 					_tgtCleanFilesList.removeByPrimary(strRelativePath);
 					_updatedList.add(strRelativePath, myRecord.Hash, myRecord);
@@ -666,6 +672,7 @@ namespace SyncSharp.Business
 				}
 				else
 				{
+					checkAndCreateFolder(_srcPath + strRelativePath);
 					File.Copy(_tgtPath + strRelativePath, _srcPath + strRelativePath, true);
 					_srcCleanFilesList.removeByPrimary(strRelativePath);
 					_updatedList.add(strRelativePath, myRecord.Hash, myRecord);
@@ -708,6 +715,8 @@ namespace SyncSharp.Business
 					File.Move(srcPath + myRecord.Name, srcPath + srcFileName);
 					File.Move(tgtPath + myRecord.Name, tgtPath + tgtFileName);
 
+					checkAndCreateFolder(tgtPath + srcFileName);
+					checkAndCreateFolder(srcPath + tgtFileName);
 					File.Copy(srcPath + srcFileName, tgtPath + srcFileName);
 					File.Copy(tgtPath + tgtFileName, srcPath + tgtFileName);
 
@@ -737,6 +746,51 @@ namespace SyncSharp.Business
 					{ strRelativePath = strFullPath.Substring(_tgtPath.Length); }
 					_updatedList.add(strRelativePath, myRecord.Hash, myRecord);
 			}
+			foreach (FileUnit myRecord in deleteSourceFilesList)
+			{
+				String strFullPath = myRecord.AbsolutePath;
+				String strRelativePath = "";
+				if (strFullPath.StartsWith(_srcPath))
+				{ strRelativePath = strFullPath.Substring(_srcPath.Length); }
+				else if (strFullPath.StartsWith(_tgtPath))
+				{ strRelativePath = strFullPath.Substring(_tgtPath.Length); }
+
+				if (myRecord.IsDirectory)
+				{
+					Directory.Delete(_srcPath + strRelativePath);
+					_summary.iSrcFolderDelete++;
+					Logger.WriteEntry("FOLDER ACTION - Delete " + _srcPath + strRelativePath);
+				}
+				else
+				{
+					File.Delete(_srcPath + strRelativePath);
+					_summary.iSrcFileDelete++;
+					Logger.WriteEntry("FILE ACTION - Delete " + _srcPath + strRelativePath);
+				}
+			}
+			foreach (FileUnit myRecord in deleteTargetFilesList)
+			{
+				String strFullPath = myRecord.AbsolutePath;
+				String strRelativePath = "";
+				if (strFullPath.StartsWith(_srcPath))
+				{ strRelativePath = strFullPath.Substring(_srcPath.Length); }
+				else if (strFullPath.StartsWith(_tgtPath))
+				{ strRelativePath = strFullPath.Substring(_tgtPath.Length); }
+
+				if (myRecord.IsDirectory)
+				{
+					Directory.Delete(_tgtPath + strRelativePath);
+					_summary.iTgtFolderDelete++;
+					Logger.WriteEntry("FOLDER ACTION - Delete " + _tgtPath + strRelativePath);
+				}
+				else
+				{
+					File.Delete(_tgtPath + strRelativePath);
+					_summary.iTgtFileDelete++;
+					Logger.WriteEntry("FILE ACTION - Delete " + _tgtPath + strRelativePath);
+				}
+			}
+
 			foreach (var myRecord in _srcCleanFilesList.PriSub)
 			{
 				String relativePath = myRecord.Key;
@@ -753,207 +807,6 @@ namespace SyncSharp.Business
 			}
 			_summary.endTime = DateTime.Now;
 			Logger.CloseLog();
-		}
-
-
-		public void SyncWithoutMetaData(String srcPath, String tgtPath)
-		{
-			// Set initial information.
-			_srcPath = srcPath; _tgtPath = tgtPath;
-			DirectoryInfo srcStart = new DirectoryInfo(_srcPath);
-			DirectoryInfo tgtStart = new DirectoryInfo(_tgtPath);
-			_updatedList = new CustomDictionary<string, string, FileUnit>();
-
-			// Retrieves local files and folders
-			FileInfo[] srcFiles = srcStart.GetFiles();
-			DirectoryInfo[] srcFolders = srcStart.GetDirectories();
-			FileInfo[] tgtFiles = tgtStart.GetFiles();
-			DirectoryInfo[] tgtFolders = tgtStart.GetDirectories();
-
-			// Sync Local Files
-			SyncLocalFiles(srcFiles, tgtFiles, _srcPath, _tgtPath);
-			// Sync Local Folders
-			SyncLocalFolders(srcFolders, tgtFolders, _srcPath, _tgtPath);
-		}
-		// Function: sync local files that without metadata.
-		private void SyncLocalFiles(FileInfo[] srcFiles, FileInfo[] tgtFiles, String srcPath, String tgtPath)
-		{
-			bool bDone = true;
-			int iSrc = 0; FileInfo srcFile;
-			int iTgt = 0; FileInfo tgtFile;
-			FileUnit fileMeta; String relativePath;
-
-			if (srcFiles.Length > 0 && tgtFiles.Length > 0) bDone = false;
-			while (!bDone)
-			{
-				srcFile = srcFiles[iSrc];
-				tgtFile = tgtFiles[iTgt];
-				if (srcFile.Name.Equals(tgtFile.Name))
-				{
-					if (srcFile.LastWriteTimeUtc == tgtFile.LastWriteTimeUtc)
-					{
-						fileMeta = new FileUnit(srcFile.FullName);
-						relativePath = srcFile.FullName.Substring(_srcPath.Length);
-						String hashCode = MyUtility.computeMyHash(fileMeta);
-						fileMeta.Hash = hashCode;
-						_updatedList.add(relativePath, hashCode, fileMeta);
-					}
-					else
-					{
-						executeSyncAction(new FileUnit(srcFile.FullName), new FileUnit(tgtFile.FullName), "C", "C", srcPath, tgtPath);
-					}
-					iSrc++; iTgt++;
-				}
-				else
-				{
-					if (string.Compare(srcFile.Name, tgtFile.Name) < 0)
-					{
-						String strTarget = tgtPath + "\\" + srcFile.Name;
-						File.Copy(srcFile.FullName, strTarget);
-						fileMeta = new FileUnit(srcFile.FullName);
-						relativePath = srcFile.FullName.Substring(_srcPath.Length);
-						iSrc++;
-					}
-					else
-					{
-						String strTarget = srcPath + "\\" + tgtFile.Name;
-						File.Copy(tgtFile.FullName, strTarget);
-						fileMeta = new FileUnit(tgtFile.FullName);
-						relativePath = tgtFile.FullName.Substring(_tgtPath.Length);
-						iTgt++;
-					}
-					String hashCode = MyUtility.computeMyHash(fileMeta);
-					fileMeta.Hash = hashCode;
-					_updatedList.add(relativePath, hashCode, fileMeta);
-				}
-
-				if (iSrc == srcFiles.Length || iTgt == tgtFiles.Length)
-				{
-					bDone = true;
-				}
-			}
-
-			if (iSrc == srcFiles.Length && iTgt < tgtFiles.Length)
-			{
-				for (int i = iTgt; i < tgtFiles.Length; i++)
-				{
-					tgtFile = tgtFiles[i];
-					String strTarget = srcPath + "\\" + tgtFile.Name;
-					File.Copy(tgtFile.FullName, strTarget);
-					fileMeta = new FileUnit(tgtFile.FullName);
-					relativePath = tgtFile.FullName.Substring(_tgtPath.Length);
-					String hashCode = MyUtility.computeMyHash(fileMeta);
-					fileMeta.Hash = hashCode;
-					_updatedList.add(relativePath, hashCode, fileMeta);
-				}
-			}
-			else if (iTgt == tgtFiles.Length && iSrc < srcFiles.Length)
-			{
-				for (int i = iSrc; i < srcFiles.Length; i++)
-				{
-					srcFile = srcFiles[i];
-					String strTarget = tgtPath + "\\" + srcFile.Name;
-					File.Copy(srcFile.FullName, strTarget);
-					fileMeta = new FileUnit(srcFile.FullName);
-					relativePath = srcFile.FullName.Substring(_srcPath.Length);
-					String hashCode = MyUtility.computeMyHash(fileMeta);
-					fileMeta.Hash = hashCode;
-					_updatedList.add(relativePath, hashCode, fileMeta);
-				}
-			}
-		}
-		//Function: sync local folders that without metadata.
-		private void SyncLocalFolders(DirectoryInfo[] srcFolders, DirectoryInfo[] tgtFolders, String srcPath, String tgtPath)
-		{
-			Boolean bDone = true;
-			int iSrc = 0; DirectoryInfo srcFolder;
-			int iTgt = 0; DirectoryInfo tgtFolder;
-			FileUnit fileUnit; String relativePath;
-
-			if (srcFolders.Length > 0 && tgtFolders.Length > 0) bDone = false;
-			while (!bDone)
-			{
-				srcFolder = srcFolders[iSrc];
-				tgtFolder = tgtFolders[iTgt];
-
-				if (srcFolder.Name.Equals(tgtFolder.Name))
-				{
-					String newSrcPath = srcPath + "\\" + srcFolder.Name;
-					String newTgtPath = tgtPath + "\\" + srcFolder.Name;
-					fileUnit = new FileUnit(srcFolder.FullName);
-					relativePath = srcFolder.FullName.Substring(_srcPath.Length);
-					_updatedList.add(relativePath, fileUnit);
-
-					SyncLocalFiles(srcFolder.GetFiles(), tgtFolder.GetFiles(), newSrcPath, newTgtPath);
-					SyncLocalFolders(srcFolder.GetDirectories(), tgtFolder.GetDirectories(), newSrcPath, newTgtPath);
-					iSrc++; iTgt++;
-				}
-				else
-				{
-					if (string.Compare(srcFolder.Name, tgtFolder.Name) < 0)
-					{
-						String newSrcPath = srcPath + "\\" + srcFolder.Name;
-						String newTgtPath = tgtPath + "\\" + srcFolder.Name;
-						Directory.CreateDirectory(newTgtPath);
-						tgtFolder = new DirectoryInfo(newTgtPath);
-						fileUnit = new FileUnit(srcFolder.FullName);
-						relativePath = srcFolder.FullName.Substring(_srcPath.Length);
-						_updatedList.add(relativePath, fileUnit);
-						SyncLocalFiles(srcFolder.GetFiles(), tgtFolder.GetFiles(), newSrcPath, newTgtPath);
-						SyncLocalFolders(srcFolder.GetDirectories(), tgtFolder.GetDirectories(), newSrcPath, newTgtPath);
-						iSrc++;
-					}
-					else
-					{
-						String newSrcPath = srcPath + "\\" + tgtFolder.Name;
-						String newTgtPath = tgtPath + "\\" + tgtFolder.Name;
-						Directory.CreateDirectory(newSrcPath);
-						srcFolder = new DirectoryInfo(newSrcPath);
-						fileUnit = new FileUnit(tgtFolder.FullName);
-						relativePath = tgtFolder.FullName.Substring(_tgtPath.Length);
-						_updatedList.add(relativePath, fileUnit);
-						SyncLocalFiles(srcFolder.GetFiles(), tgtFolder.GetFiles(), newSrcPath, newTgtPath);
-						SyncLocalFolders(srcFolder.GetDirectories(), tgtFolder.GetDirectories(), newSrcPath, newTgtPath);
-						iTgt++;
-					}
-				}
-				if (iSrc == srcFolders.Length || iTgt == tgtFolders.Length)
-				{
-					bDone = true;
-				}
-			}
-			if (iSrc == srcFolders.Length && iTgt < tgtFolders.Length)
-			{
-				for (int i = iTgt; i < tgtFolders.Length; i++)
-				{
-					tgtFolder = tgtFolders[i];
-					String newSrcPath = srcPath + "\\" + tgtFolder.Name;
-					String newTgtPath = tgtPath + "\\" + tgtFolder.Name;
-					Directory.CreateDirectory(newSrcPath);
-					srcFolder = new DirectoryInfo(newSrcPath);
-					fileUnit = new FileUnit(tgtFolder.FullName);
-					relativePath = tgtFolder.FullName.Substring(_tgtPath.Length);
-					_updatedList.add(relativePath, fileUnit);
-					SyncLocalFiles(srcFolder.GetFiles(), tgtFolder.GetFiles(), newSrcPath, newTgtPath);
-					SyncLocalFolders(srcFolder.GetDirectories(), tgtFolder.GetDirectories(), newSrcPath, newTgtPath);
-				}
-			}
-			else if (iTgt == tgtFolders.Length && iSrc < srcFolders.Length)
-			{
-				for (int i = iSrc; i < srcFolders.Length; i++)
-				{
-					srcFolder = srcFolders[i];
-					String newSrcPath = srcPath + "\\" + srcFolder.Name;
-					String newTgtPath = tgtPath + "\\" + srcFolder.Name;
-					Directory.CreateDirectory(newTgtPath);
-					fileUnit = new FileUnit(srcFolder.FullName);
-					relativePath = srcFolder.FullName.Substring(_srcPath.Length);
-					_updatedList.add(relativePath, fileUnit);
-					tgtFolder = new DirectoryInfo(newTgtPath);
-					SyncLocalFiles(srcFolder.GetFiles(), tgtFolder.GetFiles(), newSrcPath, newTgtPath);
-					SyncLocalFolders(srcFolder.GetDirectories(), tgtFolder.GetDirectories(), newSrcPath, newTgtPath);
-				}
-			}
 		}
 
 		public void SyncWithMeta()
@@ -1076,6 +929,7 @@ namespace SyncSharp.Business
 						FileUnit fileMeta = new FileUnit(_srcPath + relativePath);
 						String hashCode = MyUtility.computeMyHash(fileMeta);
 						fileMeta.Hash = hashCode;
+						checkAndCreateFolder(_tgtPath + relativePath);
 						File.Copy(_srcPath + relativePath, _tgtPath + relativePath, true);
 						_updatedList.add(relativePath, hashCode, fileMeta);
 						_tgtCleanFilesList.removeByPrimary(relativePath);
@@ -1102,6 +956,7 @@ namespace SyncSharp.Business
 							FileUnit fileMeta = new FileUnit(_srcPath + relativePath);
 							String hashCode = MyUtility.computeMyHash(fileMeta);
 							fileMeta.Hash = hashCode;
+							checkAndCreateFolder(_tgtPath + relativePath);
 							File.Copy(_srcPath + relativePath, _tgtPath + relativePath);
 							_updatedList.add(relativePath, hashCode, fileMeta);
 							_summary.iSrcFileCopy++;
@@ -1113,29 +968,72 @@ namespace SyncSharp.Business
 							if (_tgtCleanFilesList.containsPriKey(delRelativePath))
 							{
 								FileUnit fileMeta = _srcDirtyFilesList.getByPrimary(relativePath);
-								_updatedList.add(relativePath, fileMeta.Hash, fileMeta);
+								_updatedList.add(relativePath, fileMeta.Hash.Substring(2), fileMeta);
+								checkAndCreateFolder(_tgtPath + relativePath);
 								File.Move(_tgtPath + delRelativePath, _tgtPath + relativePath);
 								_tgtCleanFilesList.removeByPrimary(delRelativePath);
 								_summary.iTgtFileRename++;
 								Logger.WriteEntry("FILE ACTION - Move " + _tgtPath + delRelativePath + " to " + _tgtPath + relativePath);
 							}
-							else if (_tgtRenameList.containsSecKey(delRelativePath) && !_tgtRenameList.containsPriKey(relativePath))
-							{
-								List<String> lstFiles = _tgtRenameList.SubPri[delRelativePath];
-								String createFilePath = lstFiles[0];
-								tgtFile = _tgtRenameList.getByPrimary(createFilePath);
-								int iSlash = relativePath.LastIndexOf('\\');
+                            else if (_tgtRenameList.containsSecKey(delRelativePath) && !_tgtRenameList.containsPriKey(relativePath))
+                            {
+                                List<String> lstFiles = _tgtRenameList.SubPri[delRelativePath];
+                                String createFilePath = lstFiles[0];
+                                tgtFile = _tgtRenameList.getByPrimary(createFilePath);
+                                int iSrcSlash = relativePath.LastIndexOf('\\');
+                                int iTgtSlash = createFilePath.LastIndexOf('\\');
 
-								String srcFilePath = "";
-								String tgtFilePath = "";
-								if (iSlash > 0)
-								{
-									srcFilePath = relativePath.Substring(0, iSlash);
-									tgtFilePath = createFilePath.Substring(0, iSlash);
-								}
-								executeSyncAction(srcFile, tgtFile, srcFlag, "C", _srcPath + srcFilePath, _tgtPath + tgtFilePath);
-								_tgtDirtyFilesList.removeByPrimary(createFilePath);
-							}
+                                String srcFilePath = "";
+                                if (iSrcSlash > 0)
+                                { srcFilePath = relativePath.Substring(0, iSrcSlash); }
+                                String tgtFilePath = "";
+                                if (iTgtSlash > 0)
+                                { tgtFilePath = createFilePath.Substring(0, iTgtSlash); }
+                                if (!srcFilePath.Equals(tgtFilePath))
+                                {
+                                    FileUnit folderMeta = new FileUnit(_srcPath + srcFilePath);
+                                    if (_srcDirtyFoldersList.containsPriKey(srcFilePath))
+                                        _srcDirtyFoldersList.removeByPrimary(srcFilePath);
+                                    if (_tgtDirtyFoldersList.containsPriKey(srcFilePath))
+                                        _tgtDirtyFoldersList.removeByPrimary(srcFilePath);
+                                    _srcDirtyFoldersList.add(srcFilePath, "D-" + srcFilePath, folderMeta);
+                                    _tgtDirtyFoldersList.add(srcFilePath, "D-" + srcFilePath, folderMeta);
+                                    checkAndCreateFolder(_srcPath + createFilePath);
+                                    File.Move(_srcPath + relativePath, _srcPath + tgtFilePath + relativePath.Substring(iSrcSlash));
+                                    srcFilePath = tgtFilePath;
+                                }
+                                executeSyncAction(srcFile, tgtFile, srcFlag, "C", _srcPath + srcFilePath, _tgtPath + tgtFilePath);
+                                _tgtDirtyFilesList.removeByPrimary(createFilePath);
+                            }
+                            else if (_tgtDirtyFilesList.containsPriKey(delRelativePath))
+                            {
+                                String tgtFlag = "" + _tgtDirtyFilesList.PriSub[delRelativePath][0];
+                                tgtFile = _tgtDirtyFilesList.getByPrimary(delRelativePath);
+                                int iSrcSlash = relativePath.LastIndexOf('\\');
+                                int iTgtSlash = delRelativePath.LastIndexOf('\\');
+
+                                String srcFilePath = "";
+                                if (iSrcSlash > 0)
+                                { srcFilePath = relativePath.Substring(0, iSrcSlash); }
+                                String tgtFilePath = "";
+                                if (iTgtSlash > 0)
+                                { tgtFilePath = delRelativePath.Substring(0, iTgtSlash); }
+                                if (!srcFilePath.Equals(tgtFilePath))
+                                {
+                                    FileUnit folderMeta = new FileUnit(_tgtPath + tgtFilePath);
+                                    if (_srcDirtyFoldersList.containsPriKey(srcFilePath))
+                                        _srcDirtyFoldersList.removeByPrimary(srcFilePath);
+                                    if (_tgtDirtyFoldersList.containsPriKey(srcFilePath))
+                                        _tgtDirtyFoldersList.removeByPrimary(srcFilePath);
+                                    _srcDirtyFoldersList.add(srcFilePath, "D-" + srcFilePath, folderMeta);
+                                    _tgtDirtyFoldersList.add(srcFilePath, "D-" + srcFilePath, folderMeta);
+                                    checkAndCreateFolder(_srcPath + delRelativePath);
+                                    File.Move(_srcPath + relativePath, _srcPath + tgtFilePath + relativePath.Substring(iSrcSlash));
+                                    srcFilePath = tgtFilePath;
+                                }
+                                executeSyncAction(srcFile, tgtFile, srcFlag, tgtFlag, _srcPath + srcFilePath, _tgtPath + tgtFilePath);
+                                _tgtDirtyFilesList.removeByPrimary(delRelativePath);
+                            }
 						}
 					}
 				}
@@ -1154,38 +1052,35 @@ namespace SyncSharp.Business
 						String createFilePath = lstFiles[0];
 						tgtFlag = "C"; tgtFile = _tgtRenameList.getByPrimary(createFilePath);
 
-						int iSlash = relativePath.LastIndexOf('\\');
-						String srcFilePath = "";
-						String tgtFilePath = "";
-						if (iSlash > 0)
-						{
-							srcFilePath = relativePath.Substring(0, iSlash);
-							tgtFilePath = createFilePath.Substring(0, iSlash);
-						}
-						executeSyncAction(srcFile, tgtFile, srcFlag, tgtFlag, _srcPath + srcFilePath, _tgtPath + tgtFilePath);
-						_tgtDirtyFilesList.removeByPrimary(createFilePath);
+                        int iSrcSlash = relativePath.LastIndexOf('\\');
+                        int iTgtSlash = createFilePath.LastIndexOf('\\');
+
+                        String srcFilePath = "";
+                        if (iSrcSlash > 0)
+                        { srcFilePath = relativePath.Substring(0, iSrcSlash); }
+                        String tgtFilePath = "";
+                        if (iTgtSlash > 0)
+                        { tgtFilePath = createFilePath.Substring(0, iTgtSlash); }
+                        if (!srcFilePath.Equals(tgtFilePath))
+                        {
+                            FileUnit folderMeta = new FileUnit(_srcPath + srcFilePath);
+                            if (_srcDirtyFoldersList.containsPriKey(srcFilePath))
+                                _srcDirtyFoldersList.removeByPrimary(srcFilePath);
+                            _srcDirtyFoldersList.add(srcFilePath, "D-" + srcFilePath, folderMeta);
+                            if (_tgtDirtyFoldersList.containsPriKey(srcFilePath))
+                                _tgtDirtyFoldersList.removeByPrimary(srcFilePath);
+                            _tgtDirtyFoldersList.add(srcFilePath, "D-" + srcFilePath, folderMeta);
+                            checkAndCreateFolder(_srcPath + createFilePath);
+                            File.Move(_srcPath + relativePath, _srcPath + tgtFilePath + relativePath.Substring(iSrcSlash));
+                            srcFilePath = tgtFilePath;
+                        }
+                        executeSyncAction(srcFile, tgtFile, srcFlag, "C", _srcPath + srcFilePath, _tgtPath + tgtFilePath);
+                        _tgtDirtyFilesList.removeByPrimary(createFilePath);
 					}
 					else if (srcFlag.Equals("C") && _srcRenameList.containsPriKey(relativePath))
 					{
 						String delFile = _srcRenameList.PriSub[relativePath];
-						if (_tgtRenameList.containsSecKey(delFile) && !_tgtRenameList.containsPriKey(relativePath))
-						{
-							List<String> lstFiles = _tgtRenameList.SubPri[relativePath];
-							String createFilePath = lstFiles[0];
-							tgtFlag = "C"; tgtFile = _tgtRenameList.getByPrimary(createFilePath);
-							int iSlash = relativePath.LastIndexOf('\\');
-
-							String srcFilePath = "";
-							String tgtFilePath = "";
-							if (iSlash > 0)
-							{
-								srcFilePath = relativePath.Substring(0, iSlash);
-								tgtFilePath = createFilePath.Substring(0, iSlash);
-							}
-							executeSyncAction(srcFile, tgtFile, srcFlag, tgtFlag, _srcPath + srcFilePath, _tgtPath + tgtFilePath);
-							_tgtDirtyFilesList.removeByPrimary(createFilePath);
-						}
-						else if (_tgtRenameList.containsSecKey(delFile) && _tgtRenameList.containsPriKey(relativePath))
+                        if (_tgtRenameList.containsSecKey(delFile) && _tgtRenameList.containsPriKey(relativePath))
 						{
 							_updatedList.add(relativePath, srcFile.Hash, srcFile);
 							_tgtDirtyFilesList.removeByPrimary(relativePath);
@@ -1218,6 +1113,7 @@ namespace SyncSharp.Business
 						FileUnit fileMeta = new FileUnit(_tgtPath + relativePath);
 						String hashCode = MyUtility.computeMyHash(fileMeta);
 						fileMeta.Hash = hashCode;
+						checkAndCreateFolder(_srcPath + relativePath);
 						File.Copy(_tgtPath + relativePath, _srcPath + relativePath, true);
 						_updatedList.add(relativePath, hashCode, fileMeta);
 						_srcCleanFilesList.removeByPrimary(relativePath);
@@ -1244,6 +1140,7 @@ namespace SyncSharp.Business
 							FileUnit fileMeta = new FileUnit(_tgtPath + relativePath);
 							String hashCode = MyUtility.computeMyHash(fileMeta);
 							fileMeta.Hash = hashCode;
+							checkAndCreateFolder(_srcPath + relativePath);
 							File.Copy(_tgtPath + relativePath, _srcPath + relativePath);
 							_updatedList.add(relativePath, hashCode, fileMeta);
 							_summary.iTgtFileCopy++;
@@ -1255,7 +1152,8 @@ namespace SyncSharp.Business
 							if (_srcCleanFilesList.containsPriKey(delRelativePath))
 							{
 								FileUnit fileMeta = _tgtDirtyFilesList.getByPrimary(relativePath);
-								_updatedList.add(relativePath, fileMeta.Hash, fileMeta);
+								_updatedList.add(relativePath, fileMeta.Hash.Substring(2), fileMeta);
+								checkAndCreateFolder(_srcPath + relativePath);
 								File.Move(_srcPath + delRelativePath, _srcPath + relativePath);
 								_summary.iTgtFileRename++;
 								Logger.WriteEntry("FILE ACTION - Move " + _srcPath + delRelativePath + " to " + _srcPath + relativePath);
@@ -1403,7 +1301,7 @@ namespace SyncSharp.Business
 						case TaskSettings.ConflictSrcAction.CopyFileToTarget:
 							return SyncAction.keepSource;//copy source to destination
 						case TaskSettings.ConflictSrcAction.DeleteSourceFile:
-							return SyncAction.keepTarget;//delete source file
+							return SyncAction.DeleteSourceFile;//delete source file
 						default:
 							return SyncAction.keepSource;
 					}
@@ -1479,7 +1377,7 @@ namespace SyncSharp.Business
 						case TaskSettings.ConflictSrcAction.CopyFileToTarget:
 							return SyncAction.keepSource;//copy source to destination
 						case TaskSettings.ConflictSrcAction.DeleteSourceFile:
-							return SyncAction.keepTarget;//delete source file
+							return SyncAction.DeleteSourceFile;//delete source file
 						default:
 							return SyncAction.keepSource;
 					}
@@ -1527,14 +1425,14 @@ namespace SyncSharp.Business
 			}
 			else if (s.Equals("D"))
 			{
-				if (t.Equals("C"))
+				if (t.Equals("C") || t.Equals("M"))
 				{
 					switch (_taskSettings.TgtConflict)
 					{
 						case TaskSettings.ConflictTgtAction.CopyFileToSource:
 							return SyncAction.keepTarget;//copy destination to source
 						case TaskSettings.ConflictTgtAction.DeleteTargetFile:
-							return SyncAction.keepSource;//delete destination file
+							return SyncAction.DeleteTargetFile;//delete destination file
 						default:
 							return SyncAction.keepTarget;
 					}
@@ -1572,7 +1470,7 @@ namespace SyncSharp.Business
 						case TaskSettings.ConflictSrcAction.CopyFileToTarget:
 							return SyncAction.keepSource;//copy source to destination
 						case TaskSettings.ConflictSrcAction.DeleteSourceFile:
-							return SyncAction.keepTarget;//delete source file
+							return SyncAction.DeleteSourceFile;//delete source file
 						default:
 							return SyncAction.keepSource;
 					}
@@ -1631,8 +1529,8 @@ namespace SyncSharp.Business
 						String srcFileName = srcFile.Name;
 						String tgtFileName = tgtFile.Name;
 
-                        FileUnit src = new FileUnit(srcPath + "\\" + srcFileName);
-                        src.Match = new FileUnit(tgtPath + "\\" + tgtFileName);
+            FileUnit src = new FileUnit(srcPath + "\\" + srcFileName);
+            src.Match = new FileUnit(tgtPath + "\\" + tgtFileName);
 						previewList.KeepBothFilesList.Add(src);
 					}
 					break;
@@ -1664,6 +1562,21 @@ namespace SyncSharp.Business
 						FileUnit tgt = new FileUnit(tgtPath + "\\" + srcFile.Name);
 						tgt.Match = new FileUnit(srcPath + "\\" + srcFile.Name);
 						previewList.NewSourceFilesList.Add(tgt);
+					}
+					break;
+				case SyncAction.DeleteSourceFile:
+					{
+						FileUnit src = new FileUnit(srcPath + "\\" + srcFile.Name);
+						//src.Match = new FileUnit(tgtPath + "\\" + srcFile.Name);
+						previewList.DeleteSourceFilesList.Add(src);
+					}
+					break;
+				case SyncAction.DeleteTargetFile:
+					{
+						FileUnit tgt = new FileUnit(tgtPath + "\\" + tgtFile.Name);
+						//tgt.Match = new FileUnit(srcPath + "\\" + tgtFile.Name);
+						previewList.DeleteTargetFilesList.Add(tgt);
+
 					}
 					break;
 				case SyncAction.noAction:
@@ -1701,7 +1614,8 @@ namespace SyncSharp.Business
 							File.Move(srcPath + "\\" + srcFile.Name, srcPath + "\\" + srcFileName);
 							File.Move(tgtPath + "\\" + tgtFile.Name, tgtPath + "\\" + tgtFileName);
 						}
-
+						checkAndCreateFolder(tgtPath + "\\" + srcFileName);
+						checkAndCreateFolder(srcPath + "\\" + tgtFileName);
 						File.Copy(srcPath + "\\" + srcFileName, tgtPath + "\\" + srcFileName);
 						File.Copy(tgtPath + "\\" + tgtFileName, srcPath + "\\" + tgtFileName);
 
@@ -1730,6 +1644,7 @@ namespace SyncSharp.Business
 							String strHashcode = MyUtility.computeMyHash(fileMeta);
 							fileMeta.Hash = strHashcode;
 
+							checkAndCreateFolder(tgtPath + "\\" + srcFile.Name);
 							File.Copy(srcPath + "\\" + srcFile.Name, tgtPath + "\\" + srcFile.Name, true);
 
 							_updatedList.add(srcPath.Substring(_srcPath.Length) + "\\" + srcFile.Name, strHashcode, fileMeta);
@@ -1742,6 +1657,7 @@ namespace SyncSharp.Business
 							String strHashcode = MyUtility.computeMyHash(fileMeta);
 							fileMeta.Hash = strHashcode;
 
+							checkAndCreateFolder(srcPath + "\\" + tgtFile.Name);
 							File.Copy(tgtPath + "\\" + tgtFile.Name, srcPath + "\\" + tgtFile.Name, true);
 
 							_updatedList.add(tgtPath.Substring(_tgtPath.Length) + "\\" + tgtFile.Name, strHashcode, fileMeta);
@@ -1757,6 +1673,7 @@ namespace SyncSharp.Business
 						String strHashcode = MyUtility.computeMyHash(fileMeta);
 						fileMeta.Hash = strHashcode;
 
+						checkAndCreateFolder(tgtPath + "\\" + srcFile.Name);
 						File.Copy(srcPath + "\\" + srcFile.Name, tgtPath + "\\" + srcFile.Name, true);
 
 						_updatedList.add(srcPath.Substring(_srcPath.Length) + "\\" + srcFile.Name, strHashcode, fileMeta);
@@ -1771,6 +1688,7 @@ namespace SyncSharp.Business
 						String strHashcode = MyUtility.computeMyHash(fileMeta);
 						fileMeta.Hash = strHashcode;
 
+						checkAndCreateFolder(srcPath + "\\" + tgtFile.Name);
 						File.Copy(tgtPath + "\\" + tgtFile.Name, srcPath + "\\" + tgtFile.Name, true);
 
 						_updatedList.add(tgtPath.Substring(_tgtPath.Length) + "\\" + tgtFile.Name, strHashcode, fileMeta);
@@ -1779,8 +1697,35 @@ namespace SyncSharp.Business
 						Logger.WriteEntry("FILE ACTION - Copy " + tgtPath + "\\" + tgtFile.Name + " to " + srcPath + "\\" + tgtFile.Name);
 					}
 					break;
+				case SyncAction.DeleteSourceFile:
+					{
+						File.Delete(srcPath + "\\" + srcFile.Name);
+						_summary.iSrcFileDelete++;
+						Logger.WriteEntry("FILE ACTION - Delete " + srcPath + "\\" + srcFile.Name);
+					}
+					break;
+				case SyncAction.DeleteTargetFile:
+					{
+						File.Delete(tgtPath + "\\" + tgtFile.Name);
+						_summary.iTgtFileDelete++;
+						Logger.WriteEntry("FILE ACTION - Delete " + tgtPath + "\\" + tgtFile.Name);
+					}
+					break;
 				case SyncAction.noAction:
 					break;
+			}
+		}
+
+		private void checkAndCreateFolder(String fullPath)
+		{
+			String[] strFolders = fullPath.Split('\\');
+			String strFolder = strFolders[0];
+			
+			for (int i = 1; i < strFolders.Length - 1; i++)
+			{
+				strFolder = strFolder + "\\" + strFolders[i];
+				if (!Directory.Exists(strFolder))
+					Directory.CreateDirectory(strFolder);
 			}
 		}
 	}

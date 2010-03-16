@@ -33,6 +33,8 @@ namespace SyncSharp.GUI
             Form.CheckForIllegalCrossThreadCalls = false;
 
             logicController = logic;
+						if (!Directory.Exists(@".\Profiles\" + logicController.Profile.ID))
+							logicController.saveProfile();
             syncCaller = new SyncAnalyzeCaller(logicController.syncFolderPair);
             analyzeCaller = new SyncAnalyzeCaller(logicController.analyzeFolderPair);
             listViewCallback = new UpdateListViewCallback(updateListView);
