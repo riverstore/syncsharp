@@ -1356,7 +1356,10 @@ namespace SyncSharp.Business
 					switch (_taskSettings.SrcTgtConflict)
 					{
 						case TaskSettings.ConflictSrcTgtAction.KeepBothCopies:
-							return SyncAction.keepBothCopy;
+							if (sourceDirtyFile.LastWriteTime == destDirtyFile.LastWriteTime)
+								return SyncAction.noAction;
+							else
+								return SyncAction.keepBothCopy;
 						case TaskSettings.ConflictSrcTgtAction.KeepLatestCopy:
 							if (sourceDirtyFile.LastWriteTime > destDirtyFile.LastWriteTime)	//keep the lastest file if two files are both modified
 							{ return SyncAction.keepSource; }
