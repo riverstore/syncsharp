@@ -123,7 +123,7 @@ namespace SyncSharp.Business
 					}
 						
 				}
-				catch (Exception)
+				catch (Exception e)
 				{
 					this.updateSyncTaskResult(curTask, "Unsuccessful");
 				}
