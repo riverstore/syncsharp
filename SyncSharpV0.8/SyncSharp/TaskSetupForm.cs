@@ -23,6 +23,9 @@ namespace SyncSharp.GUI
 			currentTask = task;
 			currentProfile = profile;
 			ReadUserSettings();
+
+            this.tcTaskSetup.TabPages.Remove(tcTaskSetup.TabPages["tpCopyDel"]);
+            this.tcTaskSetup.TabPages.Remove(tcTaskSetup.TabPages["tpLogSettings"]);
 		}
 
 		private void ReadUserSettings()

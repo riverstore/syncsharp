@@ -109,6 +109,9 @@
             this.btnAccept = new System.Windows.Forms.Button();
             this.fbDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.radRenameSrc = new System.Windows.Forms.RadioButton();
+            this.radRenameTgt = new System.Windows.Forms.RadioButton();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -128,6 +131,7 @@
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -372,10 +376,10 @@
             this.tpFolderPair.Controls.Add(this.txtTarget);
             this.tpFolderPair.Controls.Add(this.txtSource);
             this.tpFolderPair.ImageIndex = 1;
-            this.tpFolderPair.Location = new System.Drawing.Point(4, 44);
+            this.tpFolderPair.Location = new System.Drawing.Point(4, 24);
             this.tpFolderPair.Name = "tpFolderPair";
             this.tpFolderPair.Padding = new System.Windows.Forms.Padding(3);
-            this.tpFolderPair.Size = new System.Drawing.Size(464, 364);
+            this.tpFolderPair.Size = new System.Drawing.Size(464, 384);
             this.tpFolderPair.TabIndex = 0;
             this.tpFolderPair.Text = "Folder Pair";
             this.tpFolderPair.UseVisualStyleBackColor = true;
@@ -472,9 +476,9 @@
             this.tpFilter.Controls.Add(this.groupBox7);
             this.tpFilter.Controls.Add(this.btnSubFolders);
             this.tpFilter.ImageIndex = 4;
-            this.tpFilter.Location = new System.Drawing.Point(4, 44);
+            this.tpFilter.Location = new System.Drawing.Point(4, 24);
             this.tpFilter.Name = "tpFilter";
-            this.tpFilter.Size = new System.Drawing.Size(464, 364);
+            this.tpFilter.Size = new System.Drawing.Size(464, 384);
             this.tpFilter.TabIndex = 5;
             this.tpFilter.Text = "Filters";
             this.tpFilter.UseVisualStyleBackColor = true;
@@ -769,6 +773,7 @@
             // 
             // tcAdvanced
             // 
+            this.tcAdvanced.Controls.Add(this.groupBox8);
             this.tcAdvanced.Controls.Add(this.groupBox6);
             this.tcAdvanced.Controls.Add(this.chkAutoSync);
             this.tcAdvanced.Controls.Add(this.groupBox3);
@@ -788,9 +793,9 @@
             this.groupBox6.Controls.Add(this.label5);
             this.groupBox6.Controls.Add(this.ndTime);
             this.groupBox6.Controls.Add(this.label4);
-            this.groupBox6.Location = new System.Drawing.Point(6, 246);
+            this.groupBox6.Location = new System.Drawing.Point(6, 280);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(448, 61);
+            this.groupBox6.Size = new System.Drawing.Size(448, 58);
             this.groupBox6.TabIndex = 3;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "File time differences";
@@ -848,9 +853,9 @@
             this.groupBox3.Controls.Add(this.radSrcTarget);
             this.groupBox3.Controls.Add(this.radKeepBoth);
             this.groupBox3.Controls.Add(this.radNewOld);
-            this.groupBox3.Location = new System.Drawing.Point(6, 160);
+            this.groupBox3.Location = new System.Drawing.Point(6, 144);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(448, 80);
+            this.groupBox3.Size = new System.Drawing.Size(448, 74);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "What to do if the same file has been modified in source and target";
@@ -901,9 +906,9 @@
             // 
             this.groupBox2.Controls.Add(this.radToSource);
             this.groupBox2.Controls.Add(this.radDelTarget);
-            this.groupBox2.Location = new System.Drawing.Point(6, 98);
+            this.groupBox2.Location = new System.Drawing.Point(6, 90);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(448, 56);
+            this.groupBox2.Size = new System.Drawing.Size(448, 48);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "What to do if a file has been modified in target but deleted in source";
@@ -936,7 +941,7 @@
             this.groupBox1.Controls.Add(this.radToTarget);
             this.groupBox1.Location = new System.Drawing.Point(6, 36);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(448, 56);
+            this.groupBox1.Size = new System.Drawing.Size(448, 48);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "What to do if a file has been modified in source but deleted in target";
@@ -1016,6 +1021,39 @@
             this.btnAccept.UseVisualStyleBackColor = true;
             this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
             // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.radRenameTgt);
+            this.groupBox8.Controls.Add(this.radRenameSrc);
+            this.groupBox8.Location = new System.Drawing.Point(6, 224);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(448, 50);
+            this.groupBox8.TabIndex = 4;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "What to do if same folder has been renamed in source and target";
+            // 
+            // radRenameSrc
+            // 
+            this.radRenameSrc.AutoSize = true;
+            this.radRenameSrc.Checked = true;
+            this.radRenameSrc.Location = new System.Drawing.Point(7, 20);
+            this.radRenameSrc.Name = "radRenameSrc";
+            this.radRenameSrc.Size = new System.Drawing.Size(112, 17);
+            this.radRenameSrc.TabIndex = 0;
+            this.radRenameSrc.TabStop = true;
+            this.radRenameSrc.Text = "Rename to source";
+            this.radRenameSrc.UseVisualStyleBackColor = true;
+            // 
+            // radRenameTgt
+            // 
+            this.radRenameTgt.AutoSize = true;
+            this.radRenameTgt.Location = new System.Drawing.Point(192, 20);
+            this.radRenameTgt.Name = "radRenameTgt";
+            this.radRenameTgt.Size = new System.Drawing.Size(110, 17);
+            this.radRenameTgt.TabIndex = 0;
+            this.radRenameTgt.Text = "Rename to target";
+            this.radRenameTgt.UseVisualStyleBackColor = true;
+            // 
             // TaskSetupForm
             // 
             this.AcceptButton = this.btnAccept;
@@ -1062,6 +1100,8 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1147,6 +1187,9 @@
         private System.Windows.Forms.NumericUpDown ndTime;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox chkReset;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.RadioButton radRenameTgt;
+        private System.Windows.Forms.RadioButton radRenameSrc;
 
     }
 }

@@ -189,6 +189,7 @@
             this.btnAnalyze.Size = new System.Drawing.Size(52, 43);
             this.btnAnalyze.Text = "&Analyze";
             this.btnAnalyze.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnAnalyze.Visible = false;
             this.btnAnalyze.Click += new System.EventHandler(this.btnAnalyze_Click);
             // 
             // mainMenu
@@ -308,6 +309,7 @@
             this.analyzeMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
             this.analyzeMenuItem.Size = new System.Drawing.Size(180, 22);
             this.analyzeMenuItem.Text = "Analyze";
+            this.analyzeMenuItem.Visible = false;
             this.analyzeMenuItem.Click += new System.EventHandler(this.analyzeMenuItem_Click);
             // 
             // syncMenuItem
@@ -448,7 +450,7 @@
             // 
             this.lblStatus.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(484, 19);
+            this.lblStatus.Size = new System.Drawing.Size(515, 19);
             this.lblStatus.Spring = true;
             this.lblStatus.Text = "Ready";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
