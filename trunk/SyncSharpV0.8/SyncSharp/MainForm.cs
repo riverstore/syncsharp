@@ -13,8 +13,8 @@ using SyncSharp.Storage;
 
 namespace SyncSharp.GUI
 {
-	public partial class MainForm : Form
-	{
+    public partial class MainForm : Form
+    {
         SyncSharpLogic logicController;
         private delegate void SyncAnalyzeCaller(SyncTask task,
                                         ToolStripStatusLabel status, bool isPlugSync);
@@ -26,15 +26,13 @@ namespace SyncSharp.GUI
         private delegate void UpdateListViewCallback();
         private UpdateListViewCallback listViewCallback;
 
-		public MainForm(SyncSharpLogic logic)
-		{
+        public MainForm(SyncSharpLogic logic)
+        {
             InitializeComponent();
-            
+
             Form.CheckForIllegalCrossThreadCalls = false;
 
             logicController = logic;
-						if (!Directory.Exists(@".\Profiles\" + logicController.Profile.ID))
-							logicController.saveProfile();
             syncCaller = new SyncAnalyzeCaller(logicController.syncFolderPair);
             analyzeCaller = new SyncAnalyzeCaller(logicController.analyzeFolderPair);
             listViewCallback = new UpdateListViewCallback(updateListView);
@@ -43,7 +41,7 @@ namespace SyncSharp.GUI
             logicController.updateRemovableRoot();
 
             updateListView();
-		}
+        }
 
         private void ShowProgress(bool Visible)
         {
@@ -52,38 +50,38 @@ namespace SyncSharp.GUI
                 : ToolStripStatusLabelBorderSides.None;
         }
 
-		public ListView GetTaskListView
-		{
-			get { return taskListView; }
-		}
+        public ListView GetTaskListView
+        {
+            get { return taskListView; }
+        }
 
-		private void MainForm_Load(object sender, EventArgs e)
-		{
+        private void MainForm_Load(object sender, EventArgs e)
+        {
             ShowProgress(false);
             lblStatus.Text = "Ready";
-		}
+        }
 
-		private void editMenuItem_Click(object sender, EventArgs e)
-		{
+        private void editMenuItem_Click(object sender, EventArgs e)
+        {
             btnEdit_Click(sender, e);
-		}
+        }
 
-		private void analyzeMenuItem_Click(object sender, EventArgs e)
-		{
+        private void analyzeMenuItem_Click(object sender, EventArgs e)
+        {
             btnAnalyze_Click(sender, e);
-		}
+        }
 
-		private void btnNew_Click(object sender, EventArgs e)
-		{
-			logicController.addNewTask();
-			updateListView();
-		}
+        private void btnNew_Click(object sender, EventArgs e)
+        {
+            logicController.addNewTask();
+            updateListView();
+        }
 
-		private void updateListView()
-		{
-			taskListView.Items.Clear();
-			foreach (var item in logicController.Profile.TaskCollection)
-			{
+        private void updateListView()
+        {
+            taskListView.Items.Clear();
+            foreach (var item in logicController.Profile.TaskCollection)
+            {
                 if (showBackupMenuItem.Checked && showSyncMenuItem.Checked)
                 {
                     addTaskViewItem(item);
@@ -98,9 +96,9 @@ namespace SyncSharp.GUI
                     if (!item.TypeOfSync) continue;
                     addTaskViewItem(item);
                 }
-			}
+            }
             if (taskListView.Enabled) lblStatus.Text = "Ready";
-		}
+        }
 
         private void addTaskViewItem(SyncTask item)
         {
@@ -114,13 +112,13 @@ namespace SyncSharp.GUI
             taskListView.Items.Add(lvi);
         }
 
-		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-		{
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
             logicController.checkAutorun(logicController.Profile.AutoPlay);
-			logicController.saveProfile();
+            logicController.saveProfile();
 
             if (!taskListView.Enabled) e.Cancel = true;
-		}
+        }
 
         private void lockFormForSyncAnalyze()
         {
@@ -129,8 +127,8 @@ namespace SyncSharp.GUI
             taskListView.SelectedItems.Clear();
         }
 
-		private void btnSync_Click(object sender, EventArgs e)
-		{
+        private void btnSync_Click(object sender, EventArgs e)
+        {
             if (taskListView.SelectedItems.Count == 0) return;
 
             string name = taskListView.FocusedItem.SubItems[0].Text;
@@ -139,7 +137,7 @@ namespace SyncSharp.GUI
             if (Directory.Exists(selTask.Source) && Directory.Exists(selTask.Target))
             {
                 lockFormForSyncAnalyze();
-                
+
                 syncCaller.BeginInvoke(selTask, lblStatus, false, SyncAnalyzeCompleted, syncCaller);
             }
             else
@@ -147,10 +145,10 @@ namespace SyncSharp.GUI
                 MessageBox.Show("Either source or target folder does not exist",
                    "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-		}
+        }
 
-		private void btnDelete_Click(object sender, EventArgs e)
-		{
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
             if (taskListView.SelectedItems.Count == 0) return;
 
             string taskName = taskListView.SelectedItems[0].SubItems[0].Text;
@@ -161,12 +159,12 @@ namespace SyncSharp.GUI
             }
 
             updateListView();
-		}
+        }
 
-		private void btnExit_Click(object sender, EventArgs e)
-		{
-			this.Close();
-		}
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
         private void btnAnalyze_Click(object sender, EventArgs e)
         {
@@ -178,7 +176,7 @@ namespace SyncSharp.GUI
             if (Directory.Exists(selTask.Source) && Directory.Exists(selTask.Target))
             {
                 lockFormForSyncAnalyze();
-               
+
                 analyzeCaller.BeginInvoke(selTask, lblStatus, false, SyncAnalyzeCompleted, analyzeCaller);
             }
             else
@@ -229,14 +227,14 @@ namespace SyncSharp.GUI
         private void openSourceMenuItem_Click(object sender, EventArgs e)
         {
             if (taskListView.SelectedItems.Count == 0) return;
-            
+
             openFolder(taskListView.FocusedItem.SubItems[4].Text);
         }
 
         private void openTargetMenuItem_Click(object sender, EventArgs e)
         {
             if (taskListView.SelectedItems.Count == 0) return;
-            
+
             openFolder(taskListView.FocusedItem.SubItems[5].Text);
         }
 
@@ -335,21 +333,21 @@ namespace SyncSharp.GUI
 
         private void viewLogMenuItem_Click(object sender, EventArgs e)
         {
-             if (taskListView.SelectedItems.Count == 0) return;
+            if (taskListView.SelectedItems.Count == 0) return;
 
-             string taskName = taskListView.FocusedItem.SubItems[0].Text;
-             string logFile = @".\Profiles\" + logicController.Profile.ID + 
-                              @"\" +  taskName + ".log";
+            string taskName = taskListView.FocusedItem.SubItems[0].Text;
+            string logFile = @".\Profiles\" + logicController.Profile.ID +
+                             @"\" + taskName + ".log";
 
-             if (!File.Exists(logFile))
-             {
-                 MessageBox.Show("No log file generated for " + taskName + " yet.", "SyncSharp",
-                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                 return;
-             }
+            if (!File.Exists(logFile))
+            {
+                MessageBox.Show("No log file generated for " + taskName + " yet.", "SyncSharp",
+                       MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
 
-             ViewLog logForm = new ViewLog(taskName, logFile);
-             logForm.ShowDialog();
+            ViewLog logForm = new ViewLog(taskName, logFile);
+            logForm.ShowDialog();
         }
-	}
+    }
 }
