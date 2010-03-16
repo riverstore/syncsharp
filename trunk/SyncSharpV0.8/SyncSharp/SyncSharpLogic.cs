@@ -89,16 +89,16 @@ namespace SyncSharp.Business
 			form.ShowDialog();
 		}
 
-        public void analyzeFolderPair(SyncTask curTask, ToolStripStatusLabel status, bool isPlugSync)
+		public void analyzeFolderPair(SyncTask curTask, ToolStripStatusLabel status, bool isPlugSync)
 		{
-            status.Text = "Analyzing " + curTask.Name + "...";
+			status.Text = "Analyzing " + curTask.Name + "...";
 			Detector detector = new Detector(ID, curTask);
 			detector.compareFolders();
 			if (!detector.isSynchronized())
 			{
 				try
 				{
-					Reconciler reconciler = new Reconciler(detector.sourceList, detector.destList, curTask);
+					Reconciler reconciler = new Reconciler(detector.sourceList, detector.destList, curTask, ID);
 					FolderDiffLists previewLists = reconciler.PreviewWithMetaData();
 					FolderDiffForm form = new FolderDiffForm(previewLists, curTask);
 					DialogResult result = form.ShowDialog();
@@ -107,16 +107,23 @@ namespace SyncSharp.Business
 						if (!checkSufficientDiskSpace(curTask.Source.Substring(0, 1), detector.TgtDirtySize, isPlugSync) ||
 							!checkSufficientDiskSpace(curTask.Target.Substring(0, 1), detector.SrcDirtySize, isPlugSync))
 						{
-                            throw new Exception("Insufficient disk space");
+							throw new Exception("Insufficient disk space");
 						}
-                        status.Text = "Synchronizing " + curTask.Name + "...";
+						status.Text = "Synchronizing " + curTask.Name + "...";
 						reconciler.SyncPreviewAction(previewLists);
+						SyncMetaData.WriteMetaData(@".\Profiles\" + ID + @"\" + curTask.Name + "src.meta", reconciler._updatedList);
+						SyncMetaData.WriteMetaData(@".\Profiles\" + ID + @"\" + curTask.Name + "tgt.meta", reconciler._updatedList);
 						this.updateSyncTaskResult(curTask, "Successful");
 					}
 					else
+					{
+						SyncMetaData.WriteMetaData(@".\Profiles\" + ID + @"\" + curTask.Name + "src.meta", reconciler._updatedList);
+						SyncMetaData.WriteMetaData(@".\Profiles\" + ID + @"\" + curTask.Name + "tgt.meta", reconciler._updatedList);
 						this.updateSyncTaskResult(curTask, "Aborted");
+					}
+						
 				}
-				catch(Exception)
+				catch (Exception)
 				{
 					this.updateSyncTaskResult(curTask, "Unsuccessful");
 				}
@@ -132,11 +139,11 @@ namespace SyncSharp.Business
 			this.updateSyncTaskTime(curTask, DateTime.Now.ToString());
 		}
 
-        public void syncFolderPair(SyncTask curTask, ToolStripStatusLabel status, bool isPlugSync)
+		public void syncFolderPair(SyncTask curTask, ToolStripStatusLabel status, bool isPlugSync)
 		{
 			try
 			{
-                status.Text = "Analyzing " + curTask.Name + "...";
+				status.Text = "Analyzing " + curTask.Name + "...";
 				if (curTask.TypeOfSync)
 				{
 					Detector detector = new Detector(ID, curTask);
@@ -147,14 +154,14 @@ namespace SyncSharp.Business
 						if (!checkSufficientDiskSpace(curTask.Source.Substring(0, 1), detector.TgtDirtySize, isPlugSync) ||
 							!checkSufficientDiskSpace(curTask.Target.Substring(0, 1), detector.SrcDirtySize, isPlugSync))
 						{
-                            throw new Exception("Insufficient disk space");
+							throw new Exception("Insufficient disk space");
 						}
-                        
-						Reconciler reconciler = new Reconciler(detector.sourceList, detector.destList, curTask);
-                        status.Text = "Synchronizing " + curTask.Name + "...";
-                        reconciler.SyncWithMeta();
-						SyncMetaData.WriteMetaData(curTask.Source, reconciler._updatedList);
-						SyncMetaData.WriteMetaData(curTask.Target, reconciler._updatedList);
+
+						Reconciler reconciler = new Reconciler(detector.sourceList, detector.destList, curTask, ID);
+						status.Text = "Synchronizing " + curTask.Name + "...";
+						reconciler.SyncWithMeta();
+						SyncMetaData.WriteMetaData(@".\Profiles\" + ID + @"\" + curTask.Name + "src.meta", reconciler._updatedList);
+						SyncMetaData.WriteMetaData(@".\Profiles\" + ID + @"\" + curTask.Name + "tgt.meta", reconciler._updatedList);
 					}
 				}
 				else
@@ -164,17 +171,17 @@ namespace SyncSharp.Business
 					if (!checkSufficientDiskSpace(curTask.Source.Substring(0, 1), detector.TgtDirtySize, isPlugSync) ||
 								!checkSufficientDiskSpace(curTask.Target.Substring(0, 1), detector.SrcDirtySize, isPlugSync))
 					{
-                        throw new Exception("Insufficient disk space");
+						throw new Exception("Insufficient disk space");
 					}
-                    
-					Reconciler reconciler = new Reconciler(detector.sourceList, detector.destList, curTask);
-                    status.Text = "Synchronizing " + curTask.Name + "...";
-                    reconciler.BackupSource(detector.sDirtyFiles);
+
+					Reconciler reconciler = new Reconciler(detector.sourceList, detector.destList, curTask, ID);
+					status.Text = "Synchronizing " + curTask.Name + "...";
+					reconciler.BackupSource(detector.sDirtyFiles);
 				}
 
 				this.updateSyncTaskResult(curTask, "Successful");
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				this.updateSyncTaskResult(curTask, "Unsuccessful");
 			}
@@ -362,11 +369,11 @@ namespace SyncSharp.Business
 			DriveInfo d = new DriveInfo(drive);
 			if (!(d.AvailableFreeSpace >= dirtySize) && !isPlugSync)
 			{
-                string display = drive + ":\\ drive does not have enough disk space for synchronization\n";
-                display += "Required disk space: " + FormatSize(dirtySize) + "\n";
-                display += "Disk space currently available: " + FormatSize(d.AvailableFreeSpace) + "\n";
+				string display = drive + ":\\ drive does not have enough disk space for synchronization\n";
+				display += "Required disk space: " + FormatSize(dirtySize) + "\n";
+				display += "Disk space currently available: " + FormatSize(d.AvailableFreeSpace) + "\n";
 
-                MessageBox.Show(display, "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				MessageBox.Show(display, "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 			}
 
 			return (d.AvailableFreeSpace >= dirtySize);

@@ -42,11 +42,11 @@ namespace SyncSharp.Storage
 		{
 			try
 			{
-				if (File.Exists(path + "\\syncsharp.meta"))
-					File.SetAttributes(path + "\\syncsharp.meta", FileAttributes.Normal);
+				if (File.Exists(path))
+					File.SetAttributes(path, FileAttributes.Normal);
 
 				FileStream fsMetaFile = null;
-				fsMetaFile = new FileStream(path + "\\syncsharp.meta", FileMode.Create);
+				fsMetaFile = new FileStream(path, FileMode.Create);
 				var bfMetaFile = new BinaryFormatter();
 				bfMetaFile.Serialize(fsMetaFile, metadata);
 				fsMetaFile.Close();
@@ -62,7 +62,7 @@ namespace SyncSharp.Storage
 			try
 			{
 				FileStream fsMetaFile = null;
-				fsMetaFile = new FileStream(path + "\\syncsharp.meta", FileMode.Open);
+				fsMetaFile = new FileStream(path, FileMode.Open);
 				BinaryFormatter bfMetaFile = new BinaryFormatter();
 				CustomDictionary<string,string, FileUnit> metadata =
 								(CustomDictionary<string,string, FileUnit>)bfMetaFile.Deserialize(fsMetaFile);
