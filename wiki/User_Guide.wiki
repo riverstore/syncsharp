@@ -15,7 +15,6 @@ On first run, user will need to activate SyncSharp by manually activate the prog
 [http://img191.imageshack.us/img191/8246/18587200.jpg]
 
 
-
 == Creating/Deleting New Sync Task ==
 
 
@@ -23,35 +22,33 @@ On first run, user will need to activate SyncSharp by manually activate the prog
 
 [http://img693.imageshack.us/img693/6267/85800731.jpg]
 
-Step 1:  Click on ‘New’, the ‘Create New Task’ window will show up.
+ *Step 1:*  Click on ‘New’, the ‘Create New Task’ window will show up.
 
- Step 2:  Click on the icon [http://img43.imageshack.us/img43/6941/31035487.jpg] to locate the two folders (“Source folder” and “Target         folder”) that you would like to synchronize.
+ *Step 2:*  Click on the icon [http://img43.imageshack.us/img43/6941/31035487.jpg] to locate the two folders (“Source folder” and “Target         folder”) that you would like to synchronize.
 
- Step 3:  ‘Select Task Type’. 
+ *Step 3:*  ‘Select Task Type’. 
 Synchronize – Synchronize source and target folders
 Backup – Keep a copy of files in “Source folder” in “Target folder”.
 
- Step 4:  ‘Enter Task Name’. Specify the name of this Sync Task. (This task will be saved, so next time the program is activated. It will automatically try to complete this task).
+ *Step 4:*  ‘Enter Task Name’. Specify the name of this Sync Task. (This task will be saved, so next time the program is activated. It will automatically try to complete this task).
 
- Step 5:  Click on “OK” to finish the wizard.
+ *Step 5:*  Click on “OK” to finish the wizard.
 
 
 === Delete Sync Task: === 
 
 [http://img12.imageshack.us/img12/4262/29603391.jpg]
 
-Step 1:  Choose the Sync Task you want to delete.
+*Step 1:*  Choose the Sync Task you want to delete.
 
-Step 2:  Click “Delete”.
-
-
+*Step 2:*  Click “Delete”.
 
 
 == Modify Sync Task ==
 
-Step 1: Click on the Sync Task you want to delete.
+*Step 1:* Click on the Sync Task you want to delete.
 
-Step 2: Click ‘Modify’. The ‘Task Setup’ window will pop up. It consists of 4 tabs.
+*Step 2:* Click ‘Modify’. The ‘Task Setup’ window will pop up. It consists of 4 tabs.
 
 ‘General’ – Display general information.
 
@@ -60,7 +57,6 @@ Step 2: Click ‘Modify’. The ‘Task Setup’ window will pop up. It consists
 ‘Filter’ – Include/exclude file/folders in sync action.
 
 ‘Advanced’ – Advanced syncing options.
-
 
 
 ‘General’ Tab
@@ -116,6 +112,7 @@ The program will run by itself while the USB is plugged into a computer. Upon ex
 
 
 = Troubleshooting =
+
 
 ==PlugSync is not fully functioning?==
 
