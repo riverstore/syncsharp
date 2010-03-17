@@ -1,0 +1,143 @@
+#summary One-sentence summary of this page.
+
+= Part 1 Product description =
+
+
+SyncSharp is a perfect product for tertiary students who work with multiple computers and need to synchronize files that reside in different computers through an immediate device such as a USB drive. It is a Windows based application that allows users to sync files between multiple computers through an immediate device with no installation required. The file synchronization process is streamlined through a list of pre-determined user preferences.  
+
+
+= Part 2 Using SyncSharp =
+
+
+== On First Run ==
+On first run, user will need to activate SyncSharp by manually activate the program. Subsequently, the program will automatically run by itself. Upon double clicking the executable, the following main window will pop up.
+
+[http://img191.imageshack.us/img191/8246/18587200.jpg]
+
+
+
+== Creating/Deleting New Sync Task ==
+
+
+=== Creating New Sync Task ===
+
+[http://img693.imageshack.us/img693/6267/85800731.jpg]
+
+Step 1:  Click on ‘New’, the ‘Create New Task’ window will show up.
+
+ Step 2:  Click on the icon [http://img43.imageshack.us/img43/6941/31035487.jpg] to locate the two folders (“Source folder” and “Target         folder”) that you would like to synchronize.
+
+ Step 3:  ‘Select Task Type’. 
+Synchronize – Synchronize source and target folders
+Backup – Keep a copy of files in “Source folder” in “Target folder”.
+
+ Step 4:  ‘Enter Task Name’. Specify the name of this Sync Task. (This task will be saved, so next time the program is activated. It will automatically try to complete this task).
+
+ Step 5:  Click on “OK” to finish the wizard.
+
+
+=== Delete Sync Task: === 
+
+[http://img12.imageshack.us/img12/4262/29603391.jpg]
+
+Step 1:  Choose the Sync Task you want to delete.
+
+Step 2:  Click “Delete”.
+
+
+
+
+== Modify Sync Task ==
+
+Step 1: Click on the Sync Task you want to delete.
+
+Step 2: Click ‘Modify’. The ‘Task Setup’ window will pop up. It consists of 4 tabs.
+
+‘General’ – Display general information.
+
+‘Folder Pair’ – Modify folder pairs.
+
+‘Filter’ – Include/exclude file/folders in sync action.
+
+‘Advanced’ – Advanced syncing options.
+
+
+
+‘General’ Tab
+
+[http://img532.imageshack.us/img532/4825/42408737.jpg]
+
+“Folder Pair” Tab
+
+[http://img214.imageshack.us/img214/1116/76840350.jpg]
+
+‘Switch pair’ – Switch the path of “Source” and “Target”
+‘Delete pair’ – Delete the path of “Source” and “Target”
+
+“Filter” Tab
+
+[http://img175.imageshack.us/img175/8020/93752339.jpg]
+
+‘File Inclusion/Exclusion’ - Users are allowed to include/exclude files/subfolders in “source” and “target” directory in the sync process. Filtering is based on file name or extension, (For e.g., to exclude all files with extension ‘.doc’, put "*.doc" in ‘Files to exclude’ textbook). Users is allowed to set multiple filtering criteria separated by ‘;’. 
+
+‘Exclude files with’ – Filtering can also be achieved based files/folders attributes. The default files to exclude are files with ‘system’ and ‘temporary’ attribute. 
+
+‘Select Sub folders…’ will list out all sub folders in “Source” and “Target”. User is able to exclude sub-folders in the syncing process. (Below is a screenshot of its window)
+
+[http://img265.imageshack.us/img265/8526/92970579.jpg]
+
+‘Advanced’ Tab
+
+[http://img194.imageshack.us/img194/2056/75243489.jpg]
+
+‘Enable auto-sync upon plug-in’ – If checked, PlugSync will be enabled.
+‘File time differences’ – While comparing two files or folders, if the difference in last modified time is less than or equals the pre-set value. These files or folders are considered to be with the same modification time. 
+
+== How to Import/Export Sync Task? ==
+Import SyncTask.
+
+Step 1: On the main menu, click ‘Task’
+
+Step 2; Click ‘Import Task …’ or simply use ‘Ctrl’ + ‘I
+
+Step 3: Specify which SyncTask to import.
+
+
+Export SyncTask.
+
+Step1: On the main menu, click ‘Task’ 
+
+Step 2: Click ‘Export Task …’ or simply use Ctrl + X
+ 
+Step 3: Specify the location you want the SyncTask to be saved.
+
+== PlugSync ==
+The program will run by itself while the USB is plugged into a computer. Upon execution, the program will count down for 5 seconds (default) waiting for user interruption. If there is no interruption, the program will automatically try to perform all the saved SyncTask.
+
+
+= Troubleshooting =
+
+==PlugSync is not fully functioning?==
+
+On some Windows machines, ‘auto play’ of external storage device is disabled. However, in order to enable the PlugSync function, user will need to modify the ‘auto play’ settings. This guide will walk you through step by step on how to change the ‘auto play’ settings.
+On Windows Vista:
+Step 1: Click on ‘Start’ -> In the search box, type in ‘autoplay’
+
+Step 2: Choose the first returned result, which looks like 
+
+[http://img534.imageshack.us/img534/7339/51328032.jpg]
+
+Step 3: Click on the icon, the following window will pop up.
+
+[http://img42.imageshack.us/img42/1677/42714833.jpg]
+
+Step 4: Check the box ‘Use AutoPlay for all media and devices’
+
+Step 5: In the drop-down list for ‘Software and games’, choose “Ask me every time’.
+
+Step 6: Click on ‘Save’ to save the setting.
+
+Step 7: The next time user plug in his external storage device, system will prompt user 
+for actions. A window looks like the following will show. Check the box ‘Always do this for software and games:’ and click on ‘Run SyncSharp’ to activate the program. By doing this, this action is saved on the machine, and the PlugSync feature will function properly.
+
+[http://img260.imageshack.us/img260/3397/72655974.jpg]
