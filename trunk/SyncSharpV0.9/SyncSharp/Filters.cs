@@ -69,7 +69,7 @@ namespace SyncSharp.Business
 
 		public bool isFileExcluded(FileInfo file)
 		{
-			if (file.Name.Equals("syncsharp.meta")) return true;
+			//if (file.Name.Equals("syncsharp.meta")) return true;
 			bool match = isFileAttributeMatched(file);
 			if (match) return true;
 			match = checkFilter(file, this.fileIncludeList);
@@ -83,9 +83,9 @@ namespace SyncSharp.Business
 			foreach (string pattern in filterList)
 			{
 				bool isMatch = (pattern.Equals("*.*") ||
-												pattern.Equals("*") ||
-												file.Name.Equals(pattern) ||
-												("*" + file.Extension).Equals(pattern));
+								pattern.Equals("*") ||
+								file.Name.Equals(pattern) ||
+								("*" + file.Extension).Equals(pattern));
 				if (isMatch) return true;
 			}
 			return false;
