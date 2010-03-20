@@ -14,28 +14,18 @@ namespace SyncSharp.GUI
 {
 	public partial class AutoRunForm : Form
 	{
-		private const int CP_NOCLOSE_BUTTON = 0x200;
-		protected override CreateParams CreateParams
-		{
-			get
-			{
-				CreateParams myCp = base.CreateParams;
-				myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
-				return myCp;
-			}
-		}
-
 		SyncSharpLogic logic;
 		List<SyncTask> plugSyncList;
-		private delegate void AsyncMethodCaller(SyncTask task, ToolStripStatusLabel status, bool isPlugSync);
+		private delegate void SyncCaller(SyncTask task, ToolStripStatusLabel status, bool isPlugSync);
 		private delegate void UpdateListViewCallback();
 		private delegate void StartSyncCallback();
-		private delegate void StartUpCallback();
-		private UpdateListViewCallback listViewCallback;
-		private StartSyncCallback startSyncCallback;
-		System.Threading.Timer myTimer;
+		private delegate void LockFormForSync();
+        private UpdateListViewCallback listViewCallback;
+        private StartSyncCallback startSyncCallback;
+		
+        private System.Threading.Timer myTimer;
 		private int counter;
-		private AsyncMethodCaller syncCaller;
+		private SyncCaller syncCaller;
 
 		public AutoRunForm(SyncSharpLogic logic)
 		{
@@ -45,24 +35,24 @@ namespace SyncSharp.GUI
 			counter = logic.Profile.CountDown;
 			myTimer = new System.Threading.Timer(new TimerCallback(Timer_Tick), null, 0, 1000);
 			listViewCallback = new UpdateListViewCallback(updateListView);
-			startSyncCallback = new StartSyncCallback(startSync);
-			syncCaller = new AsyncMethodCaller(logic.syncFolderPair);
+            startSyncCallback = new StartSyncCallback(startSync);
+			syncCaller = new SyncCaller(logic.syncFolderPair);
 			plugSyncList = new List<SyncTask>();
 		}
 
 		private void startSync()
 		{
-			if (lvTaskList.Items.Count == 0)
-			{
-				Close();
-				return;
-			}
+            if (lvTaskList.Items.Count == 0) {
+                Close();
+                return;
+            }
+
 			string name = lvTaskList.Items[0].SubItems[0].Text;
 			SyncTask curTask = logic.Profile.getTask(name);
-			syncCaller.BeginInvoke(curTask, lblStatus, true, AsyncMethodCompleted, name);
+			syncCaller.BeginInvoke(curTask, lblStatus, true, SyncCompleted, name);
 		}
 
-		private void AsyncMethodCompleted(IAsyncResult result)
+		private void SyncCompleted(IAsyncResult result)
 		{
 			plugSyncList.Remove(new SyncTask(result.AsyncState.ToString(), "", ""));
 			Invoke(listViewCallback);
@@ -86,8 +76,8 @@ namespace SyncSharp.GUI
 		private void btnCancel_Click(object sender, EventArgs e)
 		{
 			myTimer.Dispose();
-			Close();
-			return;
+            Thread.Sleep(10);
+            Close();
 		}
 
 		private void btnUp_Click(object sender, EventArgs e)
@@ -131,11 +121,17 @@ namespace SyncSharp.GUI
 
 		private void btnRemove_Click(object sender, EventArgs e)
 		{
-			if (lvTaskList.SelectedItems.Count == 0 || (counter <= 0 && lvTaskList.SelectedItems[0].Index == 0)) return;
+			if (lvTaskList.SelectedItems.Count == 0 || 
+                (counter <= 0 && lvTaskList.SelectedItems[0].Index == 0)) 
+                return;
+
 			plugSyncList.Remove(new SyncTask(lvTaskList.FocusedItem.SubItems[0].Text, "", ""));
 			updateListView();
-			if (plugSyncList.Count == 0)
-				Close();
+            if (plugSyncList.Count == 0)
+            {
+                myTimer.Dispose();
+                Close();
+            }
 		}
 
 		private void Timer_Tick(object state)
@@ -144,7 +140,7 @@ namespace SyncSharp.GUI
 			if (counter-- == 0)
 			{
 				myTimer.Dispose();
-				Invoke(new StartUpCallback(ProcessStartUp));
+				Invoke(new LockFormForSync(ProcessStartUp));
 				Invoke(startSyncCallback);
 			}
 		}
