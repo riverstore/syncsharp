@@ -60,6 +60,8 @@ namespace SyncSharp.Storage
 
             if (machineId == null) throw new ArgumentNullException("machineId");
             if (syncTaskName == null) throw new ArgumentNullException("syncTaskName");
+            if (machineId.Equals(string.Empty)) throw new ArgumentException("Empty string passed", "machineId");
+            if (syncTaskName.Equals(string.Empty)) throw new ArgumentException("Empty string passed", "syncTaskName");
 
             try
             {
@@ -84,7 +86,8 @@ namespace SyncSharp.Storage
                 sw.WriteLine("Files to DELETE:\t{0}\t{1}\t{2}\t{3}\t", machineDeleteTotal, machineDeleteSize, usbDeleteTotal, usbDeleteSize);
                 sw.WriteLine("Files to RENAME:\t{0}\t{1}\t{2}\t{3}\t", machineRenameTotal, machineRenameSize, usbRenameTotal, usbRenameSize);
                 sw.WriteLine("*****************");
-                sw.WriteLine("#date|time|status|machine source|size|machine dest|size|usb source|size|usb dest|size|error msg|");
+                sw.WriteLine("#Sync executing#");
+                sw.WriteLine("#Format:|date|time|status|machine source|size|machine dest|size|usb source|size|usb dest|size|error msg|");
                 sw.WriteLine("#");
                 
                 // Close StreamWriter
@@ -95,7 +98,7 @@ namespace SyncSharp.Storage
             }
             catch (IOException e)
             {
-                Console.WriteLine(e.Message);
+                WriteErrorLog(e.Message);
                 return false;
 
                 //throw;
@@ -110,6 +113,8 @@ namespace SyncSharp.Storage
 
             if (machineId == null) throw new ArgumentNullException("machineId");
             if (syncTaskName == null) throw new ArgumentNullException("syncTaskName");
+            if (machineId.Equals(string.Empty)) throw new ArgumentException("Empty string passed", "machineId");
+            if (syncTaskName.Equals(string.Empty)) throw new ArgumentException("Empty string passed", "syncTaskName");
            
             try
             {
@@ -131,16 +136,47 @@ namespace SyncSharp.Storage
                     sw.WriteLine("==START============================================================");
                     sw.WriteLine("Sync started on {0}\t{1}", DateTime.Now.ToShortDateString(),
                                  DateTime.Now.ToLongTimeString());
+                    _filesRenamedCntMachine = 0;
+                    _filesCopiedCntMachine = 0;
+                    _filesDeletedCntMachine = 0;
+
+                    _filesRenamedSizeMachine = 0;
+                    _filesCopiedSizeMachine = 0;
+                    _filesDeletedSizeMachine = 0;
+
+                    _filesRenamedCntUsb = 0;
+                    _filesCopiedCntUsb = 0;
+                    _filesDeletedCntUsb = 0;
+
+                    _filesRenamedSizeUsb = 0;
+                    _filesCopiedSizeUsb = 0;
+                    _filesDeletedSizeUsb = 0;
+
+                    _filesRenamedCntMachineErr = 0;
+                    _filesCopiedCntMachineErr = 0;
+                    _filesDeletedCntMachineErr = 0;
+
+                    _filesRenamedSizeMachineErr = 0;
+                    _filesCopiedSizeMachineErr = 0;
+                    _filesDeletedSizeMachineErr = 0;
+
+                    _filesRenamedCntUsbErr = 0;
+                    _filesCopiedCntUsbErr = 0;
+                    _filesDeletedCntUsbErr = 0;
+
+                    _filesRenamedSizeUsbErr = 0;
+                    _filesCopiedSizeUsbErr = 0;
+                    _filesDeletedSizeUsbErr = 0;
                 }
                 else
                 {
-                    sw.WriteLine("*** Sync Execute ***");
+                    sw.WriteLine("*** Sync Results ***");
                     sw.WriteLine("ACTION          \tMACHINE\t\t\tERROR\t\t\tUSB\t\t\tERROR");
 
                     sw.WriteLine("Files to COPY:  \t{0}\t[{1} bytes]\t{2}\t[{3} bytes]\t{4}\t[{5} bytes]\t{6}\t[{7} bytes]", _filesCopiedCntMachine, _filesCopiedSizeMachine, _filesCopiedCntMachineErr, _filesCopiedSizeMachineErr, _filesCopiedCntUsb, _filesCopiedSizeUsb, _filesCopiedCntUsbErr, _filesCopiedSizeUsbErr);
                     sw.WriteLine("Files to DELETE:\t{0}\t[{1} bytes]\t{2}\t[{3} bytes]\t{4}\t[{5} bytes]\t{6}\t[{7} bytes]", _filesDeletedCntMachine, _filesDeletedSizeMachine, _filesDeletedCntMachineErr, _filesDeletedSizeMachineErr, _filesDeletedCntUsb, _filesDeletedSizeUsb, _filesDeletedCntUsbErr, _filesDeletedSizeUsbErr);
                     sw.WriteLine("Files to RENAME:\t{0}\t[{1} bytes]\t{2}\t[{3} bytes]\t{4}\t[{5} bytes]\t{6}\t[{7} bytes]", _filesRenamedCntMachine, _filesRenamedSizeMachine, _filesRenamedCntMachineErr, _filesRenamedSizeMachineErr, _filesRenamedCntUsb, _filesRenamedSizeUsb, _filesRenamedCntUsbErr, _filesRenamedSizeUsbErr);                                        
-                    sw.WriteLine("********************");
+                    sw.WriteLine("*********************");
                     sw.WriteLine("Sync ended on {0}\t{1}", DateTime.Now.ToShortDateString(),
                                  DateTime.Now.ToLongTimeString());
                     sw.WriteLine("==END==============================================================");
@@ -154,7 +190,7 @@ namespace SyncSharp.Storage
             }
             catch (IOException e)
             {
-                Console.WriteLine(e.Message);
+                WriteErrorLog(e.Message);
                 return false;
 
                 //throw;
@@ -165,11 +201,12 @@ namespace SyncSharp.Storage
         public static bool WriteLog(int logType, string machineId, string syncTaskName, string machineSrcPath, long machineSrcSize, string machineDestPath, long machineDestSize, string usbSrcPath, long usbSrcSize, string usbDestPath, long usbDestSize, string errorMsg) 
         {
             FileStream currFile;
-            StreamWriter sw;
-      
+            StreamWriter sw;      
 
             if (machineId == null) throw new ArgumentNullException("machineId");
             if (syncTaskName == null) throw new ArgumentNullException("syncTaskName");
+            if (machineId.Equals(string.Empty)) throw new ArgumentException("Empty string passed", "machineId");
+            if (syncTaskName.Equals(string.Empty)) throw new ArgumentException("Empty string passed", "syncTaskName");
 
             try
             {
@@ -215,7 +252,6 @@ namespace SyncSharp.Storage
                         sw = new StreamWriter(currFile);                                                
 
                         break;
-
                     
                     case (int) LogType.CopyErr:
                     case (int) LogType.DeleteErr:
@@ -226,15 +262,11 @@ namespace SyncSharp.Storage
                         currFile = new FileStream(@".\Profiles\" + machineId + @"\Logs\Err\" + syncTaskName + ".log", FileMode.Append, FileAccess.Write, FileShare.Read);
                         sw = new StreamWriter(currFile);
 
-                        break;     
+                        break;       
                     default:
-                        di = new DirectoryInfo(@".\Profiles\" + machineId + @"\Logs\Err");
-                        di.Create();
                         currFile = new FileStream(@".\Profiles\" + machineId + @"\Logs\Err\" + syncTaskName + ".log", FileMode.Append, FileAccess.Write, FileShare.Read);
                         sw = new StreamWriter(currFile);
-                        return false;
-                        //break;
-
+                        break; 
                 }                                
     
                 switch (logType)
@@ -375,7 +407,7 @@ namespace SyncSharp.Storage
             }
             catch (IOException e)
             {
-                Console.WriteLine(e.Message);
+                WriteErrorLog(e.Message);
                 return false;
 
                 //throw;
@@ -411,7 +443,7 @@ namespace SyncSharp.Storage
                 }
                 catch (IOException e)
                 {
-                    Console.WriteLine(e.Message);
+                    WriteErrorLog(e.Message);
                     return false;
                 }
             }
@@ -448,7 +480,7 @@ namespace SyncSharp.Storage
 
             catch (IOException e)
             {
-                Console.WriteLine(e.Message);
+                WriteErrorLog(e.Message);
                 return null;
 
                 //throw;
@@ -456,6 +488,50 @@ namespace SyncSharp.Storage
 
             return retrievedLogEntry;
         }
+
+        //general program error log
+        public static bool WriteErrorLog(string errorMsg)
+        {
+            FileStream currFile;
+            StreamWriter sw;
+
+
+            if (errorMsg == null) throw new ArgumentNullException("errorMsg");
+            if (errorMsg.Equals(string.Empty)) throw new ArgumentException("Empty string passed", "errorMsg");            
+
+
+            try
+            {
+                DirectoryInfo di;
+
+                di = new DirectoryInfo(@".\ErrorLog");
+                di.Create();
+                currFile = new FileStream(@".\ErrorLog\err.log", FileMode.Append, FileAccess.Write, FileShare.Read);
+                sw = new StreamWriter(currFile);
+
+                //log entry format:
+                //|date|time|errorMsg
+                sw.WriteLine("{0}\t{1}\t{2}",
+                DateTime.Now.ToShortDateString(),
+                DateTime.Now.ToLongTimeString(), errorMsg);
+                
+                // Close StreamWriter
+                sw.Close();
+
+                // Close file
+                currFile.Close();
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+
+                //throw;
+            }
+            return true;
+
+        }
+  
         #endregion
     }
 }
