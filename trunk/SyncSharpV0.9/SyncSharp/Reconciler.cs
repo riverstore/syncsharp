@@ -740,7 +740,7 @@ namespace SyncSharp.Business
 					switch (_taskSettings.SrcTgtConflict)
 					{
 						case TaskSettings.ConflictSrcTgtAction.KeepBothCopies:
-							if ((sourceDirtyFile.LastWriteTime - destDirtyFile.LastWriteTime).Duration().TotalSeconds <= 2)
+							if (sourceDirtyFile.Hash.Equals(destDirtyFile.Hash))
 								return SyncAction.noAction;
 							else
 								return SyncAction.keepBothCopy;
