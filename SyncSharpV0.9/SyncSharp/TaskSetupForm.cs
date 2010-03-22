@@ -40,6 +40,8 @@ namespace SyncSharp.GUI
 			else
 				radBackup.Checked = true;
 			lblFileInclude.Text = currentTask.Settings.FilesInclusion;
+            if (lblFileInclude.Text.Equals(""))
+                lblFileInclude.Text = "*.*";
 			lblFileExclude.Text = currentTask.Settings.FilesExclusion;
 			if (lblFileExclude.Text.Equals(""))
 				lblFileExclude.Text = "None";
@@ -206,66 +208,66 @@ namespace SyncSharp.GUI
 			}
 		}
 
-		private bool CheckFolderPair()
-		{
-			string source = Environment.ExpandEnvironmentVariables(txtSource.Text);
-			string target = Environment.ExpandEnvironmentVariables(txtTarget.Text);
-      Source = source;
-			Target = target;
-      if (String.IsNullOrEmpty(source))
-			{
-				MessageBox.Show("Please provide a source directory.",
-						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return false;
-			}
+        private bool CheckFolderPair()
+        {
+            string source = Environment.ExpandEnvironmentVariables(txtSource.Text);
+            string target = Environment.ExpandEnvironmentVariables(txtTarget.Text);
+            Source = source;
+            Target = target;
+            if (String.IsNullOrEmpty(source))
+            {
+                MessageBox.Show("Please provide a source directory.",
+                        "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
-			if (String.IsNullOrEmpty(target))
-			{
-				MessageBox.Show("Please provide a destination directory.",
-						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return false;
-			}
+            if (String.IsNullOrEmpty(target))
+            {
+                MessageBox.Show("Please provide a target directory.",
+                        "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
-			if (!Directory.Exists(source))
-			{
-				MessageBox.Show("Source directory does not exist.",
-						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return false;
-			}
+            if (!Directory.Exists(source))
+            {
+                MessageBox.Show("Source directory does not exist.",
+                        "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
-			if (!Directory.Exists(target))
-			{
-				MessageBox.Show("Destination directory does not exist.",
-						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return false;
-			}
+            if (!Directory.Exists(target))
+            {
+                MessageBox.Show("Target directory does not exist.",
+                        "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
-			if (String.Equals(source, target))
-			{
-				MessageBox.Show("Source directory cannot be the same " +
-						"as the destination directory.",
-						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return false;
-			}
+            if (String.Equals(source, target))
+            {
+                MessageBox.Show("Source directory cannot be the same " +
+                        "as the target directory.",
+                        "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
-			if (source.StartsWith(target))
-			{
-				MessageBox.Show("Source directory cannot be a " +
-					 "subdirectory of the destination directory.",
-					 "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return false;
-			}
+            if (source.StartsWith(target + "\\"))
+            {
+                MessageBox.Show("Source directory cannot be a " +
+                     "subdirectory of the target directory.",
+                     "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
-			if (target.StartsWith(source))
-			{
-				MessageBox.Show("Destination directory cannot be a " +
-					 "subdirectory of the source directory.",
-					"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return false;
-			}
+            if (target.StartsWith(source + "\\"))
+            {
+                MessageBox.Show("Target directory cannot be a " +
+                     "subdirectory of the source directory.",
+                    "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
-			return true;
-		}
+            return true;
+        }
 
 		private void btnCancel_Click(object sender, EventArgs e)
 		{

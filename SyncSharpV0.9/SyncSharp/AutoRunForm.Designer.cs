@@ -116,9 +116,10 @@ namespace SyncSharp.GUI
             this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatus,
             this.progressBar});
-            this.statusBar.Location = new System.Drawing.Point(0, 302);
+            this.statusBar.Location = new System.Drawing.Point(0, 300);
+            this.statusBar.MinimumSize = new System.Drawing.Size(0, 24);
             this.statusBar.Name = "statusBar";
-            this.statusBar.Size = new System.Drawing.Size(524, 22);
+            this.statusBar.Size = new System.Drawing.Size(524, 24);
             this.statusBar.SizingGrip = false;
             this.statusBar.TabIndex = 1;
             this.statusBar.Text = "statusBar";
@@ -127,7 +128,7 @@ namespace SyncSharp.GUI
             // 
             this.lblStatus.Font = new System.Drawing.Font("Tahoma", 8.25F);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(509, 17);
+            this.lblStatus.Size = new System.Drawing.Size(509, 19);
             this.lblStatus.Spring = true;
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -136,7 +137,7 @@ namespace SyncSharp.GUI
             this.progressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.progressBar.MarqueeAnimationSpeed = 20;
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(100, 16);
+            this.progressBar.Size = new System.Drawing.Size(100, 18);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar.Visible = false;
             // 
@@ -147,12 +148,12 @@ namespace SyncSharp.GUI
             this.colSource,
             this.colTarget});
             this.lvTaskList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvTaskList.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.lvTaskList.ForeColor = System.Drawing.Color.Blue;
             this.lvTaskList.FullRowSelect = true;
             this.lvTaskList.Location = new System.Drawing.Point(0, 0);
             this.lvTaskList.MultiSelect = false;
             this.lvTaskList.Name = "lvTaskList";
-            this.lvTaskList.Size = new System.Drawing.Size(465, 302);
+            this.lvTaskList.Size = new System.Drawing.Size(465, 300);
             this.lvTaskList.TabIndex = 2;
             this.lvTaskList.UseCompatibleStateImageBehavior = false;
             this.lvTaskList.View = System.Windows.Forms.View.Details;
@@ -189,7 +190,7 @@ namespace SyncSharp.GUI
             this.splitContainer1.Panel2.Controls.Add(this.btnDown);
             this.splitContainer1.Panel2.Controls.Add(this.btnUp);
             this.splitContainer1.Panel2.Controls.Add(this.btnCancel);
-            this.splitContainer1.Size = new System.Drawing.Size(524, 302);
+            this.splitContainer1.Size = new System.Drawing.Size(524, 300);
             this.splitContainer1.SplitterDistance = 465;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 3;
