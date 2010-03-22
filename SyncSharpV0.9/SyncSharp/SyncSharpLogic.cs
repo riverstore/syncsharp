@@ -26,9 +26,18 @@ namespace SyncSharp.Business
 			if (checkProfileExists(ID))
 			{
 				Stream str = File.OpenRead(@".\Profiles\" + ID + @"\" + ID);
-				BinaryFormatter formatter = new BinaryFormatter();
-				currentProfile = (SyncProfile)formatter.Deserialize(str);
-				str.Close();
+				try
+				{
+					BinaryFormatter formatter = new BinaryFormatter();
+					currentProfile = (SyncProfile)formatter.Deserialize(str);
+					str.Close();
+				}
+				catch
+				{
+					str.Close();
+					File.Delete(@".\Profiles\" + ID + @"\" + ID);
+					currentProfile = new SyncProfile(ID);
+				}
 			}
 			else
 			{
@@ -118,7 +127,7 @@ namespace SyncSharp.Business
 					}
 
 				}
-				catch (Exception e)
+				catch
 				{
 					this.updateSyncTaskResult(curTask, "Unsuccessful");
 				}
@@ -224,13 +233,13 @@ namespace SyncSharp.Business
 
 		public void modifySelectedTask(string name)
 		{
-			TaskSetupForm form = new TaskSetupForm(currentProfile,currentProfile.getTask(name));
+			TaskSetupForm form = new TaskSetupForm(currentProfile, currentProfile.getTask(name));
 			form.ShowDialog();
 		}
 
 		public void renameSelectedTask(string name)
 		{
-			RenameTaskForm form = new RenameTaskForm(currentProfile,currentProfile.getTask(name));
+			RenameTaskForm form = new RenameTaskForm(currentProfile, currentProfile.getTask(name));
 			form.ShowDialog();
 		}
 
@@ -328,32 +337,40 @@ namespace SyncSharp.Business
 
 		public void importProfile(string fileName)
 		{
-			SyncProfile importedProfile;
 			Stream str = File.OpenRead(fileName);
-			BinaryFormatter formatter = new BinaryFormatter();
-			importedProfile = (SyncProfile)formatter.Deserialize(str);
-			str.Close();
-			if (!importedProfile.ID.Equals(currentProfile.ID))
+			try
 			{
-				MessageBox.Show("The selected profile was not created on this computer. " +
-								 "\nOnly SyncTask's with valid source/target paths will be imported",
-								 "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			foreach (SyncTask item in importedProfile.TaskCollection)
-			{
-				if (!currentProfile.taskExists(item.Name))
+				SyncProfile importedProfile;
+				BinaryFormatter formatter = new BinaryFormatter();
+				importedProfile = (SyncProfile)formatter.Deserialize(str);
+				str.Close();
+				if (!importedProfile.ID.Equals(currentProfile.ID))
 				{
-					if (Directory.Exists(item.Source) && Directory.Exists(item.Target))
-						currentProfile.addTask(item);
+					MessageBox.Show("The selected profile was not created on this computer. " +
+									 "\nOnly SyncTask's with valid source/target paths will be imported",
+									 "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
-				else
+				foreach (SyncTask item in importedProfile.TaskCollection)
 				{
-					if (Directory.Exists(item.Source) && Directory.Exists(item.Target))
+					if (!currentProfile.taskExists(item.Name))
 					{
-						item.Name = item.Name + " - Imported";
-						currentProfile.addTask(item);
+						if (Directory.Exists(item.Source) && Directory.Exists(item.Target))
+							currentProfile.addTask(item);
+					}
+					else
+					{
+						if (Directory.Exists(item.Source) && Directory.Exists(item.Target))
+						{
+							item.Name = item.Name + " - Imported";
+							currentProfile.addTask(item);
+						}
 					}
 				}
+			}
+			catch
+			{
+				str.Close();
+				MessageBox.Show("Selected SyncProfile is not valid", "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 

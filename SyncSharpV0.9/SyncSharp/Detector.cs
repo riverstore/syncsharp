@@ -53,8 +53,8 @@ namespace SyncSharp.Business
 			tCleanDirs = new CustomDictionary<string, string, FileUnit>();
 			task = syncTask;
 			sMetaData = SyncMetaData.ReadMetaData(@".\Profiles\" + machineID + @"\" + syncTask.Name + "src.meta");
-            //tMetaData = SyncMetaData.ReadMetaData(@".\Profiles\" + machineID + @"\" + syncTask.Name + "src.meta");
-            tMetaData = SyncMetaData.ReadMetaData(@".\Profiles\" + machineID + @"\" + syncTask.Name + "tgt.meta");
+			//tMetaData = SyncMetaData.ReadMetaData(@".\Profiles\" + machineID + @"\" + syncTask.Name + "src.meta");
+			tMetaData = SyncMetaData.ReadMetaData(@".\Profiles\" + machineID + @"\" + syncTask.Name + "tgt.meta");
 			srcDirtySize = 0;
 			tgtDirtySize = 0;
 		}
@@ -104,8 +104,8 @@ namespace SyncSharp.Business
 					{
 						FileStream stream = File.OpenRead(fileName);
 						stream.Close();
-                        if (!task.Filters.isFileExcluded(new FileInfo(fileName)))
-                            srcFiles.Add(new FileUnit(fileName));
+						if (!task.Filters.isFileExcluded(new FileInfo(fileName)))
+							srcFiles.Add(new FileUnit(fileName));
 					}
 					catch
 					{
@@ -120,6 +120,10 @@ namespace SyncSharp.Business
 					{
 						stack.Push(folderName);
 						srcFiles.Add(new FileUnit(folderName));
+					}
+					else
+					{
+						sMetaData.removeByPrimary(folderName);
 					}
 				}
 			}
@@ -136,7 +140,7 @@ namespace SyncSharp.Business
 					{
 						FileStream stream = File.OpenRead(fileName);
 						stream.Close();
-                        if (!task.Filters.isFileExcluded(new FileInfo(fileName)))
+						if (!task.Filters.isFileExcluded(new FileInfo(fileName)))
 							destFiles.Add(new FileUnit(fileName));
 					}
 					catch
@@ -152,6 +156,10 @@ namespace SyncSharp.Business
 					{
 						stack.Push(folderName);
 						destFiles.Add(new FileUnit(folderName));
+					}
+					else
+					{
+						tMetaData.removeByPrimary(folderName);
 					}
 				}
 			}
