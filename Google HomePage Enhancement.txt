@@ -1,5 +1,5 @@
 
-Google Code Homepage Enchancement
+Google Code Homepage Enhancement
 =================================
 
 *add in screen shot to explain how our product works
