@@ -1,0 +1,18 @@
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\ThePropertiesApproach\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\ThePropertiesApproach\obj\Debug\ThePropertiesApproach.Properties.Resources.resources
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\ThePropertiesApproach\obj\Debug\ThePropertiesApproach.csproj.GenerateResource.Cache
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\ThePropertiesApproach\obj\Debug\ThePropertiesApproach.AddTaskForm.resources
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\ThePropertiesApproach\obj\Debug\ThePropertiesApproach.DisplayTaskForm.resources
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\ThePropertiesApproach\bin\Debug\ThePropertiesApproach.exe
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\ThePropertiesApproach\bin\Debug\ThePropertiesApproach.pdb
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\ThePropertiesApproach\obj\Debug\ThePropertiesApproach.exe
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\ThePropertiesApproach\obj\Debug\ThePropertiesApproach.pdb
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\ThePropertiesApproach\bin\Debug\ThePropertiesApproach.exe
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\ThePropertiesApproach\bin\Debug\ThePropertiesApproach.pdb
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\ThePropertiesApproach\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\ThePropertiesApproach\obj\Debug\ThePropertiesApproach.AddTaskForm.resources
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\ThePropertiesApproach\obj\Debug\ThePropertiesApproach.DisplayTaskForm.resources
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\ThePropertiesApproach\obj\Debug\ThePropertiesApproach.Properties.Resources.resources
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\ThePropertiesApproach\obj\Debug\ThePropertiesApproach.csproj.GenerateResource.Cache
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\ThePropertiesApproach\obj\Debug\ThePropertiesApproach.exe
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\ThePropertiesApproach\obj\Debug\ThePropertiesApproach.pdb
