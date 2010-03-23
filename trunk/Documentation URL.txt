@@ -1,7 +1,0 @@
-user guide
-
-http://docs.google.com/fileview?id=0B0IGcSTDGnluNjFjZjBlZmYtMjg3Zi00MjAwLWI0YTEtZTM4ZWJkYmZhZTVi&hl=
-
-developer guide
-
-http://docs.google.com/fileview?id=0B0IGcSTDGnluNTJmYmZkNTAtYjA0Zi00NmQ3LWI3MDQtZDZkZTU4NWQwY2U4&hl=en
