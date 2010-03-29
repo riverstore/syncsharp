@@ -153,7 +153,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.btnCancel);
             this.splitContainer1.Panel2.Controls.Add(this.btnAccept);
             this.splitContainer1.Size = new System.Drawing.Size(472, 466);
-            this.splitContainer1.SplitterDistance = 412;
+            this.splitContainer1.SplitterDistance = 416;
             this.splitContainer1.TabIndex = 0;
             // 
             // tcTaskSetup
@@ -172,7 +172,7 @@
             this.tcTaskSetup.Multiline = true;
             this.tcTaskSetup.Name = "tcTaskSetup";
             this.tcTaskSetup.SelectedIndex = 0;
-            this.tcTaskSetup.Size = new System.Drawing.Size(472, 412);
+            this.tcTaskSetup.Size = new System.Drawing.Size(472, 416);
             this.tcTaskSetup.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tcTaskSetup.TabIndex = 0;
             // 
@@ -185,7 +185,7 @@
             this.tpGeneral.Location = new System.Drawing.Point(4, 44);
             this.tpGeneral.Name = "tpGeneral";
             this.tpGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tpGeneral.Size = new System.Drawing.Size(464, 364);
+            this.tpGeneral.Size = new System.Drawing.Size(464, 368);
             this.tpGeneral.TabIndex = 7;
             this.tpGeneral.Text = "General";
             this.tpGeneral.UseVisualStyleBackColor = true;

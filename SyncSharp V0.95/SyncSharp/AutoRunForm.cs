@@ -78,7 +78,6 @@ namespace SyncSharp.GUI
 		private void btnCancel_Click(object sender, EventArgs e)
 		{
 			myTimer.Dispose();
-            Thread.Sleep(10);
             Close();
 		}
 

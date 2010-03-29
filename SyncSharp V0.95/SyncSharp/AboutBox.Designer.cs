@@ -55,11 +55,11 @@
             this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 5;
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.63704F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.63704F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.63704F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52.0711F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.01778F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.63924F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.63924F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.63924F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.00944F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.07285F));
             this.tableLayoutPanel.Size = new System.Drawing.Size(402, 212);
             this.tableLayoutPanel.TabIndex = 0;
             // 
@@ -95,7 +95,7 @@
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(261, 17);
             this.labelVersion.TabIndex = 0;
-            this.labelVersion.Text = "Version: 0.9";
+            this.labelVersion.Text = "Version: 0.95";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelCopyright
@@ -117,7 +117,7 @@
             this.labelNames.Location = new System.Drawing.Point(138, 72);
             this.labelNames.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
             this.labelNames.Name = "labelNames";
-            this.labelNames.Size = new System.Drawing.Size(261, 110);
+            this.labelNames.Size = new System.Drawing.Size(261, 106);
             this.labelNames.TabIndex = 0;
             this.labelNames.Text = "Loh Jianxiong Christopher\r\nHong Lei\r\nTan Yew Kang\r\nTian Shuang\r\nAzhar Mohamed Yas" +
                 "in\r\nGuo Jiayuan";

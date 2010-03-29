@@ -20,7 +20,8 @@ namespace SyncSharp.GUI
                 components.Dispose();
             }
 
-            base.Dispose(disposing);
+            if (this.IsHandleCreated)
+                base.Dispose(disposing);
         }
 
         private const int CP_NOCLOSE_BUTTON = 0x200;

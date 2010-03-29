@@ -72,7 +72,7 @@ namespace SyncSharp.GUI
                 return false;
             }
 
-            if (logic.Profile.isFolderPairsExists("", source, target))
+            if (logic.Profile.isFolderPairExists(source, target))
             {
                 MessageBox.Show("Source & target directories have been defined in another task." +
                     "\nPlease select a different source or target directory.",
@@ -141,8 +141,8 @@ namespace SyncSharp.GUI
                 String root = Path.GetPathRoot(Directory.GetCurrentDirectory());
                 root = root.Substring(0, 1);
 
-                source = source.TrimEnd(new char[] { '\\' });
-                target = target.TrimEnd(new char[] { '\\' });
+                //source = source.TrimEnd(new char[] { '\\' });
+                //target = target.TrimEnd(new char[] { '\\' });
 
                 SyncTask task = new SyncTask(txtName.Text.Trim(), source, target, radSync.Checked,
                                             source.StartsWith(root), target.StartsWith(root),
