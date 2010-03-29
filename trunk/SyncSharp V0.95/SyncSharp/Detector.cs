@@ -144,8 +144,8 @@ namespace SyncSharp.Business
 
         public bool isSynchronized()
         {
-            return (sDirtyFiles.Primary.Count == 0 && tDirtyFiles.Primary.Count == 0 && sDirtyDirs.Primary.Count == 0 &&
-                            tDirtyDirs.Primary.Count == 0);
+            return (sDirtyFiles.Primary.Count == 0 && tDirtyFiles.Primary.Count == 0 && 
+                sDirtyDirs.Primary.Count == 0 && tDirtyDirs.Primary.Count == 0);
         }
 
         public bool metaDataExists()
@@ -155,8 +155,8 @@ namespace SyncSharp.Business
 
         public void compareFolders()
         {
-            int sRevPathLen = task.Source.Length;
-            int tRevPathLen = task.Target.Length;
+            int sRevPathLen = (task.Source.EndsWith("\\")) ? task.Source.Length -1 : task.Source.Length;
+            int tRevPathLen = (task.Target.EndsWith("\\")) ? task.Target.Length -1 : task.Target.Length;
 
             Stack<string> stack = new Stack<string>();
 

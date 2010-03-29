@@ -77,17 +77,15 @@ namespace SyncSharp.Storage
 			return false;
 		}
 
-        public bool isFolderPairsExists(string name, string newSource, string newTarget)
+        public bool isFolderPairExists(string newSource, string newTarget)
         {
             StringComparison ignoreCase = StringComparison.CurrentCultureIgnoreCase;
             foreach (SyncTask task in taskCollection)
             {
-                if (task.Name.ToUpper().Equals(name.ToUpper().Trim())) continue;
-
-                if ((task.Source.Equals(newSource, ignoreCase) || 
-                    task.Source.Equals(newTarget, ignoreCase)) && 
-                    (task.Target.Equals(newSource, ignoreCase) ||
-                    task.Target.Equals(newTarget,ignoreCase)))
+                if ((task.Source.Equals(newSource, ignoreCase) && 
+                    task.Target.Equals(newTarget, ignoreCase)) ||
+                    (task.Source.Equals(newTarget, ignoreCase) && 
+                    task.Target.Equals(newSource, ignoreCase))) 
                     return true;
             }
             return false;

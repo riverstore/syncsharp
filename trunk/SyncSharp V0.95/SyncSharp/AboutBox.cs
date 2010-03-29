@@ -15,7 +15,7 @@ namespace SyncSharp.GUI
 			InitializeComponent();
 			Text = "About SyncSharp";
 			labelProductName.Text = "SyncSharp";
-			labelVersion.Text = "Version 0.9";
+			labelVersion.Text = "Version 0.95";
 			labelCopyright.Text = "Copyright © Excalibur 2010. All rights reserved.";
 		}
 	}

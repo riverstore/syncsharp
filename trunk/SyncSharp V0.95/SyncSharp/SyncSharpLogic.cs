@@ -357,26 +357,23 @@ namespace SyncSharp.Business
                 }
                 foreach (SyncTask item in importedProfile.TaskCollection)
                 {
+                    if (!Directory.Exists(item.Source) || !Directory.Exists(item.Target) ||
+                         currentProfile.isFolderPairExists(item.Source, item.Target))
+                        continue;
+
                     if (!currentProfile.taskExists(item.Name))
-                    {
-                        if (Directory.Exists(item.Source) && Directory.Exists(item.Target) && 
-                            !currentProfile.isFolderPairsExists(item.Name, item.Source, item.Target))
-                            currentProfile.addTask(item);
-                    }
+                        currentProfile.addTask(item);
                     else
                     {
-                        if (Directory.Exists(item.Source) && Directory.Exists(item.Target))
+                        item.Name = item.Name + " - Imported(1)";
+                        for (int i = 1; true; i++)
                         {
-                            item.Name = item.Name + " - Imported(1)";
-                            for (int i = 1; true; i++)
+                            item.Name = item.Name.Substring(0, item.Name.LastIndexOf("(") + 1);
+                            item.Name = item.Name + i + ")";
+                            if (!currentProfile.taskExists(item.Name))
                             {
-                                item.Name = item.Name.Substring(0, item.Name.LastIndexOf("(") + 1);
-                                item.Name = item.Name + i + ")";
-                                if (!currentProfile.taskExists(item.Name))
-                                {
-                                    currentProfile.addTask(item);
-                                    break;
-                                }
+                                currentProfile.addTask(item);
+                                break;
                             }
                         }
                     }
@@ -384,7 +381,8 @@ namespace SyncSharp.Business
             }
             catch
             {
-                MessageBox.Show("Selected SyncProfile is not valid", "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Selected SyncProfile is not valid", "SyncSharp", 
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
