@@ -277,5 +277,31 @@ namespace SyncSharp.GUI
             if (e.KeyCode == Keys.Space)
                 e.SuppressKeyPress = true;
         }
+
+        private void SetTreeNodeImageIndex(TreeViewEventArgs e, int index)
+        {
+            if (e.Action != TreeViewAction.Unknown)
+                e.Node.SelectedImageIndex = e.Node.ImageIndex = index;
+        }
+
+        private void srcTreeView_AfterCollapse(object sender, TreeViewEventArgs e)
+        {
+            SetTreeNodeImageIndex(e, 0);
+        }
+
+        private void srcTreeView_AfterExpand(object sender, TreeViewEventArgs e)
+        {
+            SetTreeNodeImageIndex(e, 1);
+        }
+
+        private void tarTreeView_AfterCollapse(object sender, TreeViewEventArgs e)
+        {
+            SetTreeNodeImageIndex(e, 0);
+        }
+
+        private void tarTreeView_AfterExpand(object sender, TreeViewEventArgs e)
+        {
+            SetTreeNodeImageIndex(e, 1);
+        }
 	}
 }
