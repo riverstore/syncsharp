@@ -175,8 +175,10 @@ namespace SyncSharp.Business
                     {
                         FileInfo srcFileInfo = new FileInfo(srcFile);
                         FileInfo tgtFileInfo = new FileInfo(tgtFile);
+												FileUnit srcFileUnit = new FileUnit(srcFileInfo.FullName);
+												FileUnit tgtFileUnit = new FileUnit(tgtFileInfo.FullName);
 
-                        if (srcFileInfo.LastWriteTimeUtc != tgtFileInfo.LastWriteTimeUtc)
+                        if (Utility.computeMyHash(srcFileUnit) != Utility.computeMyHash(tgtFileUnit))
                         {
                             File.Copy(srcFile, tgtFile, true);
                             _summary.iSrcFileCopy++; _summary.iTgtFileOverwrite++;
@@ -460,33 +462,52 @@ namespace SyncSharp.Business
                         {
                             if (_taskSettings.FolderConflict == TaskSettings.ConflictFolderAction.KeepSourceName)
                             {
-                                FileUnit folderMeta = new FileUnit(_srcPath + srcFilePath);
-                                if (_srcDirtyFoldersList.containsPriKey(tgtFilePath))
-                                    _srcDirtyFoldersList.removeByPrimary(tgtFilePath);
-                                _srcDirtyFoldersList.add(tgtFilePath, "D-" + tgtFilePath, folderMeta);
-                                if (_tgtDirtyFoldersList.containsPriKey(tgtFilePath))
-                                    _tgtDirtyFoldersList.removeByPrimary(tgtFilePath);
-                                _tgtDirtyFoldersList.add(tgtFilePath, "D-" + tgtFilePath, folderMeta);
-                                checkAndCreateFolder(_tgtPath + relativePath);
-                                File.Move(_tgtPath + createFilePath, _tgtPath + tgtFilePath + relativePath.Substring(iTgtSlash));
-                                _updatedList.add(tgtFilePath + relativePath.Substring(iTgtSlash), tgtFile.Hash.Substring(2), tgtFile);
-                                tgtFilePath = srcFilePath;
+                                if (!srcFlag.Equals("D"))
+                                {
+                                    checkAndCreateFolder(_tgtPath + relativePath);  
+                                    FileUnit folderMeta = new FileUnit(_srcPath + srcFilePath);
+                                    if (_srcDirtyFoldersList.containsPriKey(tgtFilePath))
+                                        _srcDirtyFoldersList.removeByPrimary(tgtFilePath);
+                                    _srcDirtyFoldersList.add(tgtFilePath, "D-" + tgtFilePath, folderMeta);
+                                    if (_tgtDirtyFoldersList.containsPriKey(tgtFilePath))
+                                        _tgtDirtyFoldersList.removeByPrimary(tgtFilePath);
+                                    _tgtDirtyFoldersList.add(tgtFilePath, "D-" + tgtFilePath, folderMeta);
+                                    File.Move(_tgtPath + createFilePath, _tgtPath + tgtFilePath + relativePath.Substring(iTgtSlash));
+                                    tgtFilePath = srcFilePath;
+                                }
+                                else
+                                {
+                                    srcFilePath = tgtFilePath;
+                                }
+                                if (!srcFlag.Equals("M"))
+                                    _updatedList.add(tgtFilePath + relativePath.Substring(iTgtSlash), tgtFile.Hash.Substring(2), tgtFile);
+                               
                             }
                             else
                             {
-                                FileUnit folderMeta = new FileUnit(_tgtPath + tgtFilePath);
-                                if (_srcDirtyFoldersList.containsPriKey(srcFilePath))
-                                    _srcDirtyFoldersList.removeByPrimary(srcFilePath);
-                                if (_tgtDirtyFoldersList.containsPriKey(srcFilePath))
-                                    _tgtDirtyFoldersList.removeByPrimary(srcFilePath);
-                                _srcDirtyFoldersList.add(srcFilePath, "D-" + srcFilePath, folderMeta);
-                                _tgtDirtyFoldersList.add(srcFilePath, "D-" + srcFilePath, folderMeta);
-                                checkAndCreateFolder(_srcPath + createFilePath);
-                                File.Move(_srcPath + relativePath, _srcPath + tgtFilePath + relativePath.Substring(iSrcSlash));
-                                _updatedList.add(tgtFilePath + relativePath.Substring(iSrcSlash), srcFile.Hash.Substring(2), srcFile);
-                                srcFilePath = tgtFilePath;
+                                if (!srcFlag.Equals("D"))
+                                {
+                                    checkAndCreateFolder(_srcPath + createFilePath);
+                                    FileUnit folderMeta = new FileUnit(_tgtPath + tgtFilePath);
+                                    if (_srcDirtyFoldersList.containsPriKey(srcFilePath))
+                                        _srcDirtyFoldersList.removeByPrimary(srcFilePath);
+                                    if (_tgtDirtyFoldersList.containsPriKey(srcFilePath))
+                                        _tgtDirtyFoldersList.removeByPrimary(srcFilePath);
+                                    _srcDirtyFoldersList.add(srcFilePath, "D-" + srcFilePath, folderMeta);
+                                    _tgtDirtyFoldersList.add(srcFilePath, "D-" + srcFilePath, folderMeta);
+                                    File.Move(_srcPath + relativePath, _srcPath + tgtFilePath + relativePath.Substring(iSrcSlash));
+                                    srcFilePath = tgtFilePath;
+                                }
+                                else
+                                {
+                                    tgtFilePath = srcFilePath;
+                                }
+                                if (!srcFlag.Equals("M"))
+                                    _updatedList.add(tgtFilePath + relativePath.Substring(iSrcSlash), srcFile.Hash.Substring(2), srcFile);
+                                
                             }
                         }
+                        if (srcFlag == "D") _updatedList.removeByPrimary(createFilePath);
                         executeSyncAction(srcFile, tgtFile, srcFlag, "C", _srcPath + srcFilePath, _tgtPath + tgtFilePath);
                         _tgtDirtyFilesList.removeByPrimary(createFilePath);
                     }
