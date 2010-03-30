@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using SyncSharp.Storage;
+using System.Text.RegularExpressions;
 
 namespace SyncSharp.GUI
 {
@@ -15,15 +16,15 @@ namespace SyncSharp.GUI
 	{
 		SyncProfile currentProfile;
 		SyncTask currentTask;
-        string metaDataDir;
+		string metaDataDir;
 
 		public RenameTaskForm(SyncProfile profile, SyncTask task, string metaDataDir)
 		{
 			InitializeComponent();
 
-            currentProfile = profile;
-            currentTask = task;
-            this.metaDataDir = metaDataDir;
+			currentProfile = profile;
+			currentTask = task;
+			this.metaDataDir = metaDataDir;
 		}
 
 		private void btnCancel_Click(object sender, EventArgs e)
@@ -33,32 +34,39 @@ namespace SyncSharp.GUI
 
 		private void btnAccept_Click(object sender, EventArgs e)
 		{
-            if (currentProfile.taskExists(txtNewName.Text.Trim()))
-            {
-                MessageBox.Show("Task name '" + txtNewName.Text.Trim() +
-                    "' already exists, please choose a unique name",
-                    "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else if (txtNewName.Text.Trim().Equals(""))
-            {
-                MessageBox.Show("Please enter a task name",
-                    "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else
-            {
-                if (File.Exists(metaDataDir + @"\" + currentTask.Name + "src.meta"))
-                    File.Move(metaDataDir + @"\" + currentTask.Name + "src.meta",
-                        metaDataDir + @"\" + txtNewName.Text.Trim() + "src.meta");
-                if (File.Exists(metaDataDir + @"\" + currentTask.Name + "tgt.meta"))
-                    File.Move(metaDataDir + @"\" + currentTask.Name + "tgt.meta",
-                        metaDataDir + @"\" + txtNewName.Text.Trim() + "tgt.meta");
-                if (File.Exists(metaDataDir + @"\" + currentTask.Name + ".log"))
-                    File.Move(metaDataDir + @"\" + currentTask.Name + ".log",
-                        metaDataDir + @"\" + txtNewName.Text.Trim() + ".log");
+			string invalidChars = Regex.Escape(new string(Path.GetInvalidFileNameChars()));
+			invalidChars = string.Format(@"[{0}]", invalidChars);
+			if (currentProfile.taskExists(txtNewName.Text.Trim()))
+			{
+				MessageBox.Show("Task name '" + txtNewName.Text.Trim() +
+						"' already exists, please choose a unique name",
+						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			else if (txtNewName.Text.Trim().Equals(""))
+			{
+				MessageBox.Show("Please enter a task name",
+						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			else if (Regex.IsMatch(txtNewName.Text.Trim(), invalidChars))
+			{
+				MessageBox.Show(@"Task name cannot contain \ / : * ? < > | characters.",
+							 "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			else
+			{
+				if (File.Exists(metaDataDir + @"\" + currentTask.Name + "src.meta"))
+					File.Move(metaDataDir + @"\" + currentTask.Name + "src.meta",
+							metaDataDir + @"\" + txtNewName.Text.Trim() + "src.meta");
+				if (File.Exists(metaDataDir + @"\" + currentTask.Name + "tgt.meta"))
+					File.Move(metaDataDir + @"\" + currentTask.Name + "tgt.meta",
+							metaDataDir + @"\" + txtNewName.Text.Trim() + "tgt.meta");
+				if (File.Exists(metaDataDir + @"\" + currentTask.Name + ".log"))
+					File.Move(metaDataDir + @"\" + currentTask.Name + ".log",
+							metaDataDir + @"\" + txtNewName.Text.Trim() + ".log");
 
-                currentTask.Name = txtNewName.Text.Trim();
-                this.Close();
-            }
+				currentTask.Name = txtNewName.Text.Trim();
+				this.Close();
+			}
 		}
 	}
 }
