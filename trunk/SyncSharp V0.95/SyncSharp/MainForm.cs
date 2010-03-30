@@ -55,16 +55,17 @@ namespace SyncSharp.GUI
 			get { return taskListView; }
 		}
 
-		private void MainForm_Load(object sender, EventArgs e)
-		{
-			ShowProgress(false);
-			lblStatus.Text = "Ready";
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            ShowProgress(false);
+            lblStatus.Text = "Ready";
 
-            for (int i = 4; i <= 5; i++)
-                taskListView.AutoResizeColumn(i, ColumnHeaderAutoResizeStyle.ColumnContent);
-						if (taskListView.Columns[4].Width < MIN_WIDTH) taskListView.Columns[4].Width = MIN_WIDTH;
-						if (taskListView.Columns[5].Width < MIN_WIDTH) taskListView.Columns[5].Width = MIN_WIDTH;
-		}
+            if (logicController.Profile.TaskCollection.Count > 0)
+            {
+                for (int i = 4; i <= 5; i++)
+                    taskListView.AutoResizeColumn(i, ColumnHeaderAutoResizeStyle.ColumnContent);
+            }
+        }
 
 		private void modifyMenuItem_Click(object sender, EventArgs e)
 		{
@@ -382,9 +383,14 @@ namespace SyncSharp.GUI
         {
             if (e.NewWidth < MIN_WIDTH)
             {
-								e.Cancel = true;
+                e.Cancel = true;
                 e.NewWidth = taskListView.Columns[e.ColumnIndex].Width;
             }
+        }
+
+        private void taskListView_DoubleClick(object sender, EventArgs e)
+        {
+            btnModify_Click(sender, e);
         }
 	}
 }

@@ -35,6 +35,9 @@ namespace SyncSharp.GUI
 			srcTreeView.Nodes.Add(currentTask.Source);
 			tarTreeView.Nodes.Add(currentTask.Target);
 
+            srcTreeView.ImageList = imageList;
+            tarTreeView.ImageList = imageList;
+
 			initSourceTreeView = new PopulateTreeViewCallback(PopulateTreeView);
 			initTargetTreeView = new PopulateTreeViewCallback(PopulateTreeView);
 		}
@@ -89,6 +92,7 @@ namespace SyncSharp.GUI
 						string substringDir = Path.GetFileName(dir);
 
 						TreeNode myNode = new TreeNode(substringDir);
+                        myNode.ImageIndex = 0;
 						parentNode.Nodes.Add(myNode);
 
 						paths.Push(dir);

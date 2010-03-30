@@ -9,10 +9,11 @@ namespace SyncSharp.Storage
 
 	public static class Logger
 	{
-		static TextWriter logText;
+		public static TextWriter logText;
 		public static void CreateLog(String strFileLog)
 		{
-			logText = new StreamWriter(strFileLog);
+            CloseLog();
+            logText = new StreamWriter(strFileLog, true);
 		}
 
 		public static void WriteEntry(String strEntry)

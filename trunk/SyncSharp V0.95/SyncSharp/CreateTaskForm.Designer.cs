@@ -131,7 +131,6 @@
             this.txtTarget.BackColor = System.Drawing.SystemColors.Window;
             this.txtTarget.Location = new System.Drawing.Point(9, 92);
             this.txtTarget.Name = "txtTarget";
-            this.txtTarget.ReadOnly = true;
             this.txtTarget.Size = new System.Drawing.Size(406, 21);
             this.txtTarget.TabIndex = 4;
             this.toolTip.SetToolTip(this.txtTarget, "Enter your target directory here. You can use environment variables like %HOMEPAT" +
@@ -153,7 +152,6 @@
             this.txtSource.BackColor = System.Drawing.SystemColors.Window;
             this.txtSource.Location = new System.Drawing.Point(9, 43);
             this.txtSource.Name = "txtSource";
-            this.txtSource.ReadOnly = true;
             this.txtSource.Size = new System.Drawing.Size(406, 21);
             this.txtSource.TabIndex = 2;
             this.toolTip.SetToolTip(this.txtSource, "Enter your source directory here. You can use environment variables like %HOMEPAT" +
@@ -228,7 +226,7 @@
             this.btnAbort.Image = ((System.Drawing.Image)(resources.GetObject("btnAbort.Image")));
             this.btnAbort.Location = new System.Drawing.Point(395, 3);
             this.btnAbort.Name = "btnAbort";
-            this.btnAbort.Size = new System.Drawing.Size(75, 23);
+            this.btnAbort.Size = new System.Drawing.Size(75, 25);
             this.btnAbort.TabIndex = 0;
             this.btnAbort.Text = "Abort";
             this.btnAbort.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -240,7 +238,7 @@
             this.btnAccept.Image = ((System.Drawing.Image)(resources.GetObject("btnAccept.Image")));
             this.btnAccept.Location = new System.Drawing.Point(314, 3);
             this.btnAccept.Name = "btnAccept";
-            this.btnAccept.Size = new System.Drawing.Size(75, 23);
+            this.btnAccept.Size = new System.Drawing.Size(75, 25);
             this.btnAccept.TabIndex = 0;
             this.btnAccept.Text = "OK";
             this.btnAccept.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

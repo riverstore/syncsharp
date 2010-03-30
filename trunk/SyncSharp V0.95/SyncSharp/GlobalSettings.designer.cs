@@ -44,9 +44,9 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("btnCancel.Image")));
-            this.btnCancel.Location = new System.Drawing.Point(192, 140);
+            this.btnCancel.Location = new System.Drawing.Point(197, 140);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(80, 25);
+            this.btnCancel.Size = new System.Drawing.Size(75, 25);
             this.btnCancel.TabIndex = 8;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -57,9 +57,9 @@
             // btnAccept
             // 
             this.btnAccept.Image = ((System.Drawing.Image)(resources.GetObject("btnAccept.Image")));
-            this.btnAccept.Location = new System.Drawing.Point(106, 140);
+            this.btnAccept.Location = new System.Drawing.Point(116, 140);
             this.btnAccept.Name = "btnAccept";
-            this.btnAccept.Size = new System.Drawing.Size(80, 25);
+            this.btnAccept.Size = new System.Drawing.Size(75, 25);
             this.btnAccept.TabIndex = 7;
             this.btnAccept.Text = "OK";
             this.btnAccept.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -291,23 +291,7 @@ namespace SyncSharp.GUI
 		{
 			if (CheckFolderPair())
 			{
-				if (String.Compare(currentTask.Source, source, true) != 0 ||
-						String.Compare(currentTask.Target, target, true) != 0)
-				{
-					if (String.Compare(currentTask.Source, target, true) == 0 &&
-					String.Compare(currentTask.Target, source, true) == 0)
-					{
-						List<String> temp = currentTask.Filters.SourceFolderExcludeList;
-						currentTask.Filters.SourceFolderExcludeList = currentTask.Filters.TargetFolderExcludeList;
-						currentTask.Filters.TargetFolderExcludeList = temp;
-					}
-					else
-					{
-						currentTask.Filters.SourceFolderExcludeList.Clear();
-						currentTask.Filters.TargetFolderExcludeList.Clear();
-					}
-
-				}
+                UpdateFolderFilters();
 
 				SaveUserSettings();
 				this.Close();
@@ -319,6 +303,27 @@ namespace SyncSharp.GUI
 				txtSource.Focus();
 			}
 		}
+
+        private void UpdateFolderFilters()
+        {
+            if (String.Compare(currentTask.Source, source, true) != 0 ||
+                                String.Compare(currentTask.Target, target, true) != 0)
+            {
+                if (String.Compare(currentTask.Source, target, true) == 0 &&
+                String.Compare(currentTask.Target, source, true) == 0)
+                {
+                    List<String> temp = currentTask.Filters.SourceFolderExcludeList;
+                    currentTask.Filters.SourceFolderExcludeList = currentTask.Filters.TargetFolderExcludeList;
+                    currentTask.Filters.TargetFolderExcludeList = temp;
+                }
+                else
+                {
+                    currentTask.Filters.SourceFolderExcludeList.Clear();
+                    currentTask.Filters.TargetFolderExcludeList.Clear();
+                }
+
+            }
+        }
 
 		private void btnSubFolders_Click(object sender, EventArgs e)
 		{
@@ -332,5 +337,20 @@ namespace SyncSharp.GUI
 			form.ShowDialog();
 			lblTaskName.Text = currentTask.Name;
 		}
+
+        private void btnApply_Click(object sender, EventArgs e)
+        {
+            if (CheckFolderPair())
+            {
+                UpdateFolderFilters();
+                SaveUserSettings();
+            }
+            else
+            {
+                this.tcTaskSetup.SelectTab("tpFolderPair");
+                this.tpFolderPair.Focus();
+                txtSource.Focus();
+            }
+        }
 	}
 }

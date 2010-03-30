@@ -113,6 +113,7 @@
             this.btnAccept = new System.Windows.Forms.Button();
             this.fbDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnApply = new System.Windows.Forms.Button();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -150,6 +151,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.btnApply);
             this.splitContainer1.Panel2.Controls.Add(this.btnCancel);
             this.splitContainer1.Panel2.Controls.Add(this.btnAccept);
             this.splitContainer1.Size = new System.Drawing.Size(472, 466);
@@ -392,7 +394,7 @@
             this.tpFolderPair.Location = new System.Drawing.Point(4, 44);
             this.tpFolderPair.Name = "tpFolderPair";
             this.tpFolderPair.Padding = new System.Windows.Forms.Padding(3);
-            this.tpFolderPair.Size = new System.Drawing.Size(464, 364);
+            this.tpFolderPair.Size = new System.Drawing.Size(464, 368);
             this.tpFolderPair.TabIndex = 0;
             this.tpFolderPair.Text = "Folder Pair";
             this.tpFolderPair.UseVisualStyleBackColor = true;
@@ -470,7 +472,6 @@
             this.txtTarget.BackColor = System.Drawing.SystemColors.Window;
             this.txtTarget.Location = new System.Drawing.Point(53, 52);
             this.txtTarget.Name = "txtTarget";
-            this.txtTarget.ReadOnly = true;
             this.txtTarget.Size = new System.Drawing.Size(356, 21);
             this.txtTarget.TabIndex = 0;
             this.toolTip.SetToolTip(this.txtTarget, "Enter your target directory here. You can use environment variables like %HOMEPAT" +
@@ -481,7 +482,6 @@
             this.txtSource.BackColor = System.Drawing.SystemColors.Window;
             this.txtSource.Location = new System.Drawing.Point(53, 18);
             this.txtSource.Name = "txtSource";
-            this.txtSource.ReadOnly = true;
             this.txtSource.Size = new System.Drawing.Size(356, 21);
             this.txtSource.TabIndex = 0;
             this.toolTip.SetToolTip(this.txtSource, "Enter your source directory here. You can use environment variables like %HOMEPAT" +
@@ -495,7 +495,7 @@
             this.tpFilter.ImageIndex = 4;
             this.tpFilter.Location = new System.Drawing.Point(4, 44);
             this.tpFilter.Name = "tpFilter";
-            this.tpFilter.Size = new System.Drawing.Size(464, 364);
+            this.tpFilter.Size = new System.Drawing.Size(464, 368);
             this.tpFilter.TabIndex = 5;
             this.tpFilter.Text = "Filters";
             this.tpFilter.UseVisualStyleBackColor = true;
@@ -622,7 +622,7 @@
             this.btnSubFolders.Name = "btnSubFolders";
             this.btnSubFolders.Size = new System.Drawing.Size(150, 25);
             this.btnSubFolders.TabIndex = 7;
-            this.btnSubFolders.Text = "Select sub folders...";
+            this.btnSubFolders.Text = "Set folders exclusion...";
             this.btnSubFolders.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSubFolders.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnSubFolders, "Filter by sub directories.");
@@ -640,7 +640,7 @@
             this.tpCopyDel.ImageIndex = 2;
             this.tpCopyDel.Location = new System.Drawing.Point(4, 44);
             this.tpCopyDel.Name = "tpCopyDel";
-            this.tpCopyDel.Size = new System.Drawing.Size(464, 364);
+            this.tpCopyDel.Size = new System.Drawing.Size(464, 368);
             this.tpCopyDel.TabIndex = 3;
             this.tpCopyDel.Text = "Copy/Delete";
             this.tpCopyDel.UseVisualStyleBackColor = true;
@@ -717,7 +717,7 @@
             this.tpLogSettings.ImageIndex = 3;
             this.tpLogSettings.Location = new System.Drawing.Point(4, 44);
             this.tpLogSettings.Name = "tpLogSettings";
-            this.tpLogSettings.Size = new System.Drawing.Size(464, 364);
+            this.tpLogSettings.Size = new System.Drawing.Size(464, 368);
             this.tpLogSettings.TabIndex = 4;
             this.tpLogSettings.Text = "Log Settings";
             this.tpLogSettings.UseVisualStyleBackColor = true;
@@ -810,7 +810,7 @@
             this.tpAdvanced.Location = new System.Drawing.Point(4, 44);
             this.tpAdvanced.Name = "tpAdvanced";
             this.tpAdvanced.Padding = new System.Windows.Forms.Padding(3);
-            this.tpAdvanced.Size = new System.Drawing.Size(464, 364);
+            this.tpAdvanced.Size = new System.Drawing.Size(464, 368);
             this.tpAdvanced.TabIndex = 6;
             this.tpAdvanced.Text = "Advanced";
             this.tpAdvanced.UseVisualStyleBackColor = true;
@@ -1036,9 +1036,9 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("btnCancel.Image")));
-            this.btnCancel.Location = new System.Drawing.Point(380, 3);
+            this.btnCancel.Location = new System.Drawing.Point(307, 3);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(80, 25);
+            this.btnCancel.Size = new System.Drawing.Size(75, 25);
             this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1049,15 +1049,28 @@
             // btnAccept
             // 
             this.btnAccept.Image = ((System.Drawing.Image)(resources.GetObject("btnAccept.Image")));
-            this.btnAccept.Location = new System.Drawing.Point(294, 3);
+            this.btnAccept.Location = new System.Drawing.Point(226, 3);
             this.btnAccept.Name = "btnAccept";
-            this.btnAccept.Size = new System.Drawing.Size(80, 25);
+            this.btnAccept.Size = new System.Drawing.Size(75, 25);
             this.btnAccept.TabIndex = 0;
             this.btnAccept.Text = "OK";
             this.btnAccept.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnAccept.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnAccept.UseVisualStyleBackColor = true;
             this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
+            // 
+            // btnApply
+            // 
+            this.btnApply.Image = ((System.Drawing.Image)(resources.GetObject("btnApply.Image")));
+            this.btnApply.Location = new System.Drawing.Point(388, 3);
+            this.btnApply.Name = "btnApply";
+            this.btnApply.Size = new System.Drawing.Size(75, 25);
+            this.btnApply.TabIndex = 3;
+            this.btnApply.Text = "Apply";
+            this.btnApply.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnApply.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // TaskSetupForm
             // 
@@ -1198,6 +1211,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox chkAutoSync;
+        private System.Windows.Forms.Button btnApply;
 
     }
 }
