@@ -63,8 +63,10 @@
             // 
             // txtLog
             // 
-            this.txtLog.BackColor = System.Drawing.SystemColors.Control;
+            this.txtLog.BackColor = System.Drawing.SystemColors.Window;
             this.txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtLog.Font = new System.Drawing.Font("Arial", 8.5F);
+            this.txtLog.ForeColor = System.Drawing.Color.Black;
             this.txtLog.Location = new System.Drawing.Point(0, 0);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
@@ -93,7 +95,7 @@
             // 
             this.btnClear.Location = new System.Drawing.Point(32, 3);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.Size = new System.Drawing.Size(75, 25);
             this.btnClear.TabIndex = 0;
             this.btnClear.Text = "Clear Log";
             this.btnClear.UseVisualStyleBackColor = true;
@@ -104,7 +106,7 @@
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(113, 3);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(75, 25);
             this.btnCancel.TabIndex = 0;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;

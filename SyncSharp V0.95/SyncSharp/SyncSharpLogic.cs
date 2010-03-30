@@ -42,7 +42,6 @@ namespace SyncSharp.Business
                 }
                 catch
                 {
-                    // can write to log file...
                 }
                 finally
                 {
@@ -141,8 +140,14 @@ namespace SyncSharp.Business
 				}
 				catch (Exception e)
 				{
-					this.updateSyncTaskResult(curTask, "Unsuccessful: " + e.Message);
+                    Logger.CreateLog(metaDataDir + @"\" + curTask.Name + ".log");
+                    Logger.WriteEntry(e.Message);
+					this.updateSyncTaskResult(curTask, "Unsuccessful");
 				}
+                finally
+                {
+                    Logger.CloseLog();
+                }
 			}
 			else
 			{
@@ -156,8 +161,6 @@ namespace SyncSharp.Business
 
 		public void syncFolderPair(SyncTask curTask, ToolStripStatusLabel status, bool isPlugSync)
 		{
-			Logger.CloseLog();
-			Logger.CreateLog(metaDataDir + @"\" + curTask.Name + ".log");
 			try
 			{
 				status.Text = "Analyzing " + curTask.Name + "...";
@@ -202,8 +205,9 @@ namespace SyncSharp.Business
 			}
 			catch (Exception e)
 			{
+                Logger.CreateLog(metaDataDir + @"\" + curTask.Name + ".log");
 				Logger.WriteEntry("Error: " + e.Message);
-				this.updateSyncTaskResult(curTask, "Unsuccessful: " + e.Message);
+				this.updateSyncTaskResult(curTask, "Unsuccessful");
 			} 
 			finally
 			{
@@ -226,9 +230,15 @@ namespace SyncSharp.Business
 				}
 				catch (Exception e)
 				{
-					this.updateSyncTaskResult(task, "Unsuccessful: " + e.Message);
+                    Logger.CreateLog(metaDataDir + @"\" + task.Name + ".log");
+                    Logger.WriteEntry(e.Message);
+					this.updateSyncTaskResult(task, "Unsuccessful");
 					this.updateSyncTaskTime(task, DateTime.Now.ToString());
 				}
+                finally
+                {
+                    Logger.CloseLog();
+                }
 			}
 		}
 

@@ -133,8 +133,8 @@ namespace SyncSharp.Business
             _updatedList = new CustomDictionary<string, string, FileUnit>();
             _srcRenameList = new CustomDictionary<string, string, FileUnit>();
             _tgtRenameList = new CustomDictionary<string, string, FileUnit>();
-						//Logger.CloseLog();
-						//Logger.CreateLog(metaDataDir + @"\" + task.Name + ".log");
+						
+			Logger.CreateLog(metaDataDir + @"\" + task.Name + ".log");
             _summary = new SyncSummary();
             _summary.logFile = metaDataDir + @"\" + task.Name + ".log";
         }

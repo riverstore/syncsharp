@@ -20,6 +20,8 @@ namespace SyncSharp.GUI
 		private delegate void UpdateListViewCallback();
 		private delegate void StartSyncCallback();
 		private delegate void LockFormForSync();
+        private delegate void CloseFormCallback();
+
         private UpdateListViewCallback listViewCallback;
         private StartSyncCallback startSyncCallback;
 		
@@ -75,10 +77,15 @@ namespace SyncSharp.GUI
 				lvTaskList.Items[0].ForeColor = Color.Silver;
 		}
 
+        private void CloseForm()
+        {
+            this.Close();
+        }
+
 		private void btnCancel_Click(object sender, EventArgs e)
 		{
 			myTimer.Dispose();
-            Close();
+            Invoke(new CloseFormCallback(CloseForm));
 		}
 
 		private void btnUp_Click(object sender, EventArgs e)
@@ -131,7 +138,7 @@ namespace SyncSharp.GUI
             if (plugSyncList.Count == 0)
             {
                 myTimer.Dispose();
-                Close();
+                Invoke(new CloseFormCallback(CloseForm));
             }
 		}
 
