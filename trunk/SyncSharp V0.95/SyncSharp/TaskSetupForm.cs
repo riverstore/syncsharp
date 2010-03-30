@@ -16,14 +16,14 @@ namespace SyncSharp.GUI
 	{
 		SyncTask currentTask;
 		SyncProfile currentProfile;
-        string source, target, metaDataDir;
+		string source, target, metaDataDir;
 
 		public TaskSetupForm(SyncProfile profile, SyncTask task, string metaDataDir)
 		{
 			InitializeComponent();
 			currentTask = task;
 			currentProfile = profile;
-            this.metaDataDir = metaDataDir;
+			this.metaDataDir = metaDataDir;
 
 			ReadUserSettings();
 			this.tcTaskSetup.TabPages.Remove(tcTaskSetup.TabPages["tpCopyDel"]);
@@ -53,8 +53,8 @@ namespace SyncSharp.GUI
 			txtInclude.Text = currentTask.Settings.FilesInclusion;
 			if (txtInclude.Text.Equals(""))
 				txtInclude.Text = "*.*";
-			
-            chkSkipHidden.Checked = currentTask.Filters.Hidden;
+
+			chkSkipHidden.Checked = currentTask.Filters.Hidden;
 			chkSkipRO.Checked = currentTask.Filters.ReadOnly;
 			chkSkipSystem.Checked = currentTask.Filters.System;
 			chkSkipTemp.Checked = currentTask.Filters.Temp;
@@ -64,9 +64,9 @@ namespace SyncSharp.GUI
 			chkReset.Checked = currentTask.Settings.ResetArhiveAttributes;
 			chkConfirm.Checked = currentTask.Settings.ConfirmFileDel;
 			chkAutoSync.Checked = currentTask.Settings.PlugSync;
-			
-            if (currentTask.Settings.SrcConflict ==
-					TaskSettings.ConflictSrcAction.CopyFileToTarget)
+
+			if (currentTask.Settings.SrcConflict ==
+		TaskSettings.ConflictSrcAction.CopyFileToTarget)
 				radToTarget.Checked = true;
 			else
 				radDelSource.Checked = true;
@@ -117,10 +117,10 @@ namespace SyncSharp.GUI
 			currentTask.Settings.ConfirmFileDel = chkConfirm.Checked;
 			currentTask.Settings.ResetArhiveAttributes = chkReset.Checked;
 			currentTask.Settings.PlugSync = chkAutoSync.Checked;
-			currentTask.Settings.SrcConflict = radToTarget.Checked ? TaskSettings.ConflictSrcAction.CopyFileToTarget : 
-                TaskSettings.ConflictSrcAction.DeleteSourceFile;
-			currentTask.Settings.TgtConflict = radToSource.Checked ? TaskSettings.ConflictTgtAction.CopyFileToSource : 
-                TaskSettings.ConflictTgtAction.DeleteTargetFile;
+			currentTask.Settings.SrcConflict = radToTarget.Checked ? TaskSettings.ConflictSrcAction.CopyFileToTarget :
+								TaskSettings.ConflictSrcAction.DeleteSourceFile;
+			currentTask.Settings.TgtConflict = radToSource.Checked ? TaskSettings.ConflictTgtAction.CopyFileToSource :
+								TaskSettings.ConflictTgtAction.DeleteTargetFile;
 			if (radKeepBoth.Checked == true)
 			{
 				currentTask.Settings.SrcTgtConflict =
@@ -139,8 +139,8 @@ namespace SyncSharp.GUI
 			else
 				currentTask.Settings.SrcTgtConflict = TaskSettings.ConflictSrcTgtAction.TargetOverwriteSource;
 
-			currentTask.Settings.FolderConflict = radRenameSrc.Checked == true ? TaskSettings.ConflictFolderAction.KeepSourceName : 
-                TaskSettings.ConflictFolderAction.KeepTargetName;
+			currentTask.Settings.FolderConflict = radRenameSrc.Checked == true ? TaskSettings.ConflictFolderAction.KeepSourceName :
+								TaskSettings.ConflictFolderAction.KeepTargetName;
 			currentTask.Settings.IgnoreTimeChange = (int)ndTime.Value;
 		}
 
@@ -161,7 +161,7 @@ namespace SyncSharp.GUI
 			string[] masks = input.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
 			foreach (string s in masks)
 			{
-                temp = s.Trim().ToLower();
+				temp = s.Trim().ToLower();
 				if (temp.Equals("")) continue;
 				filterList.Add(temp);
 				formatted += temp + "; ";
@@ -207,80 +207,80 @@ namespace SyncSharp.GUI
 			}
 		}
 
-        private bool CheckFolderPair()
-        {
-            source = Environment.ExpandEnvironmentVariables(txtSource.Text.Trim());
-            target = Environment.ExpandEnvironmentVariables(txtTarget.Text.Trim());
+		private bool CheckFolderPair()
+		{
+			source = Environment.ExpandEnvironmentVariables(txtSource.Text.Trim());
+			target = Environment.ExpandEnvironmentVariables(txtTarget.Text.Trim());
 
-            if (String.IsNullOrEmpty(source))
-            {
-                MessageBox.Show("Please provide a source directory.",
-                                "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
+			if (String.IsNullOrEmpty(source))
+			{
+				MessageBox.Show("Please provide a source directory.",
+												"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
 
-            if (String.IsNullOrEmpty(target))
-            {
-                MessageBox.Show("Please provide a target directory.",
-                                "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
+			if (String.IsNullOrEmpty(target))
+			{
+				MessageBox.Show("Please provide a target directory.",
+												"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
 
-            if (!Directory.Exists(source))
-            {
-                MessageBox.Show("Source directory does not exist.",
-                                "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
+			if (!Directory.Exists(source))
+			{
+				MessageBox.Show("Source directory does not exist.",
+												"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
 
-            if (!Directory.Exists(target))
-            {
-                MessageBox.Show("Target directory does not exist.",
-                                "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
+			if (!Directory.Exists(target))
+			{
+				MessageBox.Show("Target directory does not exist.",
+												"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
 
-            if (String.Compare(source, target, true) == 0)
-            {
-                MessageBox.Show("Source directory cannot be the same " +
-                                "as the target directory.",
-                                "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
+			if (String.Compare(source, target, true) == 0)
+			{
+				MessageBox.Show("Source directory cannot be the same " +
+												"as the target directory.",
+												"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
 
-            if (source.StartsWith(target + "\\", true, null))
-            {
-                MessageBox.Show("Source directory cannot be a " +
-                         "subdirectory of the target directory.",
-                         "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
+			if (source.StartsWith(target + "\\", true, null))
+			{
+				MessageBox.Show("Source directory cannot be a " +
+								 "subdirectory of the target directory.",
+								 "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
 
-            if (target.StartsWith(source + "\\", true, null))
-            {
-                MessageBox.Show("Target directory cannot be a " +
-                         "subdirectory of the source directory.",
-                        "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
+			if (target.StartsWith(source + "\\", true, null))
+			{
+				MessageBox.Show("Target directory cannot be a " +
+								 "subdirectory of the source directory.",
+								"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
 
-            StringComparison ignoreCase = StringComparison.CurrentCultureIgnoreCase;
+			StringComparison ignoreCase = StringComparison.CurrentCultureIgnoreCase;
 
-            bool isFolderPairChanged = !((currentTask.Source.Equals(source, ignoreCase) &&
-               currentTask.Target.Equals(target, ignoreCase)) ||
-               (currentTask.Source.Equals(target, ignoreCase) &&
-               currentTask.Target.Equals(source, ignoreCase)));
+			bool isFolderPairChanged = !((currentTask.Source.Equals(source, ignoreCase) &&
+				 currentTask.Target.Equals(target, ignoreCase)) ||
+				 (currentTask.Source.Equals(target, ignoreCase) &&
+				 currentTask.Target.Equals(source, ignoreCase)));
 
-            if (isFolderPairChanged && currentProfile.isFolderPairExists(source, target))
-            {
-                MessageBox.Show("Source & target directories have been defined in another task." +
-                    "\nPlease select a different source or target directory.",
-                    "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
+			if (isFolderPairChanged && currentProfile.isFolderPairExists(source, target))
+			{
+				MessageBox.Show("Source & target directories have been defined in another task." +
+						"\nPlease select a different source or target directory.",
+						"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
 
-            return true;
-        }
+			return true;
+		}
 
 		private void btnCancel_Click(object sender, EventArgs e)
 		{
@@ -289,24 +289,35 @@ namespace SyncSharp.GUI
 
 		private void btnAccept_Click(object sender, EventArgs e)
 		{
-            if (CheckFolderPair())
-            {
-                if (String.Compare(currentTask.Source, source, true) != 0 ||
-                    String.Compare(currentTask.Target, target, true) != 0)
-                {
-                    currentTask.Filters.SourceFolderExcludeList.Clear();
-                    currentTask.Filters.TargetFolderExcludeList.Clear();
-                }
+			if (CheckFolderPair())
+			{
+				if (String.Compare(currentTask.Source, source, true) != 0 ||
+						String.Compare(currentTask.Target, target, true) != 0)
+				{
+					if (String.Compare(currentTask.Source, target, true) == 0 &&
+					String.Compare(currentTask.Target, source, true) == 0)
+					{
+						List<String> temp = currentTask.Filters.SourceFolderExcludeList;
+						currentTask.Filters.SourceFolderExcludeList = currentTask.Filters.TargetFolderExcludeList;
+						currentTask.Filters.TargetFolderExcludeList = temp;
+					}
+					else
+					{
+						currentTask.Filters.SourceFolderExcludeList.Clear();
+						currentTask.Filters.TargetFolderExcludeList.Clear();
+					}
 
-                SaveUserSettings();
-                this.Close();
-            }
-            else
-            {
-                this.tcTaskSetup.SelectTab("tpFolderPair");
-                this.tpFolderPair.Focus();
-                txtSource.Focus();
-            }
+				}
+
+				SaveUserSettings();
+				this.Close();
+			}
+			else
+			{
+				this.tcTaskSetup.SelectTab("tpFolderPair");
+				this.tpFolderPair.Focus();
+				txtSource.Focus();
+			}
 		}
 
 		private void btnSubFolders_Click(object sender, EventArgs e)
