@@ -79,7 +79,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer5);
             this.splitContainer1.Size = new System.Drawing.Size(534, 400);
-            this.splitContainer1.SplitterDistance = 354;
+            this.splitContainer1.SplitterDistance = 356;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -100,7 +100,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer2.Size = new System.Drawing.Size(534, 354);
+            this.splitContainer2.Size = new System.Drawing.Size(534, 356);
             this.splitContainer2.SplitterDistance = 40;
             this.splitContainer2.SplitterWidth = 2;
             this.splitContainer2.TabIndex = 0;
@@ -168,7 +168,7 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.tarTreeView);
-            this.splitContainer3.Size = new System.Drawing.Size(534, 312);
+            this.splitContainer3.Size = new System.Drawing.Size(534, 314);
             this.splitContainer3.SplitterDistance = 267;
             this.splitContainer3.SplitterWidth = 2;
             this.splitContainer3.TabIndex = 0;
@@ -179,7 +179,7 @@
             this.srcTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.srcTreeView.Location = new System.Drawing.Point(0, 0);
             this.srcTreeView.Name = "srcTreeView";
-            this.srcTreeView.Size = new System.Drawing.Size(267, 312);
+            this.srcTreeView.Size = new System.Drawing.Size(267, 314);
             this.srcTreeView.TabIndex = 0;
             this.srcTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.srcTreeView_AfterCheck);
             this.srcTreeView.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.srcTreeView_AfterCollapse);
@@ -192,7 +192,7 @@
             this.tarTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tarTreeView.Location = new System.Drawing.Point(0, 0);
             this.tarTreeView.Name = "tarTreeView";
-            this.tarTreeView.Size = new System.Drawing.Size(265, 312);
+            this.tarTreeView.Size = new System.Drawing.Size(265, 314);
             this.tarTreeView.TabIndex = 0;
             this.tarTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tarTreeView_AfterCheck);
             this.tarTreeView.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.tarTreeView_AfterCollapse);
@@ -216,8 +216,8 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.btnCancel);
             this.splitContainer5.Panel2.Controls.Add(this.btnAccept);
-            this.splitContainer5.Size = new System.Drawing.Size(534, 44);
-            this.splitContainer5.SplitterDistance = 334;
+            this.splitContainer5.Size = new System.Drawing.Size(534, 42);
+            this.splitContainer5.SplitterDistance = 336;
             this.splitContainer5.SplitterWidth = 2;
             this.splitContainer5.TabIndex = 0;
             // 
