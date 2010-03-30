@@ -62,6 +62,8 @@ namespace SyncSharp.GUI
 
             for (int i = 4; i <= 5; i++)
                 taskListView.AutoResizeColumn(i, ColumnHeaderAutoResizeStyle.ColumnContent);
+						if (taskListView.Columns[4].Width < MIN_WIDTH) taskListView.Columns[4].Width = MIN_WIDTH;
+						if (taskListView.Columns[5].Width < MIN_WIDTH) taskListView.Columns[5].Width = MIN_WIDTH;
 		}
 
 		private void modifyMenuItem_Click(object sender, EventArgs e)
@@ -380,7 +382,7 @@ namespace SyncSharp.GUI
         {
             if (e.NewWidth < MIN_WIDTH)
             {
-                e.Cancel = true;
+								e.Cancel = true;
                 e.NewWidth = taskListView.Columns[e.ColumnIndex].Width;
             }
         }
