@@ -139,9 +139,9 @@ namespace SyncSharp.Business
 					}
 
 				}
-				catch
+				catch (Exception e)
 				{
-					this.updateSyncTaskResult(curTask, "Unsuccessful");
+					this.updateSyncTaskResult(curTask, "Unsuccessful: " + e.Message);
 				}
 			}
 			else
@@ -156,6 +156,8 @@ namespace SyncSharp.Business
 
 		public void syncFolderPair(SyncTask curTask, ToolStripStatusLabel status, bool isPlugSync)
 		{
+			Logger.CloseLog();
+			Logger.CreateLog(metaDataDir + @"\" + curTask.Name + ".log");
 			try
 			{
 				status.Text = "Analyzing " + curTask.Name + "...";
@@ -189,20 +191,23 @@ namespace SyncSharp.Business
 					{
 						throw new Exception("Insufficient disk space");
 					}
-
+					if (checkForOpenFiles(detector.OpenFileDetected, isPlugSync))
+						throw new Exception("Open files detected");
 					Reconciler reconciler = new Reconciler(detector.SourceList, detector.DestList, curTask, metaDataDir);
 					status.Text = "Synchronizing " + curTask.Name + "...";
-					reconciler.BackupSource(detector.SDirtyFiles);
+					reconciler.BackupSource(detector.BackupFiles);
 				}
 
 				this.updateSyncTaskResult(curTask, "Successful");
 			}
 			catch (Exception e)
 			{
-
 				Logger.WriteEntry("Error: " + e.Message);
+				this.updateSyncTaskResult(curTask, "Unsuccessful: " + e.Message);
+			} 
+			finally
+			{
 				Logger.CloseLog();
-				this.updateSyncTaskResult(curTask, "Unsuccessful");
 			}
 
 			this.updateSyncTaskTime(curTask, DateTime.Now.ToString());
@@ -219,9 +224,9 @@ namespace SyncSharp.Business
 					else
 						throw new Exception("Source or target folder does not exist");
 				}
-				catch (Exception)
+				catch (Exception e)
 				{
-					this.updateSyncTaskResult(task, "Unsuccessful");
+					this.updateSyncTaskResult(task, "Unsuccessful: " + e.Message);
 					this.updateSyncTaskTime(task, DateTime.Now.ToString());
 				}
 			}
