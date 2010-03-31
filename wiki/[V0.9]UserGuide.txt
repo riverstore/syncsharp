@@ -1,0 +1,273 @@
+[[Image:]][[Image:]][[Image:]][[Image:]][[Image:]][[Image:]][[Image:]][[Image:]][[Image:]][[Image:]][[Image:]][[Image:]]SyncSharp: Plug & Sync
+
+File Synchronization Software
+
+
+User Guide V0.9
+
+
+'''''3/18/2010'''''
+
+
+'''''Azhar Bin Mohamed Yasin'''''
+
+'''''Loh Jianxiong Christopher'''''
+
+'''''Hong Lei'''''
+
+'''''Guo Jiayuan'''''
+
+'''''Tian Shuang'''''
+
+'''''Tan Yewkang'''''
+
+
+<center>'''TABLE OF CONTENTS'''</center>
+
+
+'''''Chapter 1 User Guide'''''
+
+
+'''''Part 1: Product Description03'''''
+
+
+'''''Part 2: Using SyncSharp'''''
+
+'''''1.2.1 On First Run03'''''
+
+'''''1.2.2 Creating New Sync Task04'''''
+
+'''''1.2.3 Deleting New Sync Task05'''''
+
+'''''1.2.4 Modifying New Sync Task05'''''
+
+'''''1.2.5 Import Task10'''''
+
+'''''1.2.6 Export Task11'''''
+
+'''''1.2.7 PlugSync ''11'''
+
+'''''Part 3: Troubleshooting'''''
+
+'''''1.3.1 PlugSync Is Not Functioning Fully11'''''
+
+'''''Chapter 2 Glossary13'''''
+
+
+'''Chapter 1 User Guide'''
+
+Part 1: Product Description
+
+
+Syncsharp is developed for users who work with multiple computers and need to synchronize files that reside in different computers through an immediate device such as a USB drive. It is a Windows based application that allows users to sync files between multiple computers through an immediate device with no installation required. The file synchronization process is streamlined through a list of pre-determined user preferences. 
+
+
+Part 2: Using Syncsharp
+
+
+1.2.1 On First Run
+
+
+On first run, user will need to activate SyncSharp by manually activate the program. Subsequently, the program will automatically run by itself. Upon double clicking the executable, the following main window will pop up.
+
+
+<center>[[Image:]]</center>
+
+
+1.2.2 Creating New Sync Task
+
+
+<center>[[Image:]]</center>
+
+
+''Step 1:'' Click on '''''New''''', the '''''Create New Task''''' window will show up.
+
+''Step 2:'' Click on the icon [[Image:]] to locate the two folders (“Source folder” and “Target folder”) that you would like to synchronize.
+
+''Step 3:'' '''''Select Task Type'''''. 
+
+Synchronize – Synchronize source and target folders
+
+Backup – Keep a copy of files in “Source folder” in “Target folder”.
+
+''Step 4:'' '''''Enter Task Name'''''. Specify the name of this Sync Task. (This task will be saved, so next time the program is activated. It will automatically try to complete this task)
+
+''Step 5:'' Click on '''''OK''''' to finish the wizard.
+
+
+1.2.3 Deleting New Sync Task
+
+
+<center>[[Image:]]</center>
+
+
+''Step 1:'' Choose the Sync Task you want to delete.
+
+''Step 2:'' Click '''''Delete'''''.
+
+
+1.2.4 Modify Sync Task
+
+
+''Step 1:'' Click on the Sync Task you want to delete.
+
+''Step 2:'' Click '''''Modify'''''. The '''''Task Setup''''' window will pop up. It consists of 4 tabs.
+
+* '''''General''''' – Display general information.
+* '''''Folder Pair''''' – Modify folder pairs.
+* '''''Filter''''' – Include/exclude file/folders in sync action.
+* '''''Advanced''''' – Advanced syncing options.
+
+'''''General '''''Tab
+
+
+<center>[[Image:]]</center>
+
+
+'''''Folder Pair''''' Tab
+
+<center>[[Image:]]</center>
+
+'''''Switch pair''''' – Switch the path of “Source” and “Target”
+
+'''''Delete pair''''' – Delete the path of “Source” and “Target”
+
+
+'''''Filter''''' Tab
+
+<center>[[Image:]]</center>
+
+
+'''''File Inclusion/Exclusion''''' - Users are allowed to include/exclude files/subfolders in “source” and “target” directory in the sync process. Filtering is based on file name or extension, (For e.g., to exclude all files with extension ‘'''''.doc'''''’, put ‘'''''<nowiki>*.doc</nowiki>'''''’ in ‘'''''Files to exclude'''''’ textbook). Users is allowed to set multiple filtering criteria separated by ‘'''''<nowiki>;</nowiki>'''''’. 
+
+'''''Exclude files with''''' – Filtering can also be achieved based files/folders attributes. The default files to exclude are files with ‘'''''system'''''’ and ‘'''''temporary'''''’ attribute. 
+
+'''''Select Sub folders…''''' will list out all sub folders in “Source” and “Target”. User is able to exclude sub-folders in the syncing process. (Below is a screenshot of its window)
+
+
+<center>[[Image:]]</center>
+
+
+'''''Advanced'' '''Tab
+
+<center>[[Image:]]</center>
+
+
+'''''Enable auto-sync upon plug-in''' ''– If checked, PlugSync will be enabled.
+
+'''''File time differences''''' – While comparing two files or folders, if the difference in last modified time is less than or equals the pre-set value. These files or folders are considered to be with the same modification time. 
+
+
+1.2.5 Import Sync Task
+
+
+''Step 1'': On the main menu, click '''''Task'''''
+
+''Step 2''<nowiki>; Click </nowiki>'''''Import Task …''''' or simply use ‘Ctrl’ + ‘I’ 
+
+''Step 3'': Specify which SyncTask to import.
+
+
+1.2.6 Export Sync Task
+
+
+''Step1'': On the main menu, click '''''Task''''' 
+
+''Step 2'': Click '''''Export Task …''''' or simply use Ctrl + X 
+
+''Step 3'': Specify the location you want the SyncTask to be saved.
+
+
+1.2.7 Plug Sync
+
+The program will run by itself while the USB is plugged into a computer. Upon execution, the program will count down for 5 seconds (default) waiting for user interruption. If there is no interruption, the program will automatically try to perform all the saved SyncTask.
+
+
+Part 3 Troubleshooting
+
+
+1.3.1 PlugSync Is Not Functioning Fully
+
+
+On some Windows machines, '''''auto play''''' of external storage device is disabled. However, in order to enable the PlugSync function, user will need to modify the '''''auto play''''' settings. This guide will walk you through step by step on how to change the ‘auto play’ settings.
+
+On Windows Vista:
+
+''Step 1'': Click on '''''Start'''''  In the search box, type in '''''autoplay'''''
+
+''Step 2'': Choose the first returned result, which looks like 
+
+<center>[[Image:]]</center>
+
+Step 3: Click on the icon, the following window will pop up.
+
+<center>[[Image:]]</center>
+
+''Step 4'': Check the box '''''Use AutoPlay for all media and devices'''''
+
+''Step 5'': In the drop-down list for '''''Software and games''''', choose '''''Ask me every time'''''.
+
+''Step 6'': Click on ‘'''''Save'''''’ to save the setting.
+
+''Step 7'': The next time user plug in his external storage device, system will prompt user for actions. A window looks like the following will show. Check the box ‘'''''Always do this for software and games:'''''’ and click on ‘'''''Run SyncSharp'''''’ to activate the program. By doing this, this action is saved on the machine, and the PlugSync feature will function properly.
+
+<center>[[Image:]]</center>
+
+'''Chapter 2 Glossary'''
+
+
+
+{| style="border-spacing:0;"
+| style="background-color:#edf6f9;border:none;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| '''Term'''
+| style="background-color:#edf6f9;border:0.035cm solid #4bacc6;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| '''Definition'''
+
+|-
+| style="background-color:#ffffff;border:none;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| '''SyncSharp'''
+| style="background-color:#a5d5e2;border-top:0.026cm solid #4bacc6;border-bottom:0.026cm solid #4bacc6;border-left:0.026cm solid #4bacc6;border-right:0.035cm solid #4bacc6;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| Name of our sync tool
+
+|-
+| style="background-color:#ffffff;border:none;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| '''SyncTask'''
+| style="background-color:#d2eaf1;border:0.035cm solid #4bacc6;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| Configuration file that contains source and target directory information to be synchronized
+
+|-
+| style="background-color:#ffffff;border:none;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| '''SyncProfile'''
+| style="background-color:#a5d5e2;border-top:0.026cm solid #4bacc6;border-bottom:0.026cm solid #4bacc6;border-left:0.026cm solid #4bacc6;border-right:0.035cm solid #4bacc6;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| Contains list of SyncTasks for a Particular PC/Laptop
+
+|-
+| style="background-color:#ffffff;border:none;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| '''FileUnit'''
+| style="background-color:#d2eaf1;border:0.035cm solid #4bacc6;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| Abstract representation of a file or folder, contains information such as name, size, hash code, last modified date, etc.
+
+|-
+| style="background-color:#ffffff;border:none;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| '''PlugSync'''
+| style="background-color:#a5d5e2;border-top:0.026cm solid #4bacc6;border-bottom:0.026cm solid #4bacc6;border-left:0.026cm solid #4bacc6;border-right:0.035cm solid #4bacc6;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| A feature in our program. Program will run by itself while the USB is plugged into a computer. Upon execution, the program will count down for 5 seconds waiting for user interruption. If there is no interruption, the program will automatically try to perform all the saved SyncTask.
+
+|-
+| style="background-color:#ffffff;border:none;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| '''1 way sync'''
+| style="background-color:#d2eaf1;border:0.035cm solid #4bacc6;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| Update destination directory to have the same content as source directory
+
+|-
+| style="background-color:#ffffff;border:none;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| '''2 ways sync'''
+| style="background-color:#a5d5e2;border-top:0.026cm solid #4bacc6;border-bottom:0.026cm solid #4bacc6;border-left:0.026cm solid #4bacc6;border-right:0.035cm solid #4bacc6;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| Update source and destination directories to have the same state
+
+|-
+| style="background-color:#ffffff;border:none;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| '''Report/Logger'''
+| style="background-color:#d2eaf1;border:0.035cm solid #4bacc6;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| Log file that records the operations perform in the synchronization process
+
+|-
+| style="background-color:#ffffff;border:none;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| '''Target'''
+| style="background-color:#a5d5e2;border-top:0.026cm solid #4bacc6;border-bottom:0.026cm solid #4bacc6;border-left:0.026cm solid #4bacc6;border-right:0.035cm solid #4bacc6;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| The destination directory to be sync or compared
+
+|-
+| style="background-color:#ffffff;border:none;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| '''Detector'''
+| style="background-color:#d2eaf1;border:0.035cm solid #4bacc6;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| The sub-system that detect changes of the source or destination directory
+
+|-
+| style="background-color:#ffffff;border:none;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| '''Reconciler'''
+| style="background-color:#a5d5e2;border-top:0.026cm solid #4bacc6;border-bottom:0.026cm solid #4bacc6;border-left:0.026cm solid #4bacc6;border-right:0.035cm solid #4bacc6;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| The sub-system that resolves conflicts between the source & destination directories
+
+|-
+| style="background-color:#ffffff;border:none;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| '''TaskSettings'''
+| style="background-color:#d2eaf1;border:0.035cm solid #4bacc6;padding-top:0cm;padding-bottom:0cm;padding-left:0.191cm;padding-right:0.191cm;"| Contains configuration settings made for each SyncTask
+
+|}
+
