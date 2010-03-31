@@ -377,6 +377,12 @@ namespace SyncSharp.GUI
             openSourceMenuItem.Enabled = isEnabled;
             openTargetMenuItem.Enabled = isEnabled;
             viewLogMenuItem.Enabled = isEnabled;
+
+            syncCMItem.Enabled = isEnabled;
+            modifyCMItem.Enabled = isEnabled;
+            deleteCMItem.Enabled = isEnabled;
+            renameCMItem.Enabled = isEnabled;
+            viewLogCMItem.Enabled = isEnabled;
         }
 
         private void taskListView_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
@@ -391,6 +397,36 @@ namespace SyncSharp.GUI
         private void taskListView_DoubleClick(object sender, EventArgs e)
         {
             btnModify_Click(sender, e);
+        }
+
+        private void newTaskCMItem_Click(object sender, EventArgs e)
+        {
+            btnNew_Click(sender, e);
+        }
+
+        private void syncCMItem_Click(object sender, EventArgs e)
+        {
+            btnSync_Click(sender, e);
+        }
+
+        private void modifyCMItem_Click(object sender, EventArgs e)
+        {
+            btnModify_Click(sender, e);
+        }
+
+        private void deleteCMItem_Click(object sender, EventArgs e)
+        {
+            deleteMenuItem_Click(sender, e);
+        }
+
+        private void renameCMItem_Click(object sender, EventArgs e)
+        {
+            renameMenuItem_Click(sender, e);
+        }
+
+        private void viewLogCMItem_Click(object sender, EventArgs e)
+        {
+            viewLogMenuItem_Click(sender, e);
         }
 	}
 }

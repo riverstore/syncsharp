@@ -82,69 +82,9 @@ namespace SyncSharp.GUI
             this.Close();
         }
 
-		private void btnCancel_Click(object sender, EventArgs e)
-		{
-			myTimer.Dispose();
-            Invoke(new CloseFormCallback(CloseForm));
-		}
-
-		private void btnUp_Click(object sender, EventArgs e)
-		{
-			if (lvTaskList.SelectedItems.Count == 0) return;
-			int selIdx = lvTaskList.SelectedItems[0].Index;
-			bool condition = (counter <= 0) ? selIdx > 1 : selIdx > 0;
-			if (condition)
-			{
-				for (int i = 0; i < lvTaskList.Items[selIdx].SubItems.Count; i++)
-				{
-					string temp = lvTaskList.Items[selIdx - 1].SubItems[i].Text;
-					lvTaskList.Items[selIdx - 1].SubItems[i].Text = lvTaskList.Items[selIdx].SubItems[i].Text;
-					lvTaskList.Items[selIdx].SubItems[i].Text = temp;
-				}
-				lvTaskList.Items[selIdx - 1].Selected = true;
-				lvTaskList.RedrawItems(selIdx - 1, selIdx, true);
-				lvTaskList.Focus();
-			}
-		}
-
-		private void btnDown_Click(object sender, EventArgs e)
-		{
-			if (lvTaskList.SelectedItems.Count == 0) return;
-			int selIdx = lvTaskList.SelectedItems[0].Index;
-			bool condition = (selIdx < lvTaskList.Items.Count - 1);
-			if (counter <= 0) condition = condition && (selIdx > 0);
-			if (condition)
-			{
-				for (int i = 0; i < lvTaskList.Items[selIdx].SubItems.Count; i++)
-				{
-					string temp = lvTaskList.Items[selIdx + 1].SubItems[i].Text;
-					lvTaskList.Items[selIdx + 1].SubItems[i].Text =	lvTaskList.Items[selIdx].SubItems[i].Text;
-					lvTaskList.Items[selIdx].SubItems[i].Text = temp;
-				}
-				lvTaskList.Items[selIdx + 1].Selected = true;
-				lvTaskList.RedrawItems(selIdx, selIdx + 1, true);
-				lvTaskList.Focus();
-			}
-		}
-
-		private void btnRemove_Click(object sender, EventArgs e)
-		{
-			if (lvTaskList.SelectedItems.Count == 0 || 
-                (counter <= 0 && lvTaskList.SelectedItems[0].Index == 0)) 
-                return;
-
-			plugSyncList.Remove(new SyncTask(lvTaskList.FocusedItem.SubItems[0].Text, "", ""));
-			updateListView();
-            if (plugSyncList.Count == 0)
-            {
-                myTimer.Dispose();
-                Invoke(new CloseFormCallback(CloseForm));
-            }
-		}
-
 		private void Timer_Tick(object state)
 		{
-			lblStatus.Text = "Performing synchronization in " + counter + " seconds...";
+			lblStatus.Text = "Performing synchronization in " + counter + " seconds";
 			if (counter-- == 0)
 			{
 				myTimer.Dispose();
@@ -155,7 +95,7 @@ namespace SyncSharp.GUI
 
 		private void ProcessStartUp()
 		{
-			btnCancel.Enabled = false;
+			btnBack.Enabled = false;
 			lblStatus.BorderSides = ToolStripStatusLabelBorderSides.Right;
 			progressBar.Visible = true;
 		}
@@ -179,6 +119,66 @@ namespace SyncSharp.GUI
             {
                 e.Cancel = true;
                 e.NewWidth = lvTaskList.Columns[e.ColumnIndex].Width;
+            }
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            myTimer.Dispose();
+            Invoke(new CloseFormCallback(CloseForm));
+        }
+
+        private void btnUp_Click(object sender, EventArgs e)
+        {
+            if (lvTaskList.SelectedItems.Count == 0) return;
+            int selIdx = lvTaskList.SelectedItems[0].Index;
+            bool condition = (counter <= 0) ? selIdx > 1 : selIdx > 0;
+            if (condition)
+            {
+                for (int i = 0; i < lvTaskList.Items[selIdx].SubItems.Count; i++)
+                {
+                    string temp = lvTaskList.Items[selIdx - 1].SubItems[i].Text;
+                    lvTaskList.Items[selIdx - 1].SubItems[i].Text = lvTaskList.Items[selIdx].SubItems[i].Text;
+                    lvTaskList.Items[selIdx].SubItems[i].Text = temp;
+                }
+                lvTaskList.Items[selIdx - 1].Selected = true;
+                lvTaskList.RedrawItems(selIdx - 1, selIdx, true);
+                lvTaskList.Focus();
+            }
+        }
+
+        private void btnDown_Click(object sender, EventArgs e)
+        {
+            if (lvTaskList.SelectedItems.Count == 0) return;
+            int selIdx = lvTaskList.SelectedItems[0].Index;
+            bool condition = (selIdx < lvTaskList.Items.Count - 1);
+            if (counter <= 0) condition = condition && (selIdx > 0);
+            if (condition)
+            {
+                for (int i = 0; i < lvTaskList.Items[selIdx].SubItems.Count; i++)
+                {
+                    string temp = lvTaskList.Items[selIdx + 1].SubItems[i].Text;
+                    lvTaskList.Items[selIdx + 1].SubItems[i].Text = lvTaskList.Items[selIdx].SubItems[i].Text;
+                    lvTaskList.Items[selIdx].SubItems[i].Text = temp;
+                }
+                lvTaskList.Items[selIdx + 1].Selected = true;
+                lvTaskList.RedrawItems(selIdx, selIdx + 1, true);
+                lvTaskList.Focus();
+            }
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            if (lvTaskList.SelectedItems.Count == 0 ||
+               (counter <= 0 && lvTaskList.SelectedItems[0].Index == 0))
+                return;
+
+            plugSyncList.Remove(new SyncTask(lvTaskList.FocusedItem.SubItems[0].Text, "", ""));
+            updateListView();
+            if (plugSyncList.Count == 0)
+            {
+                myTimer.Dispose();
+                Invoke(new CloseFormCallback(CloseForm));
             }
         }
 	}
