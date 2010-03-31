@@ -109,11 +109,11 @@
             this.radDelSource = new System.Windows.Forms.RadioButton();
             this.radToTarget = new System.Windows.Forms.RadioButton();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnAccept = new System.Windows.Forms.Button();
             this.fbDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.btnApply = new System.Windows.Forms.Button();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -620,9 +620,9 @@
             this.btnSubFolders.Image = ((System.Drawing.Image)(resources.GetObject("btnSubFolders.Image")));
             this.btnSubFolders.Location = new System.Drawing.Point(8, 249);
             this.btnSubFolders.Name = "btnSubFolders";
-            this.btnSubFolders.Size = new System.Drawing.Size(150, 25);
+            this.btnSubFolders.Size = new System.Drawing.Size(130, 25);
             this.btnSubFolders.TabIndex = 7;
-            this.btnSubFolders.Text = "Set folders exclusion...";
+            this.btnSubFolders.Text = "Exclude folders...";
             this.btnSubFolders.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSubFolders.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnSubFolders, "Filter by sub directories.");
@@ -1032,6 +1032,19 @@
             this.imageList.Images.SetKeyName(5, "advanced.png");
             this.imageList.Images.SetKeyName(6, "general.png");
             // 
+            // btnApply
+            // 
+            this.btnApply.Image = ((System.Drawing.Image)(resources.GetObject("btnApply.Image")));
+            this.btnApply.Location = new System.Drawing.Point(388, 3);
+            this.btnApply.Name = "btnApply";
+            this.btnApply.Size = new System.Drawing.Size(75, 25);
+            this.btnApply.TabIndex = 3;
+            this.btnApply.Text = "Apply";
+            this.btnApply.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnApply.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
+            // 
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -1058,19 +1071,6 @@
             this.btnAccept.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnAccept.UseVisualStyleBackColor = true;
             this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
-            // 
-            // btnApply
-            // 
-            this.btnApply.Image = ((System.Drawing.Image)(resources.GetObject("btnApply.Image")));
-            this.btnApply.Location = new System.Drawing.Point(388, 3);
-            this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(75, 25);
-            this.btnApply.TabIndex = 3;
-            this.btnApply.Text = "Apply";
-            this.btnApply.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnApply.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnApply.UseVisualStyleBackColor = true;
-            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // TaskSetupForm
             // 

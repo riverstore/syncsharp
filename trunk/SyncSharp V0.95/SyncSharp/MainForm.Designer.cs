@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolBar = new System.Windows.Forms.ToolStrip();
             this.btnNew = new System.Windows.Forms.ToolStripButton();
@@ -78,9 +79,19 @@
             this.colResult = new System.Windows.Forms.ColumnHeader();
             this.colSource = new System.Windows.Forms.ColumnHeader();
             this.colTarget = new System.Windows.Forms.ColumnHeader();
+            this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.newTaskCMItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modifyCMItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteCMItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.renameCMItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewLogCMItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.syncCMItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolBar.SuspendLayout();
             this.mainMenu.SuspendLayout();
             this.statusBar.SuspendLayout();
+            this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolBar
@@ -492,6 +503,7 @@
             this.colResult,
             this.colSource,
             this.colTarget});
+            this.taskListView.ContextMenuStrip = this.contextMenu;
             this.taskListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.taskListView.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.taskListView.FullRowSelect = true;
@@ -535,6 +547,83 @@
             this.colTarget.Text = "Target";
             this.colTarget.Width = 120;
             // 
+            // contextMenu
+            // 
+            this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newTaskCMItem,
+            this.toolStripSeparator6,
+            this.syncCMItem,
+            this.modifyCMItem,
+            this.deleteCMItem,
+            this.renameCMItem,
+            this.toolStripSeparator7,
+            this.viewLogCMItem});
+            this.contextMenu.Name = "contextMenu";
+            this.contextMenu.Size = new System.Drawing.Size(179, 170);
+            // 
+            // newTaskCMItem
+            // 
+            this.newTaskCMItem.Image = ((System.Drawing.Image)(resources.GetObject("newTaskCMItem.Image")));
+            this.newTaskCMItem.Name = "newTaskCMItem";
+            this.newTaskCMItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newTaskCMItem.Size = new System.Drawing.Size(178, 22);
+            this.newTaskCMItem.Text = "New Task";
+            this.newTaskCMItem.Click += new System.EventHandler(this.newTaskCMItem_Click);
+            // 
+            // modifyCMItem
+            // 
+            this.modifyCMItem.Image = ((System.Drawing.Image)(resources.GetObject("modifyCMItem.Image")));
+            this.modifyCMItem.Name = "modifyCMItem";
+            this.modifyCMItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.modifyCMItem.Size = new System.Drawing.Size(178, 22);
+            this.modifyCMItem.Text = "Modify";
+            this.modifyCMItem.Click += new System.EventHandler(this.modifyCMItem_Click);
+            // 
+            // deleteCMItem
+            // 
+            this.deleteCMItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteCMItem.Image")));
+            this.deleteCMItem.Name = "deleteCMItem";
+            this.deleteCMItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.deleteCMItem.Size = new System.Drawing.Size(178, 22);
+            this.deleteCMItem.Text = "Delete";
+            this.deleteCMItem.Click += new System.EventHandler(this.deleteCMItem_Click);
+            // 
+            // renameCMItem
+            // 
+            this.renameCMItem.Image = ((System.Drawing.Image)(resources.GetObject("renameCMItem.Image")));
+            this.renameCMItem.Name = "renameCMItem";
+            this.renameCMItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.renameCMItem.Size = new System.Drawing.Size(178, 22);
+            this.renameCMItem.Text = "Rename";
+            this.renameCMItem.Click += new System.EventHandler(this.renameCMItem_Click);
+            // 
+            // viewLogCMItem
+            // 
+            this.viewLogCMItem.Name = "viewLogCMItem";
+            this.viewLogCMItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.viewLogCMItem.Size = new System.Drawing.Size(178, 22);
+            this.viewLogCMItem.Text = "View Log";
+            this.viewLogCMItem.Click += new System.EventHandler(this.viewLogCMItem_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(175, 6);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(175, 6);
+            // 
+            // syncCMItem
+            // 
+            this.syncCMItem.Image = ((System.Drawing.Image)(resources.GetObject("syncCMItem.Image")));
+            this.syncCMItem.Name = "syncCMItem";
+            this.syncCMItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.syncCMItem.Size = new System.Drawing.Size(178, 22);
+            this.syncCMItem.Text = "Synchronize";
+            this.syncCMItem.Click += new System.EventHandler(this.syncCMItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -558,6 +647,7 @@
             this.mainMenu.PerformLayout();
             this.statusBar.ResumeLayout(false);
             this.statusBar.PerformLayout();
+            this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -614,6 +704,15 @@
         private System.Windows.Forms.ToolStripProgressBar progressBar;
         private System.Windows.Forms.ToolStripMenuItem selectAllMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ContextMenuStrip contextMenu;
+        private System.Windows.Forms.ToolStripMenuItem newTaskCMItem;
+        private System.Windows.Forms.ToolStripMenuItem modifyCMItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteCMItem;
+        private System.Windows.Forms.ToolStripMenuItem renameCMItem;
+        private System.Windows.Forms.ToolStripMenuItem viewLogCMItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem syncCMItem;
     }
 }
 

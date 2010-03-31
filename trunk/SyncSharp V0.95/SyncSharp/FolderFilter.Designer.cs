@@ -79,7 +79,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer5);
             this.splitContainer1.Size = new System.Drawing.Size(534, 400);
-            this.splitContainer1.SplitterDistance = 356;
+            this.splitContainer1.SplitterDistance = 352;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -100,7 +100,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer2.Size = new System.Drawing.Size(534, 356);
+            this.splitContainer2.Size = new System.Drawing.Size(534, 352);
             this.splitContainer2.SplitterDistance = 40;
             this.splitContainer2.SplitterWidth = 2;
             this.splitContainer2.TabIndex = 0;
@@ -168,7 +168,7 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.tarTreeView);
-            this.splitContainer3.Size = new System.Drawing.Size(534, 314);
+            this.splitContainer3.Size = new System.Drawing.Size(534, 310);
             this.splitContainer3.SplitterDistance = 267;
             this.splitContainer3.SplitterWidth = 2;
             this.splitContainer3.TabIndex = 0;
@@ -179,7 +179,7 @@
             this.srcTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.srcTreeView.Location = new System.Drawing.Point(0, 0);
             this.srcTreeView.Name = "srcTreeView";
-            this.srcTreeView.Size = new System.Drawing.Size(267, 314);
+            this.srcTreeView.Size = new System.Drawing.Size(267, 310);
             this.srcTreeView.TabIndex = 0;
             this.srcTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.srcTreeView_AfterCheck);
             this.srcTreeView.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.srcTreeView_AfterCollapse);
@@ -192,7 +192,7 @@
             this.tarTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tarTreeView.Location = new System.Drawing.Point(0, 0);
             this.tarTreeView.Name = "tarTreeView";
-            this.tarTreeView.Size = new System.Drawing.Size(265, 314);
+            this.tarTreeView.Size = new System.Drawing.Size(265, 310);
             this.tarTreeView.TabIndex = 0;
             this.tarTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tarTreeView_AfterCheck);
             this.tarTreeView.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.tarTreeView_AfterCollapse);
@@ -216,14 +216,14 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.btnCancel);
             this.splitContainer5.Panel2.Controls.Add(this.btnAccept);
-            this.splitContainer5.Size = new System.Drawing.Size(534, 42);
-            this.splitContainer5.SplitterDistance = 336;
+            this.splitContainer5.Size = new System.Drawing.Size(534, 46);
+            this.splitContainer5.SplitterDistance = 340;
             this.splitContainer5.SplitterWidth = 2;
             this.splitContainer5.TabIndex = 0;
             // 
             // btnUnSelectAll
             // 
-            this.btnUnSelectAll.Location = new System.Drawing.Point(92, 5);
+            this.btnUnSelectAll.Location = new System.Drawing.Point(88, 5);
             this.btnUnSelectAll.Name = "btnUnSelectAll";
             this.btnUnSelectAll.Size = new System.Drawing.Size(75, 25);
             this.btnUnSelectAll.TabIndex = 0;
@@ -233,7 +233,7 @@
             // 
             // btnSelectAll
             // 
-            this.btnSelectAll.Location = new System.Drawing.Point(11, 5);
+            this.btnSelectAll.Location = new System.Drawing.Point(7, 5);
             this.btnSelectAll.Name = "btnSelectAll";
             this.btnSelectAll.Size = new System.Drawing.Size(75, 25);
             this.btnSelectAll.TabIndex = 0;
@@ -245,7 +245,7 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("btnCancel.Image")));
-            this.btnCancel.Location = new System.Drawing.Point(111, 5);
+            this.btnCancel.Location = new System.Drawing.Point(105, 5);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 25);
             this.btnCancel.TabIndex = 3;
@@ -258,7 +258,7 @@
             // btnAccept
             // 
             this.btnAccept.Image = ((System.Drawing.Image)(resources.GetObject("btnAccept.Image")));
-            this.btnAccept.Location = new System.Drawing.Point(30, 5);
+            this.btnAccept.Location = new System.Drawing.Point(24, 5);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(75, 25);
             this.btnAccept.TabIndex = 4;
@@ -272,15 +272,14 @@
             // 
             this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
             this.imageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList.Images.SetKeyName(0, "folder_closed.png");
-            this.imageList.Images.SetKeyName(1, "folder_open.png");
+            this.imageList.Images.SetKeyName(0, "Folder-closed-icon.png");
+            this.imageList.Images.SetKeyName(1, "Folder-open-icon.png");
             // 
             // FolderFilter
             // 
             this.AcceptButton = this.btnAccept;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(534, 400);
             this.Controls.Add(this.splitContainer1);
