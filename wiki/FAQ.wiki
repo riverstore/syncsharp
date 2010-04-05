@@ -13,7 +13,7 @@ We have designed SyncSharp to be used as a general file synchronization tool. Ad
 
 = Support=
 
-*_Is it available on mac / linux, etc. ?_*
+*_Is SyncSharp available on mac / linux, etc. ?_*
 <br/>
 Currently, SyncSharp is only supported on the Windows platform (2000, XP, Vista and 7). However, if significant requests are made for other popular platforms keeps on increasing, we will try to accommodate and look into it.
 
