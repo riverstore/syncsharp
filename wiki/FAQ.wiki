@@ -1,0 +1,17 @@
+#Frequently asked questions
+
+= General=
+
+*_Why the name SyncSharp?_*
+We use C#, (_pronounced 'C sharp'_) as our primary development language, which sounds similar to SyncSharp. Hence the name...
+
+*_Why the name SyncSharp?_*
+
+= =
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
