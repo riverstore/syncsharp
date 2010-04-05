@@ -855,7 +855,8 @@ namespace SyncSharp.Business
                 }
                 else if (tgtFlag.Equals(dFlag))
                 {
-
+                    preview.srcFlag = "";
+                    preview.tgtFlag = dFlag;
                     if (_srcCleanFoldersList.containsPriKey(relativePath))
                     {
                         if (!Directory.Exists(_srcPath + relativePath))
