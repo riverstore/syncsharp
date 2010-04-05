@@ -1,11 +1,20 @@
-#Frequently asked questions
+#labels faq,questions
+Some commonly asked questions regarding our product.
 
 = General=
 
-*_Why the name SyncSharp?_*
+*_Why the name SyncSharp ?_*
+<br/>
 We use C#, (_pronounced 'C sharp'_) as our primary development language, which sounds similar to SyncSharp. Hence the name...
 
-*_Why the name SyncSharp?_*
+*_What do you mean by 'Plug and sync' ?_*
+<br/>
+We have designed SyncSharp to be used as a general file synchronization tool. Additionally, it is also designed with making _computer-to-usb_ file storage sync more convenient. Hence, by design, with SyncSharp loaded in your _plug and play_ thumbdrive, with autoplay enabled on your system and your profile set up, our special automatically loaded _plug and sync_ feature will initiate an _unattended_ sync.
+
+= Support=
+*_Is it available on mac / linux, etc. ?_*
+Currently, SyncSharp is only supported on the Windows platform (2000, XP, Vista and 7). However, if significant requests are made for other popular platforms keeps on increasing, we will try to accommodate and look into it.
+
 
 = =
 
