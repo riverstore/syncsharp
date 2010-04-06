@@ -3,26 +3,25 @@ Some commonly asked questions regarding our product.
 
 = General=
 
-*_Why the name SyncSharp ?_*
+*Why the name SyncSharp ?*
 <br/>
 We use C#, (_pronounced 'C sharp'_) as our primary development language, which sounds similar to SyncSharp. Hence the name...
 
-*_What do you mean by 'Plug and sync' ?_*
+*What do you mean by 'Plug and sync' ?*
 <br/>
 We have designed SyncSharp to be used as a general file synchronization tool. Additionally, it is also designed with making _computer-to-usb_ file storage sync more convenient. Hence, by design, with SyncSharp loaded in your _plug and play_ thumbdrive, with autoplay enabled on your system and your profile set up, our special automatically loaded _plug and sync_ feature will initiate an _unattended_ sync.
 
 = Support=
 
-*_Is SyncSharp available on mac / linux, etc. ?_*
+*Is SyncSharp available on mac / linux, etc. ?*
 <br/>
 Currently, SyncSharp is only supported on the Windows platform (2000, XP, Vista and 7). However, if significant requests are made for other popular platforms keeps on increasing, we will try to accommodate and look into it.
 
+*I cannot seem to find the installation file?*
+<br/>
+:), that's because unlike most other sync programs out there... SyncSharp needs *NO INSTALLATION*. You heard it right, its ready to run right out of the box. Just click on on _SyncSharp.exe_ executable to start. 
 
-= =
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+*SyncSharp started up by itself when I plugged my usb drive!*
+<br/>
+You have just discovered one of SyncSharp's neatest features. Our cool _*"Plug and Sync"_* feature allows you, with autoplay enabled, to enable automatic startup of SyncSharp upon plug in.
+Sync profiles that are set up earlier will then be automatically performed after a predetermined timed countdown (default: 5 secs). At anytime before the end of the countdown, you may cancel the planned sync that is about to start. 
