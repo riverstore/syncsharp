@@ -567,7 +567,7 @@ namespace SyncSharp.Business
 						}
 						else
 						{
-							String delRelativePath = _srcRenameList.PriSub[relativePath];
+							String delRelativePath = _tgtRenameList.PriSub[relativePath];
 							preview.sAction = SyncAction.RenameSourceFile;
 							preview.cleanRelativePath = delRelativePath;
 							preview.cleanFileUnit = _srcCleanFilesList.getByPrimary(delRelativePath);
