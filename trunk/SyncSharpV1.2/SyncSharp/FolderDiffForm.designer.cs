@@ -115,7 +115,7 @@
             this.toolStripSeparator2,
             this.propertiesMenuItem});
             this.lvMenu.Name = "lvMenu";
-            this.lvMenu.Size = new System.Drawing.Size(196, 302);
+            this.lvMenu.Size = new System.Drawing.Size(196, 280);
             this.lvMenu.Opening += new System.ComponentModel.CancelEventHandler(this.lvMenu_Opening);
             // 
             // openMenuItem
@@ -209,7 +209,7 @@
             // noActionMenuItem
             // 
             this.noActionMenuItem.Image = global::SyncSharp.Properties.Resources.noAction;
-            this.noActionMenuItem.Name = "excludeMenuItem";
+            this.noActionMenuItem.Name = "noActionMenuItem";
             this.noActionMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.noActionMenuItem.Size = new System.Drawing.Size(195, 22);
             this.noActionMenuItem.Text = "No Action";
@@ -277,6 +277,7 @@
             this.lvCompare.DoubleClick += new System.EventHandler(this.lvCompare_DoubleClick);
             this.lvCompare.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvCompare_ColumnClick);
             this.lvCompare.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.lvCompare_RetrieveVirtualItem);
+            this.lvCompare.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvCompare_ColumnWidthChanging);
             this.lvCompare.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvCompare_DrawSubItem);
             // 
             // colSource

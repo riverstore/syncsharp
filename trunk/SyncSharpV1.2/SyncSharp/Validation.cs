@@ -50,17 +50,26 @@ namespace SyncSharp.Business
             if (!Directory.Exists(target))
                 return ErrorMsgCode.InvalidTarget;
 
-            if (String.Compare(source, target, true) == 0)
-                return ErrorMsgCode.SameSourceTarget;
-
             source = Path.GetFullPath(source);
             target = Path.GetFullPath(target);
+
+            source = source.EndsWith("\\") ? source : source + "\\";
+            target = target.EndsWith("\\") ? target : target + "\\";
+            
+            //source = source.TrimEnd(new char [] {'\\'});
+            //target = target.TrimEnd(new char[] { '\\' });
+
+            if (String.Compare(source, target, true) == 0)
+                return ErrorMsgCode.SameSourceTarget;
 
             if (source.StartsWith(target, true, null))
                 return ErrorMsgCode.SourceIsASubDirOfTarget;
 
             if (target.StartsWith(source, true, null))
                 return ErrorMsgCode.TargetIsASubDirOfSource;
+
+            //source = (source.Length < 3) ? source + "\\" : source;
+            //target = (target.Length < 3) ? target + "\\" : target;
 
             if (chkDuplicateFolderPair && profile.IsFolderPairExists(source, target))
                 return ErrorMsgCode.DuplicateFolderPair;

@@ -118,26 +118,21 @@ namespace SyncSharp.Business
                     reconciler.Preview();
                     FolderDiffForm form = new FolderDiffForm(reconciler._previewList, curTask);
                     DialogResult result = form.ShowDialog();
-                    this.updateSyncTaskResult(curTask, "Successful");
-                    //if (result == DialogResult.OK)
-                    //{
-                    //    if (!checkSufficientDiskSpace(curTask.Source.Substring(0, 1), detector.TgtDirtySize, isPlugSync) ||
-                    //        !checkSufficientDiskSpace(curTask.Target.Substring(0, 1), detector.SrcDirtySize, isPlugSync))
-                    //    {
-                    //        throw new Exception("Insufficient disk space");
-                    //    }
-                    //    status.Text = "Synchronizing " + curTask.Name + "...";
-                    //    //reconciler.SyncPreviewAction(previewLists);
-                    //    SyncMetaData.WriteMetaData(metaDataDir + @"\" + curTask.Name + "src.meta", reconciler._updatedList);
-                    //    SyncMetaData.WriteMetaData(metaDataDir + @"\" + curTask.Name + "tgt.meta", reconciler._updatedList);
-                    //    this.updateSyncTaskResult(curTask, "Successful");
-                    //}
-                    //else
-                    //{
-                    //    SyncMetaData.WriteMetaData(metaDataDir + @"\" + curTask.Name + "src.meta", reconciler._updatedList);
-                    //    SyncMetaData.WriteMetaData(metaDataDir + @"\" + curTask.Name + "tgt.meta", reconciler._updatedList);
-                    //    this.updateSyncTaskResult(curTask, "Aborted");
-                    //}
+                    if (result == DialogResult.OK)
+                    {
+                        if (!checkSufficientDiskSpace(curTask.Source.Substring(0, 1), detector.TgtDirtySize, isPlugSync) ||
+                            !checkSufficientDiskSpace(curTask.Target.Substring(0, 1), detector.SrcDirtySize, isPlugSync))
+                        {
+                            throw new Exception("Insufficient disk space");
+                        }
+                        status.Text = "Synchronizing " + curTask.Name + "...";
+                        reconciler.SyncPreview(reconciler._previewList);
+                        SyncMetaData.WriteMetaData(metaDataDir + @"\" + curTask.Name + "src.meta", reconciler._updatedList);
+                        SyncMetaData.WriteMetaData(metaDataDir + @"\" + curTask.Name + "tgt.meta", reconciler._updatedList);
+                        this.updateSyncTaskResult(curTask, "Successful");
+                    }
+                    else
+                        this.updateSyncTaskResult(curTask, "Aborted");
 
 				}
 				catch (Exception e)
