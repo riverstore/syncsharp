@@ -382,6 +382,7 @@ namespace SyncSharp.GUI
             openTargetMenuItem.Enabled = isEnabled;
             viewLogMenuItem.Enabled = isEnabled;
 
+            analyzeCMItem.Enabled = isEnabled;
             syncCMItem.Enabled = isEnabled;
             modifyCMItem.Enabled = isEnabled;
             deleteCMItem.Enabled = isEnabled;
@@ -469,9 +470,14 @@ namespace SyncSharp.GUI
                 else
                 {
                     sourceFolder = directories[0];
-                    lblStatus.Text = "Source folder accepted. Awaiting for target folder";
+                    lblStatus.Text = "Dropped source folder. Awaiting for target folder";
                 }
             }
+        }
+
+        private void analyzeCMItem_Click(object sender, EventArgs e)
+        {
+            btnAnalyze_Click(sender, e);
         } 
 	}
 }

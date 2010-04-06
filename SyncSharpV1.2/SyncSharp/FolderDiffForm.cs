@@ -20,13 +20,15 @@ namespace SyncSharp.GUI
 	{
 		#region attributes
 
+        private const int MIN_WIDTH = 50;
+
 		private DataView _dvCompare;
 		private DataTable _dtCompare;
-
+        
         private CustomDictionary<string, string, PreviewUnit> _previewList;
 
 		private string _source, _target;
-		private int _sortColumn = -1;
+		private int _sortColumn;
 
 		// Counters for comparision statistics
 		private int _numOfSFilesCpy;
@@ -56,6 +58,7 @@ namespace SyncSharp.GUI
             _previewList = previewList;
             _source = task.Source;
             _target = task.Target;
+            _sortColumn = -1;
             lblName.Text = task.Name;
             lblSource.Text = _source;
             lblTarget.Text = _target;
@@ -136,6 +139,7 @@ namespace SyncSharp.GUI
                             u.MatchingPath = srcRelativePath;
                         }
                     }
+                    if (u == null) continue;
                     ComputeStatisticsResult(u, unit.sAction);
                     AddDataRow(u, unit.sAction);
                 }
@@ -606,6 +610,15 @@ namespace SyncSharp.GUI
 		{
 			ChangeSyncAction(SyncAction.KeepBothCopies);
 		}
+
+        private void lvCompare_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        {
+            if (e.NewWidth < MIN_WIDTH)
+            {
+                e.Cancel = true;
+                e.NewWidth = lvCompare.Columns[e.ColumnIndex].Width;
+            }
+        }
 
 		#endregion
 	}
