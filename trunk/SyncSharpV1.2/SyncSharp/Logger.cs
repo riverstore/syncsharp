@@ -10,45 +10,40 @@ namespace SyncSharp.Storage
 	{
 		#region attributes
 
-		public enum LogType { Copy, CopyErr, Delete, DeleteErr, Rename, RenameErr };
+        public enum LogType { CopySRC, CopyTGT, DeleteSRC, DeleteTGT, RenameSRC, RenameTGT };
 
-		private static FileStream currFile;
-		private static StreamWriter sw;
+        private static readonly string CopyStatusSRC = "[COPY OK] from SOURCE";
+        private static readonly string DeleteStatusSRC = "[DELETE OK] from SOURCE";
+        private static readonly string RenameStatusSRC = "[RENAME OK] from SOURCE";
+
+        private static readonly string CopyStatusTGT = "[COPY OK] from TARGET";
+        private static readonly string DeleteStatusTGT = "[DELETE OK] from TARGET";
+        private static readonly string RenameStatusTGT = "[RENAME OK] from TARGET";
+
+        internal static readonly ulong MaxUlong = 18446744073709551615;
+        internal static readonly uint MaxUint = 4294967295;
+
+		private static FileStream _currFile;
+		private static StreamWriter _sw;
 
 		private static string _logFileName;
 		private static string _logFileLocation;
 
-		private static int _filesRenamedCntMachine;
-		private static int _filesCopiedCntMachine;
-		private static int _filesDeletedCntMachine;
+		private static uint _filesRenamedCntSRC;
+		private static uint _filesCopiedCntSRC;
+		private static uint _filesDeletedCntSRC;
 
-		private static long _filesRenamedSizeMachine;
-		private static long _filesCopiedSizeMachine;
-		private static long _filesDeletedSizeMachine;
+		private static ulong _filesRenamedSizeSRC;
+		private static ulong _filesCopiedSizeSRC;
+		private static ulong _filesDeletedSizeSRC;
 
-		private static int _filesRenamedCntUsb;
-		private static int _filesCopiedCntUsb;
-		private static int _filesDeletedCntUsb;
+		private static uint _filesRenamedCntTGT;
+		private static uint _filesCopiedCntTGT;
+		private static uint _filesDeletedCntTGT;
 
-		private static long _filesRenamedSizeUsb;
-		private static long _filesCopiedSizeUsb;
-		private static long _filesDeletedSizeUsb;
-
-		private static int _filesRenamedCntMachineErr;
-		private static int _filesCopiedCntMachineErr;
-		private static int _filesDeletedCntMachineErr;
-
-		private static long _filesRenamedSizeMachineErr;
-		private static long _filesCopiedSizeMachineErr;
-		private static long _filesDeletedSizeMachineErr;
-
-		private static int _filesRenamedCntUsbErr;
-		private static int _filesCopiedCntUsbErr;
-		private static int _filesDeletedCntUsbErr;
-
-		private static long _filesRenamedSizeUsbErr;
-		private static long _filesCopiedSizeUsbErr;
-		private static long _filesDeletedSizeUsbErr;
+		private static ulong _filesRenamedSizeTGT;
+		private static ulong _filesCopiedSizeTGT;
+		private static ulong _filesDeletedSizeTGT;
 
 		#endregion
 
@@ -58,12 +53,26 @@ namespace SyncSharp.Storage
 
 		#region methods
 
-		public static bool SyncPlanWriteLog(string metaDataDir, string syncTaskName, int machineCopyTotal, long machineCopySize, int machineDeleteTotal, long machineDeleteSize, int machineRenameTotal, long machineRenameSize, int usbCopyTotal, long usbCopySize, int usbDeleteTotal, long usbDeleteSize, int usbRenameTotal, long usbRenameSize)
+        public static bool SyncPlanWriteLog(string metaDataDir, string syncTaskName, uint machineCopyTotal, ulong machineCopySize, uint machineDeleteTotal, ulong machineDeleteSize, uint machineRenameTotal, ulong machineRenameSize, uint usbCopyTotal, ulong usbCopySize, uint usbDeleteTotal, ulong usbDeleteSize, uint usbRenameTotal, ulong usbRenameSize)
 		{
-			if (metaDataDir == null) throw new ArgumentNullException("machineId");
+            if (metaDataDir == null) throw new ArgumentNullException("metaDataDir");
 			if (syncTaskName == null) throw new ArgumentNullException("syncTaskName");
-			if (metaDataDir.Equals(string.Empty)) throw new ArgumentException("Empty string passed", "machineId");
+            if (metaDataDir.Equals(string.Empty)) throw new ArgumentException("Empty string passed", "metaDataDir");
 			if (syncTaskName.Equals(string.Empty)) throw new ArgumentException("Empty string passed", "syncTaskName");
+
+            if (machineCopySize < 0 || machineCopySize > MaxUlong) throw new ArgumentOutOfRangeException("machineCopySize");
+            if (machineDeleteSize < 0 || machineCopySize > MaxUlong) throw new ArgumentOutOfRangeException("machineDeleteSize");
+            if (machineRenameSize < 0 || machineCopySize > MaxUlong) throw new ArgumentOutOfRangeException("machineRenameSize");
+            if (usbCopySize < 0 || machineCopySize > MaxUlong) throw new ArgumentOutOfRangeException("usbCopySize");
+            if (usbDeleteSize < 0 || machineCopySize > MaxUlong) throw new ArgumentOutOfRangeException("usbDeleteSize");
+            if (usbRenameSize < 0 || machineCopySize > MaxUlong) throw new ArgumentOutOfRangeException("usbRenameSize");
+
+            if (machineCopyTotal < 0 || machineCopyTotal > MaxUint) throw new ArgumentOutOfRangeException("machineCopyTotal");
+            if (machineDeleteTotal < 0 || machineCopyTotal > MaxUint) throw new ArgumentOutOfRangeException("machineDeleteTotal");
+            if (machineRenameTotal < 0 || machineCopyTotal > MaxUint) throw new ArgumentOutOfRangeException("machineRenameTotal");
+            if (usbCopyTotal < 0 || machineCopyTotal > MaxUint) throw new ArgumentOutOfRangeException("usbCopyTotal");
+            if (usbDeleteTotal < 0 || machineCopyTotal > MaxUint) throw new ArgumentOutOfRangeException("usbDeleteTotal");
+            if (usbRenameTotal < 0 || machineCopyTotal > MaxUint) throw new ArgumentOutOfRangeException("usbRenameTotal");
 
 			try
 			{
@@ -73,24 +82,23 @@ namespace SyncSharp.Storage
 				DirectoryInfo di = new DirectoryInfo(_logFileLocation);
 				// Try to create the directory.
 				di.Create();
-
-				currFile = new FileStream(_logFileName, FileMode.Append, FileAccess.Write, FileShare.Read);
+				_currFile = new FileStream(_logFileName, FileMode.Append, FileAccess.Write, FileShare.Read);
 
 				// Create a new stream to write to the file
-				sw = new StreamWriter(currFile);
+				_sw = new StreamWriter(_currFile);
 
 				// Write to the file
 
-				sw.WriteLine("*** Sync Plan ***");
-				sw.WriteLine("ACTION          \tMACHINE\t\tUSB");
+				_sw.WriteLine("*** Sync Plan ***");
+				_sw.WriteLine("ACTION          \tMACHINE\t\tUSB");
 
-				sw.WriteLine("Files to COPY  :\t{0}\t{1}\t{2}\t{3}\t", machineCopyTotal, machineCopySize, usbCopyTotal, usbCopySize);
-				sw.WriteLine("Files to DELETE:\t{0}\t{1}\t{2}\t{3}\t", machineDeleteTotal, machineDeleteSize, usbDeleteTotal, usbDeleteSize);
-				sw.WriteLine("Files to RENAME:\t{0}\t{1}\t{2}\t{3}\t", machineRenameTotal, machineRenameSize, usbRenameTotal, usbRenameSize);
-				sw.WriteLine("*****************");
-				sw.WriteLine("#Sync executing#");
-				sw.WriteLine("#Format:|date|time|status|machine source|size|machine dest|size|usb source|size|usb dest|size|error msg|");
-				sw.WriteLine("#");			
+				_sw.WriteLine("Files to COPY  :\t{0}\t{1}\t{2}\t{3}\t", machineCopyTotal, machineCopySize, usbCopyTotal, usbCopySize);
+				_sw.WriteLine("Files to DELETE:\t{0}\t{1}\t{2}\t{3}\t", machineDeleteTotal, machineDeleteSize, usbDeleteTotal, usbDeleteSize);
+				_sw.WriteLine("Files to RENAME:\t{0}\t{1}\t{2}\t{3}\t", machineRenameTotal, machineRenameSize, usbRenameTotal, usbRenameSize);
+				_sw.WriteLine("*****************");
+				_sw.WriteLine("#Sync executing#");
+				_sw.WriteLine("#Format:|date|time|status|machine source|size|machine dest|size|usb source|size|usb dest|size|error msg|");
+				_sw.WriteLine("#");			
 			}
 			catch (IOException e)
 			{
@@ -102,19 +110,19 @@ namespace SyncSharp.Storage
 			finally
 			{
 				// Close StreamWriter
-				sw.Close();
+				_sw.Close();
 
 				// Close file
-				currFile.Close();
+				_currFile.Close();
 			}
 			return true;
 		}
 
 		public static bool SyncSetWriteLog(string metaDataDir, string syncTaskName, bool start)
 		{
-			if (metaDataDir == null) throw new ArgumentNullException("machineId");
+            if (metaDataDir == null) throw new ArgumentNullException("metaDataDir");
 			if (syncTaskName == null) throw new ArgumentNullException("syncTaskName");
-			if (metaDataDir.Equals(string.Empty)) throw new ArgumentException("Empty string passed", "machineId");
+            if (metaDataDir.Equals(string.Empty)) throw new ArgumentException("Empty string passed", "metaDataDir");
 			if (syncTaskName.Equals(string.Empty)) throw new ArgumentException("Empty string passed", "syncTaskName");
 
 			_logFileName = metaDataDir + @"\" + syncTaskName + ".log";
@@ -129,65 +137,48 @@ namespace SyncSharp.Storage
 				// Try to create the directory.
 				di.Create();
 
-				currFile = new FileStream(_logFileName, FileMode.Append, FileAccess.Write, FileShare.Read);
+				_currFile = new FileStream(_logFileName, FileMode.Append, FileAccess.Write, FileShare.Read);
 
 				// Create a new stream to write to the file
-				sw = new StreamWriter(currFile);
+				_sw = new StreamWriter(_currFile);
 
 				// Write to the file
 				if (start)
 				{
-					sw.WriteLine("==START============================================================");
-					sw.WriteLine("Sync started on {0}\t{1}", DateTime.Now.ToShortDateString(),
+					_sw.WriteLine("==START============================================================");
+					_sw.WriteLine("Sync started on {0}\t{1}", DateTime.Now.ToShortDateString(),
 											 DateTime.Now.ToLongTimeString());
 					
+					_filesRenamedCntSRC = 0;
+					_filesCopiedCntSRC = 0;
+					_filesDeletedCntSRC = 0;
 
-					_filesRenamedCntMachine = 0;
-					_filesCopiedCntMachine = 0;
-					_filesDeletedCntMachine = 0;
+					_filesRenamedSizeSRC = 0;
+					_filesCopiedSizeSRC = 0;
+					_filesDeletedSizeSRC = 0;
 
-					_filesRenamedSizeMachine = 0;
-					_filesCopiedSizeMachine = 0;
-					_filesDeletedSizeMachine = 0;
+					_filesRenamedCntTGT = 0;
+					_filesCopiedCntTGT = 0;
+					_filesDeletedCntTGT = 0;
 
-					_filesRenamedCntUsb = 0;
-					_filesCopiedCntUsb = 0;
-					_filesDeletedCntUsb = 0;
-
-					_filesRenamedSizeUsb = 0;
-					_filesCopiedSizeUsb = 0;
-					_filesDeletedSizeUsb = 0;
-
-					_filesRenamedCntMachineErr = 0;
-					_filesCopiedCntMachineErr = 0;
-					_filesDeletedCntMachineErr = 0;
-
-					_filesRenamedSizeMachineErr = 0;
-					_filesCopiedSizeMachineErr = 0;
-					_filesDeletedSizeMachineErr = 0;
-
-					_filesRenamedCntUsbErr = 0;
-					_filesCopiedCntUsbErr = 0;
-					_filesDeletedCntUsbErr = 0;
-
-					_filesRenamedSizeUsbErr = 0;
-					_filesCopiedSizeUsbErr = 0;
-					_filesDeletedSizeUsbErr = 0;
+					_filesRenamedSizeTGT = 0;
+					_filesCopiedSizeTGT = 0;
+					_filesDeletedSizeTGT = 0;
 				}
 				else
 				{
-					sw.WriteLine("*** Sync Results ***");
-					sw.WriteLine("ACTION          \tFROM SOURCE\t\tFROM TARGET");
+					_sw.WriteLine("*** Sync Results ***");
+					_sw.WriteLine("ACTION          \t|FROM SOURCE\t\t|FROM TARGET");
 
-					sw.WriteLine("Files Copied :  \t{0}\t[{1} bytes]\t\t{2}\t[{3} bytes]", _filesCopiedCntMachine, _filesCopiedSizeMachine, _filesCopiedCntUsb, _filesCopiedSizeUsb);
-					sw.WriteLine("Files Deleted:  \t{0}\t[{1} bytes]\t\t{2}\t[{3} bytes]", _filesDeletedCntMachine, _filesDeletedSizeMachine, _filesDeletedCntUsb, _filesDeletedSizeUsb);
-					sw.WriteLine("Files Renamed:  \t{0}\t[{1} bytes]\t\t{2}\t[{3} bytes]", _filesRenamedCntMachine, _filesRenamedSizeMachine, _filesRenamedCntUsb, _filesRenamedSizeUsb);
-					sw.WriteLine("*********************");
-					sw.WriteLine("Sync ended on {0}\t{1}", DateTime.Now.ToShortDateString(),
+					_sw.WriteLine("Files Copied :  \t[{0}\t({1} bytes)]\t\t[{2}\t({3} bytes)]", _filesCopiedCntSRC, _filesCopiedSizeSRC, _filesCopiedCntTGT, _filesCopiedSizeTGT);
+					_sw.WriteLine("Files Deleted:  \t[{0}\t({1} bytes)]\t\t[{2}\t({3} bytes)]", _filesDeletedCntSRC, _filesDeletedSizeSRC, _filesDeletedCntTGT, _filesDeletedSizeTGT);
+					_sw.WriteLine("Files Renamed:  \t[{0}\t({1} bytes)]\t\t[{2}\t({3} bytes)]", _filesRenamedCntSRC, _filesRenamedSizeSRC, _filesRenamedCntTGT, _filesRenamedSizeTGT);
+					_sw.WriteLine("*********************");
+					_sw.WriteLine("Sync ended on {0}\t{1}", DateTime.Now.ToShortDateString(),
 											 DateTime.Now.ToLongTimeString());
-					sw.WriteLine("==END==============================================================");
-					sw.WriteLine();
-					sw.WriteLine();
+					_sw.WriteLine("==END==============================================================");
+					_sw.WriteLine();
+					_sw.WriteLine();
 				}		
 			}
 			catch (IOException e)
@@ -200,129 +191,87 @@ namespace SyncSharp.Storage
 			finally
 			{
 				// Close StreamWriter
-				sw.Close();
+				_sw.Close();
 
 				// Close file
-				currFile.Close();
+				_currFile.Close();
 			}
 			return true;
 		}
 
-		public static bool WriteLog(int logType, string machineSrcPath, long machineSrcSize, string machineDestPath, long machineDestSize, string usbSrcPath, long usbSrcSize, string usbDestPath, long usbDestSize, string errorMsg)
+        public static bool WriteLog(LogType logType, string srcPath, ulong srcSize, string tgtPath, ulong tgtSize)
 		{
-			//if (metaDataDir == null) throw new ArgumentNullException("machineId");
-			//if (syncTaskName == null) throw new ArgumentNullException("syncTaskName");
-			//if (metaDataDir.Equals(string.Empty)) throw new ArgumentException("Empty string passed", "machineId");
-			//if (syncTaskName.Equals(string.Empty)) throw new ArgumentException("Empty string passed", "syncTaskName");
+            if (srcSize < 0 || srcSize > MaxUlong) throw new ArgumentOutOfRangeException("srcSize");
+            if (tgtSize < 0 || tgtSize > MaxUlong) throw new ArgumentOutOfRangeException("tgtSize");
 
 			try
 			{
-				DirectoryInfo di;
-				string status;
+			    string status;
+			    string oriPath = "";
+			    ulong oriSize = 0;
+			    string destPath = "";
+                ulong destSize = 0;
 
 				switch (logType)
 				{
-					case (int)LogType.Copy:
-						status = "[COPY OK]";
+					case LogType.CopySRC:
+                        status = CopyStatusSRC;
+						break;                        
+                    case LogType.CopyTGT:
+                        status = CopyStatusTGT;
 						break;
-					case (int)LogType.Delete:
-						status = "[DELETE OK]";
+					case LogType.DeleteSRC:
+                        status = DeleteStatusSRC;
 						break;
-					case (int)LogType.Rename:
-						status = "[RENAME OK]";
+                    case LogType.DeleteTGT:
+                        status = DeleteStatusTGT;
 						break;
-					case (int)LogType.CopyErr:
-						status = "[COPY ERR]";
+					case LogType.RenameSRC:
+                        status = RenameStatusSRC;
 						break;
-					case (int)LogType.DeleteErr:
-						status = "[DELETE ERR]";
+                    case LogType.RenameTGT:
+                        status = RenameStatusTGT;
 						break;
-					case (int)LogType.RenameErr:
-						status = "[RENAME ERR]";
-						break;
+	
 					default:
-						//status = "[MISC]";
-						throw new ArgumentException("logType must be of type enum LogType {Copy, CopyErr, Delete, DeleteErr, Rename, RenameErr};", "logType");
-
-					//break;
+						throw new ArgumentException("logType must be of type enum LogType {CopySRC, CopyTGT, DeleteSRC, DeleteTGT, RenameSRC, RenameTGT};", "logType");
 				}
 
-				switch (logType)
-				{
-					case (int)LogType.Copy:
-					case (int)LogType.Delete:
-					case (int)LogType.Rename:
-
-						di = new DirectoryInfo(_logFileLocation);
-						di.Create();
-						currFile = new FileStream(_logFileName, FileMode.Append, FileAccess.Write, FileShare.Read);
-						sw = new StreamWriter(currFile);
-
-						break;
-
-					case (int)LogType.CopyErr:
-					case (int)LogType.DeleteErr:
-					case (int)LogType.RenameErr:
-
-						di = new DirectoryInfo(_logFileLocation);
-						di.Create();
-						currFile = new FileStream(_logFileName, FileMode.Append, FileAccess.Write, FileShare.Read);
-						sw = new StreamWriter(currFile);
-
-						break;
-					default:
-						currFile = new FileStream(_logFileName, FileMode.Append, FileAccess.Write, FileShare.Read);
-						sw = new StreamWriter(currFile);
-						break;
-				}
+				DirectoryInfo di = new DirectoryInfo(_logFileLocation);
+				di.Create();
+				_currFile = new FileStream(_logFileName, FileMode.Append, FileAccess.Write, FileShare.Read);
+				_sw = new StreamWriter(_currFile);
 
 				switch (logType)
 				{
-					case (int)LogType.Delete:
-					case (int)LogType.DeleteErr:
-						//delete OK/ERROR originate from machine side
-						if (machineSrcPath != null && machineDestPath == null && usbSrcPath == null && usbDestPath == null)
+                    case LogType.DeleteSRC:
+                    case LogType.DeleteTGT:
+                    
+                        //delete OK originate from machine side or from usb side
+                        if ((srcPath != null && tgtPath == null) || (srcPath == null && tgtPath != null))
 						{
+                            //update counter
+	                        switch (logType)
+							{
+                                case LogType.DeleteSRC:
+                                    _filesDeletedCntSRC++;
+                                    _filesDeletedSizeSRC += srcSize;
+							        oriPath = srcPath;
+							        oriSize = srcSize;
+                                break;
+                                case LogType.DeleteTGT:
+                                    _filesDeletedCntTGT++;
+                                    _filesDeletedSizeTGT += srcSize;	
+                                    oriPath = tgtPath;
+                                    oriSize = tgtSize;
+                                break;
+							}
+                            
 							//log entry format:
-							//|date|time|status|machineSrcPath|machineSrcSize|machineDestPath|machineDestSize|usbSrcPath|usbSrcSize|usbDestPath|usbDestSize|errorMsg
-							sw.WriteLine("{0}\t{1}\t" + status + " From Source" + "\t{2}\t[{3} bytes]" + ((errorMsg == null) ? "\t" : "\t" + errorMsg),
+                            //|date|time|status|oriPath|oriSize|destPath|destSize|
+                            _sw.WriteLine("{0}\t{1}\t" + status + "\t[{2}\t({3} bytes)]",
 													 DateTime.Now.ToShortDateString(),
-													 DateTime.Now.ToLongTimeString(), machineSrcPath, machineSrcSize);
-
-							//update counter
-							switch (logType)
-							{
-								case (int)LogType.Delete:
-									_filesDeletedCntMachine++;
-									_filesDeletedSizeMachine += machineSrcSize;
-									break;
-								case (int)LogType.DeleteErr:
-									_filesDeletedCntMachineErr++;
-									_filesDeletedSizeMachineErr += machineSrcSize;
-									break;
-							}
-						}
-						//delete OK/ERROR originate from usb side
-						else if (machineSrcPath != null && machineDestPath != null && usbSrcPath == null && usbDestPath != null)
-						{
-							//log entry format:
-							//|date|time|status|machineSrcPath|machineSrcSize|machineDestPath|machineDestSize|usbSrcPath|usbSrcSize|usbDestPath|usbDestSize|errorMsg
-							sw.WriteLine("{0}\t{1}\t" + status + " From Target" + "\t{2}\t[{3} bytes]" + ((errorMsg == null) ? "\t" : "\t" + errorMsg),
-									DateTime.Now.ToShortDateString(),
-													 DateTime.Now.ToLongTimeString(), usbSrcPath, usbSrcSize);
-
-							//update counter
-							switch (logType)
-							{
-								case (int)LogType.Delete:
-									_filesDeletedCntUsb++;
-									_filesDeletedSizeUsb += usbSrcSize;
-									break;
-								case (int)LogType.DeleteErr:
-									_filesDeletedCntUsbErr++;
-									_filesDeletedSizeUsbErr += usbSrcSize;
-									break;
-							}
+                                                     DateTime.Now.ToLongTimeString(), oriPath, oriSize);							
 						}
 						else
 						{
@@ -331,72 +280,57 @@ namespace SyncSharp.Storage
 						break;
 
 
-					case (int)LogType.Copy:
-					case (int)LogType.Rename:
-					case (int)LogType.RenameErr:
-					case (int)LogType.CopyErr:
-						//copy or rename OK/ERROR originate from machine side
-						if (machineSrcPath != null && machineDestPath != null && usbSrcPath == null && usbDestPath == null)
+					case LogType.CopySRC:
+                    case LogType.CopyTGT:
+					case LogType.RenameSRC:
+					case LogType.RenameTGT:
+
+                        //copy or rename OK originate from machine side or from usb side
+                        if (srcPath != null && tgtPath != null)
 						{
+                            //update counter
+						    switch (logType)
+						    {
+                                case LogType.CopySRC:
+								    _filesCopiedCntSRC++;
+                                    _filesCopiedSizeSRC += srcSize;
+                                    oriPath = srcPath;
+						            oriSize = srcSize;
+                                    destPath = tgtPath;
+						            destSize = tgtSize;
+								    break;
+                                case LogType.RenameSRC:
+								    _filesRenamedCntSRC++;
+                                    _filesRenamedSizeSRC += srcSize;
+                                    oriPath = srcPath;
+						            oriSize = srcSize;
+                                    destPath = tgtPath;
+						            destSize = tgtSize;
+								    break;
+                                case LogType.CopyTGT:
+                                    _filesCopiedCntTGT++;
+                                    _filesCopiedSizeTGT += tgtSize;
+                                    oriPath = tgtPath;
+                                    oriSize = tgtSize;
+                                    destPath = srcPath;
+                                    destSize = srcSize;
+                                    break;
+                                case LogType.RenameTGT:
+                                    _filesRenamedCntTGT++;
+                                    _filesRenamedSizeTGT += tgtSize;
+                                    oriPath = tgtPath;
+                                    oriSize = tgtSize;
+                                    destPath = srcPath;
+                                    destSize = srcSize;
+                                    break;
+						    }
+
 							//log entry format:
-							//|date|time|status|machineSrcPath|machineSrcSize|machineDestPath|machineDestSize|usbSrcPath|usbSrcSize|usbDestPath|usbDestSize|errorMsg
-							sw.WriteLine("{0}\t{1}\t" + status + " From Source" + "\t{2}\t[{3} bytes]\t{4}\t[{5} bytes]" + ((errorMsg == null) ? "\t" : "\t" + errorMsg),
+                            //|date|time|status|oriPath|oriSize|destPath|destSize|
+							_sw.WriteLine("{0}\t{1}\t" + status + "\t[{2}\t({3} bytes)] =->\t[{4}\t({5} bytes)]" ,
 													 DateTime.Now.ToShortDateString(),
-													 DateTime.Now.ToLongTimeString(), machineSrcPath, machineSrcSize,
-													 machineDestPath, machineDestSize);
-
-							//update counter
-							switch (logType)
-							{
-								case (int)LogType.Copy:
-									_filesCopiedCntMachine++;
-									_filesCopiedSizeMachine += machineSrcSize;
-									break;
-								case (int)LogType.Rename:
-									_filesRenamedCntMachine++;
-									_filesRenamedSizeMachine += machineSrcSize;
-									break;
-								case (int)LogType.CopyErr:
-									_filesCopiedCntMachineErr++;
-									_filesCopiedSizeMachineErr += machineSrcSize;
-									break;
-								case (int)LogType.RenameErr:
-									_filesRenamedCntMachineErr++;
-									_filesRenamedSizeMachineErr += machineSrcSize;
-									break;
-							}
-						}
-
-						//copy or rename OK/ERROR originate from usb side
-						else if (machineSrcPath == null && machineDestPath == null && usbSrcPath != null && usbDestPath != null)
-						{
-							//log entry format:
-							//|date|time|status|machineSrcPath|machineSrcSize|machineDestPath|machineDestSize|usbSrcPath|usbSrcSize|usbDestPath|usbDestSize|errorMsg
-							sw.WriteLine("{0}\t{1}\t" + status + " From Target" + "\t{2}\t[{3} bytes]\t{4}\t[{5} bytes]" + ((errorMsg == null) ? "\t-" : "\t" + errorMsg),
-													 DateTime.Now.ToShortDateString(),
-													 DateTime.Now.ToLongTimeString(), usbSrcPath, usbSrcSize,
-													 usbDestPath, usbDestSize);
-
-							//update counter
-							switch (logType)
-							{
-								case (int)LogType.Copy:
-									_filesCopiedCntUsb++;
-									_filesCopiedSizeUsb += usbSrcSize;
-									break;
-								case (int)LogType.Rename:
-									_filesRenamedCntUsb++;
-									_filesRenamedSizeUsb += usbSrcSize;
-									break;
-								case (int)LogType.CopyErr:
-									_filesCopiedCntUsbErr++;
-									_filesCopiedSizeUsbErr += usbSrcSize;
-									break;
-								case (int)LogType.RenameErr:
-									_filesRenamedCntUsbErr++;
-									_filesRenamedSizeUsbErr += usbSrcSize;
-									break;
-							}
+                                                     DateTime.Now.ToLongTimeString(), oriPath, oriSize,
+                                                     destPath, destSize);
 						}
 						else
 						{
@@ -404,7 +338,6 @@ namespace SyncSharp.Storage
 						}
 						break;
 				}
-				////////////////////////////////////////////////
 			}
 			catch (IOException e)
 			{
@@ -416,10 +349,10 @@ namespace SyncSharp.Storage
 			finally
 			{
 				// Close StreamWriter
-				sw.Close();
+				_sw.Close();
 
 				// Close file
-				currFile.Close();
+				_currFile.Close();
 			}
 			return true;
 
@@ -461,7 +394,7 @@ namespace SyncSharp.Storage
 
 		//public static string ReadLog(string metaDataDir, string syncTaskName)
 		//{
-		//  FileStream currFile;
+		//  FileStream _currFile;
 		//  StreamReader sr;
 
 		//  if (metaDataDir == null) throw new ArgumentNullException("machineId");
@@ -472,10 +405,10 @@ namespace SyncSharp.Storage
 		//  try
 		//  {
 		//    // Specify file, instructions, and privilegdes
-		//    currFile = new FileStream(@".\Log\" + syncTaskName + ".log", FileMode.Open, FileAccess.Read);
+		//    _currFile = new FileStream(@".\Log\" + syncTaskName + ".log", FileMode.Open, FileAccess.Read);
 
 		//    // Create a new stream to read from a file
-		//    sr = new StreamReader(currFile);
+		//    sr = new StreamReader(_currFile);
 
 		//    // Read contents of file into a string
 		//    retrievedLogEntry = sr.ReadToEnd();
@@ -484,7 +417,7 @@ namespace SyncSharp.Storage
 		//    sr.Close();
 
 		//    // Close file
-		//    currFile.Close();
+		//    _currFile.Close();
 		//  }
 
 		//  catch (IOException e)
@@ -512,20 +445,15 @@ namespace SyncSharp.Storage
 
 				di = new DirectoryInfo(_logFileLocation);
 				di.Create();
-				currFile = new FileStream(_logFileName, FileMode.Append, FileAccess.Write, FileShare.Read);
-				sw = new StreamWriter(currFile);
+				_currFile = new FileStream(_logFileName, FileMode.Append, FileAccess.Write, FileShare.Read);
+				_sw = new StreamWriter(_currFile);
 
 				//log entry format:
 				//|date|time|errorMsg
-				sw.WriteLine("{0}\t{1}\t***ERROR***: {2}",
+				_sw.WriteLine("{0}\t{1}\t[***ERROR***]: {2}",
 				DateTime.Now.ToShortDateString(),
 				DateTime.Now.ToLongTimeString(), errorMsg);
-
-				// Close StreamWriter
-				sw.Close();
-
-				// Close file
-				currFile.Close();
+		
 			}
 			catch (IOException e)
 			{
@@ -537,10 +465,10 @@ namespace SyncSharp.Storage
 			finally
 			{
 				// Close StreamWriter
-				sw.Close();
+				_sw.Close();
 
 				// Close file
-				currFile.Close();
+				_currFile.Close();
 			}
 			return true;
 		}
