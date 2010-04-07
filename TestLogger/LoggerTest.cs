@@ -6,7 +6,7 @@ namespace TestLogger
     
     
     /// <summary>
-    ///This is a test class for LoggerTest and is intended
+    ///This is a test class for LoggerTest and is uintended
     ///to contain all LoggerTest Unit Tests
     ///</summary>
     [TestClass()]
@@ -136,18 +136,18 @@ namespace TestLogger
         {
             string machineId = "macID";
             string syncTaskName = "SyncPlanWriteLog"; 
-            int machineCopyTotal = 0; 
-            long machineCopySize = 0; 
-            int machineDeleteTotal = 0; 
-            long machineDeleteSize = 0; 
-            int machineRenameTotal = 0; 
-            long machineRenameSize = 0; 
-            int usbCopyTotal = 0; 
-            long usbCopySize = 0; 
-            int usbDeleteTotal = 0; 
-            long usbDeleteSize = 0; 
-            int usbRenameTotal = 0; 
-            long usbRenameSize = 0; 
+            uint machineCopyTotal = 0; 
+            ulong machineCopySize = 0; 
+            uint machineDeleteTotal = 0; 
+            ulong machineDeleteSize = 0; 
+            uint machineRenameTotal = 0; 
+            ulong machineRenameSize = 0; 
+            uint usbCopyTotal = 0; 
+            ulong usbCopySize = 0; 
+            uint usbDeleteTotal = 0; 
+            ulong usbDeleteSize = 0; 
+            uint usbRenameTotal = 0; 
+            ulong usbRenameSize = 0; 
             bool expected = true; 
             bool actual = false;
             
@@ -164,18 +164,18 @@ namespace TestLogger
         {
             string machineId = "macID";
             string syncTaskName = "";
-            int machineCopyTotal = 0;
-            long machineCopySize = 0;
-            int machineDeleteTotal = 0;
-            long machineDeleteSize = 0;
-            int machineRenameTotal = 0;
-            long machineRenameSize = 0;
-            int usbCopyTotal = 0;
-            long usbCopySize = 0;
-            int usbDeleteTotal = 0;
-            long usbDeleteSize = 0;
-            int usbRenameTotal = 0;
-            long usbRenameSize = 0;
+            uint machineCopyTotal = 0;
+            ulong machineCopySize = 0;
+            uint machineDeleteTotal = 0;
+            ulong machineDeleteSize = 0;
+            uint machineRenameTotal = 0;
+            ulong machineRenameSize = 0;
+            uint usbCopyTotal = 0;
+            ulong usbCopySize = 0;
+            uint usbDeleteTotal = 0;
+            ulong usbDeleteSize = 0;
+            uint usbRenameTotal = 0;
+            ulong usbRenameSize = 0;
             bool expected = false;
             bool actual = true;
 
@@ -203,18 +203,18 @@ namespace TestLogger
         {
             string machineId = null;
             string syncTaskName = "syt1";
-            int machineCopyTotal = 0;
-            long machineCopySize = 0;
-            int machineDeleteTotal = 0;
-            long machineDeleteSize = 0;
-            int machineRenameTotal = 0;
-            long machineRenameSize = 0;
-            int usbCopyTotal = 0;
-            long usbCopySize = 0;
-            int usbDeleteTotal = 0;
-            long usbDeleteSize = 0;
-            int usbRenameTotal = 0;
-            long usbRenameSize = 0;
+            uint machineCopyTotal = 0;
+            ulong machineCopySize = 0;
+            uint machineDeleteTotal = 0;
+            ulong machineDeleteSize = 0;
+            uint machineRenameTotal = 0;
+            ulong machineRenameSize = 0;
+            uint usbCopyTotal = 0;
+            ulong usbCopySize = 0;
+            uint usbDeleteTotal = 0;
+            ulong usbDeleteSize = 0;
+            uint usbRenameTotal = 0;
+            ulong usbRenameSize = 0;
             bool expected = false;
             bool actual = true;
 
@@ -242,18 +242,18 @@ namespace TestLogger
         {
             string machineId = "mac1";
             string syncTaskName = "syt1";
-            int machineCopyTotal = 0;
-            long machineCopySize = 0;
-            int machineDeleteTotal = -4;
-            long machineDeleteSize = 0;
-            int machineRenameTotal = 0;
-            long machineRenameSize = 0;
-            int usbCopyTotal = 0;
-            long usbCopySize = 0;
-            int usbDeleteTotal = 0;
-            long usbDeleteSize = 0;
-            int usbRenameTotal = 0;
-            long usbRenameSize = 0;
+            uint machineCopyTotal = 0;
+            ulong machineCopySize = 0;
+            uint machineDeleteTotal = 4;
+            ulong machineDeleteSize = 0;
+            uint machineRenameTotal = 0;
+            ulong machineRenameSize = 0;
+            uint usbCopyTotal = 0;
+            ulong usbCopySize = 0;
+            uint usbDeleteTotal = 0;
+            ulong usbDeleteSize = 0;
+            uint usbRenameTotal = 0;
+            ulong usbRenameSize = 0;
             bool expected = false;
             bool actual = true;
 
@@ -281,21 +281,44 @@ namespace TestLogger
         [TestMethod()]
         public void WriteLogTest()
         {
-            int logType = (int) Logger.LogType.Copy; 
-            string machineId = "macID";
-            string syncTaskName = "SyncPlanWriteLog"; 
-            string machineSrcPath = @"C:\anc\can\abc.ind"; 
-            long machineSrcSize = 6546890; 
-            string machineDestPath = @"H:\anc\can\abc.ind"; 
-            long machineDestSize = 6546890; 
-            string usbSrcPath = null;
-            long usbSrcSize = 0; 
-            string usbDestPath = null; 
-            long usbDestSize = 0; 
-            string errorMsg = null; 
+/*
+            _logFileName = metaDataDir + @"\" + syncTaskName + ".log";
+            _logFileLocation = metaDataDir + @"\";
+            @".\Log\" + syncTaskName + ".log"
+*/
+
+            Logger.SyncSetWriteLog(@".\Log\", "SyncPlanWriteLog", true);
+            Logger.LogType logType = Logger.LogType.CopySRC;
+            string srcPath = @"C:\anc\can\abc.ind";
+            ulong srcSize = 6546890;
+            string tgtPath = @"H:\anc\can\abc.ind";
+            ulong tgtSize = 6546890; 
+
             bool expected = true; 
             bool actual;
-            actual = Logger.WriteLog(logType, machineId, syncTaskName, machineSrcPath, machineSrcSize, machineDestPath, machineDestSize, usbSrcPath, usbSrcSize, usbDestPath, usbDestSize, errorMsg);
+            actual = Logger.WriteLog(logType, srcPath, srcSize, tgtPath, tgtSize);
+            Assert.AreEqual(expected, actual);
+            //Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for WriteLog
+        /// normal case
+        /// machine copy
+        ///</summary>
+        [TestMethod()]
+        public void WriteLogTest2a()
+        {
+            Logger.SyncSetWriteLog(@".\Log\", "SyncPlanWriteLog", true);
+            Logger.LogType logType = Logger.LogType.DeleteTGT;
+            string srcPath = null;
+            ulong srcSize = 6546890;
+            string tgtPath = @"H:\anc\can\abc.ind";
+            ulong tgtSize = 6546890;
+
+            bool expected = true;
+            bool actual;
+            actual = Logger.WriteLog(logType, srcPath, srcSize, tgtPath, tgtSize);
             Assert.AreEqual(expected, actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         }
@@ -303,29 +326,22 @@ namespace TestLogger
         /// <summary>
         ///A test for WriteLog
         /// fail case
-        /// LogType invalid
+        /// delete with 2 paths
         ///</summary>
         [TestMethod()]
         public void WriteLogTest2()
         {
-            int logType = 20;
-            string machineId = "macID";
-            string syncTaskName = "SyncPlanWriteLog";
-            string machineSrcPath = @"C:\anc\can\abc.ind";
-            long machineSrcSize = 6546890;
-            string machineDestPath = @"H:\anc\can\abc.ind";
-            long machineDestSize = 6546890;
-            string usbSrcPath = null;
-            long usbSrcSize = 0;
-            string usbDestPath = null;
-            long usbDestSize = 0;
-            string errorMsg = null;
+            Logger.SyncSetWriteLog(@".\Log\", "SyncPlanWriteLog", true);
+            Logger.LogType logType = Logger.LogType.DeleteTGT;
+            string srcPath = @"C:\anc\can\abc.ind";
+            ulong srcSize = 6546890;
+            string tgtPath = @"H:\anc\can\abc.ind";
+            ulong tgtSize = 6546890;
             bool expected = false;
             bool actual = true;
             try
             {
-                actual = Logger.WriteLog(logType, machineId, syncTaskName, machineSrcPath, machineSrcSize, machineDestPath,
-                                             machineDestSize, usbSrcPath, usbSrcSize, usbDestPath, usbDestSize, errorMsg);
+                actual = Logger.WriteLog(logType, srcPath, srcSize, tgtPath, tgtSize);
             }
             catch (ArgumentException ae)
             {
@@ -342,29 +358,24 @@ namespace TestLogger
         /// <summary>
         ///A test for WriteLog
         /// fail case
-        /// LogType invalid
+        /// copy from target: 1 path null
         ///</summary>
         [TestMethod()]
         public void WriteLogTest3()
         {
-            int logType = (int)Logger.LogType.Rename;
-            string machineId = "macID";
-            string syncTaskName = "SyncPlanWriteLog";
-            string machineSrcPath = @"C:\anc\can\abc.ind";
-            long machineSrcSize = 6546890;
-            string machineDestPath = @"H:\anc\can\abc.ind";
-            long machineDestSize = -6546890;
-            string usbSrcPath = null;
-            long usbSrcSize = 0;
-            string usbDestPath = null;
-            long usbDestSize = 0;
-            string errorMsg = null;
+            Logger.SyncSetWriteLog(@".\Log\", "SyncPlanWriteLog", true);
+            Logger.LogType logType = Logger.LogType.CopyTGT;
+ 
+            string srcPath = null;
+            ulong srcSize = 6546890;
+            string tgtPath = @"C:\anc\can\abc.ind";
+            ulong tgtSize = 6546890;
+
             bool expected = false;
             bool actual = true;
             try
             {
-                actual = Logger.WriteLog(logType, machineId, syncTaskName, machineSrcPath, machineSrcSize, machineDestPath,
-                                             machineDestSize, usbSrcPath, usbSrcSize, usbDestPath, usbDestSize, errorMsg);
+                actual = Logger.WriteLog(logType, srcPath, srcSize, tgtPath, tgtSize);
             }
             catch (ArgumentOutOfRangeException aoore)
             {
@@ -377,6 +388,7 @@ namespace TestLogger
             Assert.AreEqual(expected, actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         }
+/*
 
         /// <summary>
         ///A test for WriteLog
@@ -386,17 +398,17 @@ namespace TestLogger
         [TestMethod()]
         public void WriteLogTest4()
         {
-            int logType = (int)Logger.LogType.Copy;
+            uint logType = (uint)Logger.LogType.;
             string machineId = "macID";
             string syncTaskName = "SyncPlanWriteLog";
             string machineSrcPath = @"C:\anc\can\abc.ind";
-            long machineSrcSize = 6546890;
+            ulong machineSrcSize = 6546890;
             string machineDestPath = @"H:\anc\can\abc.ind";
-            long machineDestSize = 6546890;
+            ulong machineDestSize = 6546890;
             string usbSrcPath = null;
-            long usbSrcSize = 0;
+            ulong usbSrcSize = 0;
             string usbDestPath = @"H:\anc\can\abc.ind";
-            long usbDestSize = 0;
+            ulong usbDestSize = 0;
             string errorMsg = @"H:\anc\can\abc.ind";
             bool expected = false;
             bool actual;
@@ -404,6 +416,7 @@ namespace TestLogger
             Assert.AreEqual(expected, actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         }
+*/
 
         /// <summary>
         ///A test for WriteErrorLog
@@ -471,5 +484,6 @@ namespace TestLogger
             Assert.AreEqual(expected, actual);
             //Assert.Inconclusive("Verify the correctness of this test method. Check file output error log.");
         }
+
     }
 }
