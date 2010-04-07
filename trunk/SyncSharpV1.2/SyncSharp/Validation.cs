@@ -38,10 +38,10 @@ namespace SyncSharp.Business
         public static ErrorMsgCode CheckFolderPair(ref string source, ref string target, 
                                            SyncProfile profile, bool chkDuplicateFolderPair)
         {
-            if (String.IsNullOrEmpty(source))
+            if (String.IsNullOrEmpty(source).Trim())
                 return ErrorMsgCode.EmptySource;
 
-            if (String.IsNullOrEmpty(target))
+            if (String.IsNullOrEmpty(target).Trim())
                 return ErrorMsgCode.EmptyTarget;
 
             if (!Directory.Exists(source))
