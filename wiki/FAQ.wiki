@@ -29,7 +29,9 @@ Plenty of reasons why... that's because our SyncSharp is:
   # *Free* - What more can you ask for?
 and continue to discover many more ...
 
-
+<br/>
+<br/>
+<br/>
 = Support=
 
 *Is SyncSharp available on mac / linux or other platforms ?*
