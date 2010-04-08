@@ -437,7 +437,8 @@ namespace SyncSharp.Business
 					if ((u.LastWriteTime - _sMetaData.getByPrimary(relativePath).LastWriteTime).Duration().TotalSeconds <= _task.Settings.IgnoreTimeChange
 						|| Utility.computeMyHash(u).Equals(_sMetaData.getByPrimary(relativePath).Hash))
 					{
-						_sCleanFiles.add(relativePath, _sMetaData.PriSub[relativePath], u);
+						u.Hash = _sMetaData.PriSub[relativePath];
+						_sCleanFiles.add(relativePath, u.Hash, u);
 						_sMetaData.removeByPrimary(relativePath);
 					}
 					else
