@@ -7,19 +7,31 @@ Some commonly asked questions regarding our product.
 <br/>
 We use C#, (_pronounced 'C sharp'_) as our primary development language, which sounds similar to SyncSharp. Hence the name...
 
-*What do you mean by 'Plug and sync' ?*
+*What do you mean by _'Plug and sync'_ ?*
 <br/>
 We have designed SyncSharp to be used as a general file synchronization tool. Additionally, it is also designed with making _computer-to-usb_ file storage sync more convenient. Hence, by design, with SyncSharp loaded in your _plug and play_ thumbdrive, with autoplay enabled on your system and your profile set up, our special automatically loaded _plug and sync_ feature will initiate an _unattended_ sync.
 
+*Why should I use SyncSharp over others ?*
+<br/>
+Plenty of reasons why... that's because our SyncSharp is:
+
+#*Portable* - just use it wherever you wish, home, office or school. No installation needed. 
+#
+#
+#
+#
+#
+#
+
 = Support=
 
-*Is SyncSharp available on mac / linux, etc. ?*
+*Is SyncSharp available on mac / linux or other platforms ?*
 <br/>
 Currently, SyncSharp is only supported on the Windows platform (2000, XP, Vista and 7). However, if significant requests are made for other popular platforms keeps on increasing, we will try to accommodate and look into it.
 
 *I cannot seem to find the installation file?*
 <br/>
-:), that's because unlike most other sync programs out there... SyncSharp needs *NO INSTALLATION*. You heard it right, its ready to run right out of the box. Just click on on _SyncSharp.exe_ executable to start. 
+*:)*, that's because unlike most other sync programs out there... SyncSharp needs *NO INSTALLATION*. You heard it right, its ready to run right out of the box. Just click on on _SyncSharp.exe_ executable to start. 
 
 *SyncSharp started up by itself when I plugged my usb drive!*
 <br/>
