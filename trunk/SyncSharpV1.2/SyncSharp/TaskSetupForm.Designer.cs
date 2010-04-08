@@ -231,10 +231,10 @@
             this.label14.Size = new System.Drawing.Size(432, 2);
             this.label14.TabIndex = 35;
             // 
-            // txtTaskName
+            // txtName
             // 
             this.txtName.Location = new System.Drawing.Point(92, 52);
-            this.txtName.Name = "txtTaskName";
+            this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(348, 21);
             this.txtName.TabIndex = 34;
             this.txtName.Text = "SyncSchWork";

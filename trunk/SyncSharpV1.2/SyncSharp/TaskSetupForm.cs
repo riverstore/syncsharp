@@ -216,15 +216,8 @@ namespace SyncSharp.GUI
             source = Environment.ExpandEnvironmentVariables(txtSource.Text.Trim());
             target = Environment.ExpandEnvironmentVariables(txtTarget.Text.Trim());
 
-            StringComparison ignoreCase = StringComparison.CurrentCultureIgnoreCase;
-
-            bool chkDuplicateFolderPair = !((currentTask.Source.Equals(source, ignoreCase) &&
-                 currentTask.Target.Equals(target, ignoreCase)) ||
-                 (currentTask.Source.Equals(target, ignoreCase) &&
-                 currentTask.Target.Equals(source, ignoreCase)));
-
             Validation.ErrorMsgCode errcode =
-                Validation.CheckFolderPair(ref source, ref target, currentProfile, chkDuplicateFolderPair);
+                Validation.CheckFolderPair(ref source, ref target, currentProfile, currentTask);
 
             if (errcode != Validation.ErrorMsgCode.NoError)
             {
