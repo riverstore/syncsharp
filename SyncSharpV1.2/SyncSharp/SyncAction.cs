@@ -20,7 +20,8 @@ namespace SyncSharp.Business
 		NoAction,
 		DeleteBothDir,
 		DeleteTargetDir,
-		DeleteSourceDir
+		DeleteSourceDir,
+        Skip
 	}
 
 	static class SynActionExtension
@@ -34,10 +35,10 @@ namespace SyncSharp.Business
 					retVal = "Keep Both";
 					break;
 				case SyncAction.CopyFileToSource:
-					retVal = "Copy To Source";
+					retVal = "Copy to Source";
 					break;
 				case SyncAction.CopyFileToTarget:
-					retVal = "Copy To Target";
+					retVal = "Copy to Target";
 					break;
                 case SyncAction.DeleteBothDir:
 				case SyncAction.DeleteBothFile:
@@ -66,6 +67,9 @@ namespace SyncSharp.Business
 				case SyncAction.NoAction:
 					retVal = "No Action";
 					break;
+                case SyncAction.Skip:
+                    retVal = "Skip";
+                    break;
 			}
 			return retVal;
 		}
