@@ -15,12 +15,12 @@ namespace SyncSharp.Storage
 		private static readonly string CopyStatusSRC = "[COPY OK] from SOURCE";
 		private static readonly string DeleteStatusSRC = "[DELETE OK] from SOURCE";
 		private static readonly string RenameStatusSRC = "[RENAME OK] from SOURCE";
-		private static readonly string CreateStatusSRC = "[CREATE FOLDER OK] from SOURCE";
+		private static readonly string CreateStatusSRC = "[CREATE FOLDER OK] on SOURCE";
 
 		private static readonly string CopyStatusTGT = "[COPY OK] from TARGET";
 		private static readonly string DeleteStatusTGT = "[DELETE OK] from TARGET";
 		private static readonly string RenameStatusTGT = "[RENAME OK] from TARGET";
-		private static readonly string CreateStatusTGT = "[CREATE FOLDER OK] from TARGET";
+		private static readonly string CreateStatusTGT = "[CREATE FOLDER OK] on TARGET";
 
 		/*        internal static readonly ulong MaxUlong = 18446744073709551615;
 						internal static readonly uint MaxUint = 4294967295;*/
@@ -262,6 +262,8 @@ namespace SyncSharp.Storage
 				{
 					case LogType.DeleteSRC:
 					case LogType.DeleteTGT:
+					case LogType.CreateSRC:
+					case LogType.CreateTGT:
 
 						//delete OK or create folder OK originate from machine side or from usb side
 						if ((srcPath != null && tgtPath == null) || (srcPath == null && tgtPath != null))
