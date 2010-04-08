@@ -42,7 +42,9 @@
             this.deleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.delFrmSourceMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.delFrmTargetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.noActionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.renameSrcMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.renameTgtMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.skipMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.propertiesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scMain = new System.Windows.Forms.SplitContainer();
@@ -111,39 +113,40 @@
             this.deleteMenuItem,
             this.delFrmSourceMenuItem,
             this.delFrmTargetMenuItem,
-            this.noActionMenuItem,
+            this.renameSrcMenuItem,
+            this.renameTgtMenuItem,
+            this.skipMenuItem,
             this.toolStripSeparator2,
             this.propertiesMenuItem});
             this.lvMenu.Name = "lvMenu";
-            this.lvMenu.Size = new System.Drawing.Size(196, 280);
+            this.lvMenu.Size = new System.Drawing.Size(176, 346);
             this.lvMenu.Opening += new System.ComponentModel.CancelEventHandler(this.lvMenu_Opening);
             // 
             // openMenuItem
             // 
             this.openMenuItem.Name = "openMenuItem";
             this.openMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.openMenuItem.Size = new System.Drawing.Size(175, 22);
             this.openMenuItem.Text = "Open";
             this.openMenuItem.Click += new System.EventHandler(this.openMenuItem_Click);
             // 
             // openFolderMenuItem
             // 
             this.openFolderMenuItem.Name = "openFolderMenuItem";
-            this.openFolderMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.openFolderMenuItem.Size = new System.Drawing.Size(175, 22);
             this.openFolderMenuItem.Text = "Open Folder";
             this.openFolderMenuItem.Click += new System.EventHandler(this.openFolderMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(192, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(172, 6);
             // 
             // keepBothMenuItem
             // 
             this.keepBothMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("keepBothMenuItem.Image")));
             this.keepBothMenuItem.Name = "keepBothMenuItem";
-            this.keepBothMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.K)));
-            this.keepBothMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.keepBothMenuItem.Size = new System.Drawing.Size(175, 22);
             this.keepBothMenuItem.Text = "Keep Both";
             this.keepBothMenuItem.Click += new System.EventHandler(this.keepBothMenuItem_Click);
             // 
@@ -151,8 +154,7 @@
             // 
             this.copyToSourceMenuItem.Image = global::SyncSharp.Properties.Resources.left_copy;
             this.copyToSourceMenuItem.Name = "copyToSourceMenuItem";
-            this.copyToSourceMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.copyToSourceMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.copyToSourceMenuItem.Size = new System.Drawing.Size(175, 22);
             this.copyToSourceMenuItem.Text = "Copy to Source";
             this.copyToSourceMenuItem.Click += new System.EventHandler(this.copyToSourceMenuItem_Click);
             // 
@@ -160,8 +162,7 @@
             // 
             this.copyToTargetMenuItem.Image = global::SyncSharp.Properties.Resources.right_copy;
             this.copyToTargetMenuItem.Name = "copyToTargetMenuItem";
-            this.copyToTargetMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.copyToTargetMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.copyToTargetMenuItem.Size = new System.Drawing.Size(175, 22);
             this.copyToTargetMenuItem.Text = "Copy to Target";
             this.copyToTargetMenuItem.Click += new System.EventHandler(this.copyToTargetMenuItem_Click);
             // 
@@ -169,7 +170,7 @@
             // 
             this.createSourceMenuItem.Image = global::SyncSharp.Properties.Resources.left_copy;
             this.createSourceMenuItem.Name = "createSourceMenuItem";
-            this.createSourceMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.createSourceMenuItem.Size = new System.Drawing.Size(175, 22);
             this.createSourceMenuItem.Text = "Create Source";
             this.createSourceMenuItem.Click += new System.EventHandler(this.createSourceMenuItem_Click);
             // 
@@ -177,7 +178,7 @@
             // 
             this.createTargetMenuItem.Image = global::SyncSharp.Properties.Resources.right_copy;
             this.createTargetMenuItem.Name = "createTargetMenuItem";
-            this.createTargetMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.createTargetMenuItem.Size = new System.Drawing.Size(175, 22);
             this.createTargetMenuItem.Text = "Create Target";
             this.createTargetMenuItem.Click += new System.EventHandler(this.createTargetMenuItem_Click);
             // 
@@ -185,8 +186,7 @@
             // 
             this.deleteMenuItem.Image = global::SyncSharp.Properties.Resources.remove;
             this.deleteMenuItem.Name = "deleteMenuItem";
-            this.deleteMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.deleteMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.deleteMenuItem.Size = new System.Drawing.Size(175, 22);
             this.deleteMenuItem.Text = "Delete from Both";
             this.deleteMenuItem.Click += new System.EventHandler(this.deleteMenuItem_Click);
             // 
@@ -194,7 +194,7 @@
             // 
             this.delFrmSourceMenuItem.Image = global::SyncSharp.Properties.Resources.delete_left;
             this.delFrmSourceMenuItem.Name = "delFrmSourceMenuItem";
-            this.delFrmSourceMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.delFrmSourceMenuItem.Size = new System.Drawing.Size(175, 22);
             this.delFrmSourceMenuItem.Text = "Delete from Source";
             this.delFrmSourceMenuItem.Click += new System.EventHandler(this.delSourceMenuItem_Click);
             // 
@@ -202,28 +202,44 @@
             // 
             this.delFrmTargetMenuItem.Image = global::SyncSharp.Properties.Resources.delete_right;
             this.delFrmTargetMenuItem.Name = "delFrmTargetMenuItem";
-            this.delFrmTargetMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.delFrmTargetMenuItem.Size = new System.Drawing.Size(175, 22);
             this.delFrmTargetMenuItem.Text = "Delete from Target";
             this.delFrmTargetMenuItem.Click += new System.EventHandler(this.delTargetMenuItem_Click);
             // 
-            // noActionMenuItem
+            // renameSrcMenuItem
             // 
-            this.noActionMenuItem.Image = global::SyncSharp.Properties.Resources.noAction;
-            this.noActionMenuItem.Name = "noActionMenuItem";
-            this.noActionMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.noActionMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.noActionMenuItem.Text = "No Action";
-            this.noActionMenuItem.Click += new System.EventHandler(this.excludeMenuItem_Click);
+            this.renameSrcMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("renameSrcMenuItem.Image")));
+            this.renameSrcMenuItem.Name = "renameSrcMenuItem";
+            this.renameSrcMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.renameSrcMenuItem.Text = "Rename Source";
+            this.renameSrcMenuItem.Click += new System.EventHandler(this.renameSrcMenuItem_Click);
+            // 
+            // renameTgtMenuItem
+            // 
+            this.renameTgtMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("renameTgtMenuItem.Image")));
+            this.renameTgtMenuItem.Name = "renameTgtMenuItem";
+            this.renameTgtMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.renameTgtMenuItem.Text = "Rename Target";
+            this.renameTgtMenuItem.Click += new System.EventHandler(this.renameTgtMenuItem_Click);
+            // 
+            // skipMenuItem
+            // 
+            this.skipMenuItem.Image = global::SyncSharp.Properties.Resources.skip;
+            this.skipMenuItem.Name = "skipMenuItem";
+            this.skipMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.skipMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.skipMenuItem.Text = "Skip";
+            this.skipMenuItem.Click += new System.EventHandler(this.skipMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(192, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(172, 6);
             // 
             // propertiesMenuItem
             // 
             this.propertiesMenuItem.Name = "propertiesMenuItem";
-            this.propertiesMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.propertiesMenuItem.Size = new System.Drawing.Size(175, 22);
             this.propertiesMenuItem.Text = "Properties";
             this.propertiesMenuItem.Click += new System.EventHandler(this.propertiesMenuItem_Click);
             // 
@@ -669,7 +685,6 @@
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimizeBox = false;
             this.Name = "FolderDiffForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Synchronization Preview";
@@ -730,7 +745,7 @@
         private System.Windows.Forms.ToolStripMenuItem deleteMenuItem;
         private System.Windows.Forms.ToolStripMenuItem delFrmSourceMenuItem;
         private System.Windows.Forms.ToolStripMenuItem delFrmTargetMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem noActionMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem skipMenuItem;
         private DoubleBufferedListView lvCompare;
         private System.Windows.Forms.ColumnHeader colSource;
         private System.Windows.Forms.ColumnHeader colSourceSize;
@@ -749,6 +764,8 @@
         private System.Windows.Forms.ToolStripMenuItem createSourceMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createTargetMenuItem;
         private System.Windows.Forms.ToolStripMenuItem keepBothMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem renameSrcMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem renameTgtMenuItem;
     }
 }
 

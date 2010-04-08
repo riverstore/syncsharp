@@ -25,7 +25,8 @@ namespace SyncSharp.GUI
 		private DataView _dvCompare;
 		private DataTable _dtCompare;
         
-        private CustomDictionary<string, string, PreviewUnit> _previewList;
+        private CustomDictionary<string, string, PreviewUnit> _previewFilesList;
+        private CustomDictionary<string, string, PreviewUnit> _previewFoldersList;
 
 		private string _source, _target;
 		private int _sortColumn;
@@ -52,10 +53,13 @@ namespace SyncSharp.GUI
 
 		#region constructors
 
-        public FolderDiffForm(CustomDictionary<string,string, PreviewUnit> previewList, SyncTask task)
+        public FolderDiffForm(CustomDictionary<string,string, PreviewUnit> previewFilesList,
+                              CustomDictionary<string,string, PreviewUnit> previewFoldersList, 
+                              SyncTask task)
         {
             InitializeComponent();
-            _previewList = previewList;
+            _previewFilesList = previewFilesList;
+            _previewFoldersList = previewFoldersList;
             _source = task.Source;
             _target = task.Target;
             _sortColumn = -1;
@@ -100,7 +104,7 @@ namespace SyncSharp.GUI
 				}
 			}
 
-			row[3] = action;
+			row[3] = row[9] = action;
 			row[7] = u.Extension;
 			row[8] = u;
 			_dtCompare.Rows.Add(row);
@@ -114,12 +118,18 @@ namespace SyncSharp.GUI
 
 		private void PopulateListView()
 		{
-            foreach (var item in _previewList.PriSub)
+            ReadFromPreviewList(_previewFilesList);
+            ReadFromPreviewList(_previewFoldersList);
+		}
+
+        private void ReadFromPreviewList(CustomDictionary<string, string, PreviewUnit> previewList)
+        {
+            foreach (var item in previewList.PriSub)
             {
                 string srcRelativePath = item.Key;
                 string tgtRelativePath = item.Value;
-                PreviewUnit unit = _previewList.getByPrimary(srcRelativePath);
-                
+                PreviewUnit unit = previewList.getByPrimary(srcRelativePath);
+
                 if (unit.sAction != SyncAction.NoAction)
                 {
                     FileUnit u = null;
@@ -129,7 +139,7 @@ namespace SyncSharp.GUI
                         u.MatchingPath = tgtRelativePath;
 
                         if (!unit.tgtFlag.Equals("D"))
-                          u.Match = new FileUnit(_target + tgtRelativePath); 
+                            u.Match = new FileUnit(_target + tgtRelativePath);
                     }
                     else
                     {
@@ -144,7 +154,7 @@ namespace SyncSharp.GUI
                     AddDataRow(u, unit.sAction);
                 }
             }
-		}
+        }
 
         private void ComputeStatisticsResult(FileUnit u, SyncAction action)
         {
@@ -225,6 +235,7 @@ namespace SyncSharp.GUI
 			dt.Columns.Add("TargetDate", typeof(DateTime));
 			dt.Columns.Add("Extension", typeof(string));
 			dt.Columns.Add("FileUnit", typeof(FileUnit));
+            dt.Columns.Add("DefaultSync", typeof(SyncAction));
 			return dt;
 		}
 
@@ -272,19 +283,19 @@ namespace SyncSharp.GUI
 			this.delFrmTargetMenuItem.Visible = isVisible;
 			this.copyToSourceMenuItem.Visible = isVisible;
 			this.copyToTargetMenuItem.Visible = isVisible;
-			this.noActionMenuItem.Visible = isVisible;
 			this.keepBothMenuItem.Visible = isVisible;
 			this.createSourceMenuItem.Visible = isVisible;
 			this.createTargetMenuItem.Visible = isVisible;
+            this.renameSrcMenuItem.Visible = isVisible;
+            this.renameTgtMenuItem.Visible = isVisible;
 		}
 
 		private void ChangeSyncAction(SyncAction action)
 		{
-			if (lvCompare.FocusedItem == null) return;
+            if (!lvCompare.FocusedItem.Selected) return;
 			int idx = lvCompare.FocusedItem.Index;
 			_dvCompare[idx][3] = action;
 
-            // change sync action for previewList
             UpdatePreviewList(idx, action);
 
 			lvCompare.Invalidate(lvCompare.FocusedItem.SubItems[3].Bounds);
@@ -323,12 +334,17 @@ namespace SyncSharp.GUI
         private void UpdatePreviewList(int idx, SyncAction action)
         {
             string path = _dvCompare[idx][0].ToString();
-            _previewList.getByPrimary(path).sAction = action;
+            FileUnit cur = (FileUnit)_dvCompare[idx][8];
+
+            if (cur.IsDirectory)
+                _previewFoldersList.getByPrimary(path).sAction = action;
+            else
+                _previewFilesList.getByPrimary(path).sAction = action;
         }
 
-		private void setChildSyncAction(SyncAction action)
+		private void SetChildSyncAction(SyncAction action)
 		{
-			if (lvCompare.FocusedItem == null) return;
+            if (!lvCompare.FocusedItem.Selected) return;
 			int idx = lvCompare.FocusedItem.Index;
             if (_dvCompare[idx][7].ToString().Equals("dir"))
             {
@@ -340,7 +356,6 @@ namespace SyncSharp.GUI
                     if (cur.AbsolutePath.StartsWith(parent))
                     {
                         r[3] = action;
-                        // change sync action for previewList
                         UpdatePreviewList(idx, action);
                     }
                 }
@@ -348,7 +363,6 @@ namespace SyncSharp.GUI
             else
             {
                 _dvCompare[idx][3] = action;
-                // change sync action for previewList
                 UpdatePreviewList(idx, action);
             }
 
@@ -393,8 +407,8 @@ namespace SyncSharp.GUI
                     syncIcon = Properties.Resources.delete_left;
                 else if (e.SubItem.Text.Equals(SyncAction.DeleteTargetFile.Text()))
                     syncIcon = Properties.Resources.delete_right;
-                else if (e.SubItem.Text.Equals(SyncAction.NoAction.Text()))
-                    syncIcon = Properties.Resources.noAction;
+                else if (e.SubItem.Text.Equals(SyncAction.Skip.Text()))
+                    syncIcon = Properties.Resources.skip;
                 else if (e.SubItem.Text.Equals(SyncAction.KeepBothCopies.Text()))
                     syncIcon = Properties.Resources.KeepBoth;
                 else if (e.SubItem.Text.Equals(SyncAction.RenameSourceFile.Text()) ||
@@ -454,19 +468,30 @@ namespace SyncSharp.GUI
 
 		private void openFolderMenuItem_Click(object sender, EventArgs e)
 		{
-            if (!lvCompare.FocusedItem.Selected) return;
-            int idx = lvCompare.FocusedItem.Index;
-            string path = ((FileUnit)_dvCompare[idx][8]).AbsolutePath;
-            System.Diagnostics.Process.Start(Directory.GetParent(path).FullName);
+            OpenSelectedItem(true);
 		}
 
 		private void openMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!lvCompare.FocusedItem.Selected) return;
-			int idx = lvCompare.FocusedItem.Index;
-			string path = ((FileUnit)_dvCompare[idx][8]).AbsolutePath;
-			System.Diagnostics.Process.Start(path);
+            OpenSelectedItem(false);
 		}
+
+        private void OpenSelectedItem(bool isOpenFolder)
+        {
+            if (!lvCompare.FocusedItem.Selected) return;
+            int idx = lvCompare.FocusedItem.Index;
+            FileUnit cur = ((FileUnit)_dvCompare[idx][8]);
+            string path = (isOpenFolder) ? Directory.GetParent(cur.AbsolutePath).FullName
+                                         : cur.AbsolutePath;
+            System.Diagnostics.Process.Start(path);
+
+            if (cur.Match != null) 
+            {
+                string matchPath = (isOpenFolder) ? Directory.GetParent(cur.Match.AbsolutePath).FullName
+                                                  : cur.Match.AbsolutePath;
+                System.Diagnostics.Process.Start(matchPath);
+            }
+        }
 
 		private void propertiesMenuItem_Click(object sender, EventArgs e)
 		{
@@ -526,40 +551,25 @@ namespace SyncSharp.GUI
 
 		private void lvMenu_Opening(object sender, CancelEventArgs e)
 		{
-			ResetActionList(false);
-			int idx = lvCompare.FocusedItem.Index;
-
-            if (((SyncAction)_dvCompare[idx][3]) == SyncAction.RenameSourceFile ||
-                ((SyncAction)_dvCompare[idx][3]) == SyncAction.RenameTargetFile)
+            if (!lvCompare.FocusedItem.Selected)
+            {
+                e.Cancel = true;
                 return;
+            }
 
-			FileUnit cur = (FileUnit)_dvCompare[idx][8];
-			if (cur.Match == null)
-			{
-				if (cur.AbsolutePath.StartsWith(_source))
-				{
-					if (cur.IsDirectory)
-						createTargetMenuItem.Visible = true;
-					else
-						this.copyToTargetMenuItem.Visible = true;
-					this.delFrmSourceMenuItem.Visible = true;
-				}
-				else
-				{
-					if (cur.IsDirectory)
-						createSourceMenuItem.Visible = true;
-					else
-						this.copyToSourceMenuItem.Visible = true;
-					this.delFrmTargetMenuItem.Visible = true;
-				}
-				this.noActionMenuItem.Visible = true;
-			}
-			else
-			{
-				ResetActionList(true);
-				createSourceMenuItem.Visible = false;
-				createTargetMenuItem.Visible = false;
-			}
+			int idx = lvCompare.FocusedItem.Index;
+            SyncAction defaultAction = (SyncAction)_dvCompare[idx][9];
+
+            foreach (ToolStripItem item in lvMenu.Items)
+            {
+                if (item is ToolStripSeparator) continue;
+                item.Visible = item.Text.Equals(defaultAction.Text(), StringComparison.CurrentCultureIgnoreCase);
+            }
+
+            openMenuItem.Visible = true;
+            openFolderMenuItem.Visible = true;
+            skipMenuItem.Visible = true;
+            propertiesMenuItem.Visible = true;
 		}
 
 		private void copyToSourceMenuItem_Click(object sender, EventArgs e)
@@ -579,17 +589,17 @@ namespace SyncSharp.GUI
 
 		private void delSourceMenuItem_Click(object sender, EventArgs e)
 		{
-			setChildSyncAction(SyncAction.DeleteSourceFile);
+            ChangeSyncAction(SyncAction.DeleteSourceFile);
 		}
 
 		private void delTargetMenuItem_Click(object sender, EventArgs e)
 		{
-			setChildSyncAction(SyncAction.DeleteTargetFile);
+            ChangeSyncAction(SyncAction.DeleteTargetFile);
 		}
 
-		private void excludeMenuItem_Click(object sender, EventArgs e)
+		private void skipMenuItem_Click(object sender, EventArgs e)
 		{
-			setChildSyncAction(SyncAction.NoAction);
+			SetChildSyncAction(SyncAction.Skip);
 		}
 
 		private void btnSynchronize_Click(object sender, EventArgs e)
@@ -618,6 +628,16 @@ namespace SyncSharp.GUI
                 e.Cancel = true;
                 e.NewWidth = lvCompare.Columns[e.ColumnIndex].Width;
             }
+        }
+
+        private void renameSrcMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeSyncAction(SyncAction.RenameSourceFile);
+        }
+
+        private void renameTgtMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeSyncAction(SyncAction.RenameTargetFile);
         }
 
 		#endregion
