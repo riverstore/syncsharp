@@ -113,10 +113,9 @@ namespace SyncSharp.Business
 			{
 				try
 				{
-					Logger.SyncSetWriteLog(metaDataDir, curTask.Name, true);
 					Reconciler reconciler = new Reconciler(detector.SourceList, detector.TargetList, curTask, metaDataDir);
                     reconciler.Preview();
-                    FolderDiffForm form = new FolderDiffForm(reconciler._previewList, curTask);
+                    FolderDiffForm form = new FolderDiffForm(reconciler._previewFilesList, reconciler._previewFoldersList, curTask);
                     DialogResult result = form.ShowDialog();
                     if (result == DialogResult.OK)
                     {
@@ -126,7 +125,8 @@ namespace SyncSharp.Business
                             throw new Exception("Insufficient disk space");
                         }
                         status.Text = "Synchronizing " + curTask.Name + "...";
-                        reconciler.SyncPreview(reconciler._previewList);
+                        Logger.SyncSetWriteLog(metaDataDir, curTask.Name, true);
+                        reconciler.SyncPreview();
                         SyncMetaData.WriteMetaData(metaDataDir + @"\" + curTask.Name + "src.meta", reconciler._updatedList);
                         SyncMetaData.WriteMetaData(metaDataDir + @"\" + curTask.Name + "tgt.meta", reconciler._updatedList);
                         this.updateSyncTaskResult(curTask, "Successful");

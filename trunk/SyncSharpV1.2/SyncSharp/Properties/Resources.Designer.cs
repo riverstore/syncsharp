@@ -95,13 +95,6 @@ namespace SyncSharp.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap noAction {
-            get {
-                object obj = ResourceManager.GetObject("noAction", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap prompt {
             get {
                 object obj = ResourceManager.GetObject("prompt", resourceCulture);
@@ -126,6 +119,13 @@ namespace SyncSharp.Properties {
         internal static System.Drawing.Bitmap right_copy {
             get {
                 object obj = ResourceManager.GetObject("right_copy", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap skip {
+            get {
+                object obj = ResourceManager.GetObject("skip", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
