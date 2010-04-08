@@ -40,7 +40,7 @@ Currently, SyncSharp is only supported on the Windows platform (2000, XP, Vista 
 <br/>
 You have just discovered one of SyncSharp's neatest features. Our cool _*"Plug and Sync"_* 
 <br/>
- || This feature allows you, with autoplay enabled, to enable automatic startup of SyncSharp upon plug in or launch.|| <img src="https://syncsharp.googlecode.com/svn/trunk/img/Autoplay.png"/>|| 
+ || This feature allows you, with autoplay enabled, to enable automatic startup of SyncSharp upon plug in or launch.|| <img src="https://syncsharp.googlecode.com/svn/trunk/img/AutoPlay.png"/>|| 
 <br/>
 
    <img src="https://syncsharp.googlecode.com/svn/trunk/img/5secs.png"/>     <img src="https://syncsharp.googlecode.com/svn/trunk/img/5secsover.png"/>
