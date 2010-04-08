@@ -45,6 +45,6 @@ You have just discovered one of SyncSharp's neatest features. Our cool _*"Plug a
 
    <img src="http://dl.dropbox.com/u/2846431/5secs.png"/>     <img src="http://dl.dropbox.com/u/2846431/5secsover.png"/>
 Sync profiles that are set up earlier will then be automatically performed after a predetermined timed countdown (default: 5 secs). At anytime before the end of the countdown, you may cancel the planned sync that is about to start. 
-<img src="https://syncsharp.googlecode.com/svn/trunk/img/countdown.png"/>
+<img src="https://syncsharp.googlecode.com/svn/trunk/img/logoSyncSharpMini16.ico"/>
 
 </font>
