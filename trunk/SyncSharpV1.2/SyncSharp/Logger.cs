@@ -151,7 +151,7 @@ namespace SyncSharp.Storage
 				// Write to the file
 				if (start)
 				{
-					_sw.WriteLine("==START============================================================");
+					_sw.WriteLine("==============================START==============================");
 					_sw.WriteLine("Sync started on {0}\t{1}", DateTime.Now.ToShortDateString(),
 											 DateTime.Now.ToLongTimeString());
 
@@ -177,6 +177,7 @@ namespace SyncSharp.Storage
 				}
 				else
 				{
+					_sw.WriteLine();
 					_sw.WriteLine("*** Sync Results ***");
 					_sw.WriteLine("ACTION          \t|FROM SOURCE\t\t|FROM TARGET");
 
@@ -187,7 +188,7 @@ namespace SyncSharp.Storage
 					_sw.WriteLine("*********************");
 					_sw.WriteLine("Sync ended on {0}\t{1}", DateTime.Now.ToShortDateString(),
 											 DateTime.Now.ToLongTimeString());
-					_sw.WriteLine("==END==============================================================");
+					_sw.WriteLine("==============================END==============================");
 					_sw.WriteLine();
 					_sw.WriteLine();
 				}

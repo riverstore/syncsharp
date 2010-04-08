@@ -40,6 +40,8 @@ namespace SyncSharp.DataModel
                 _size = 0L;
                 _lastWriteTime = DateTime.MinValue;
                 _extension = "dir";
+								if (!_absolutePath.EndsWith(@"\"))
+									_absolutePath += @"\";
             }
             else
             {
