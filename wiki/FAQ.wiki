@@ -15,11 +15,12 @@ We have designed SyncSharp to be used as a general file synchronization tool. Ad
 <br/>
 Plenty of reasons why... that's because our SyncSharp is:
 
-  #Portable* - Bring it anywhere and just use it wherever you wish; home, office or school. No installation needed. 
-  #Lightweight* - Resource efficient, reduce unnecessary processing. No sneaky file monitoring running in the background.
-  #Small size* - Only takes file space of less than a photo (less than 0.5 mb)
-  #Clean* - No malware, spyware, adware or viruses. (as verified by Softpedia.com)
-  #Simple* - Easy to use layout. No prior experience necessary.
+  # *Portable* - Bring it anywhere and just use it wherever you wish; home, office or school. No installation needed. 
+  # *Lightweight* - Resource efficient, reduce unnecessary processing. No sneaky file monitoring running in the background.
+  # *Small size* - Only takes file space of less than a photo (less than 0.5 mb)
+  # *Clean* - No malware, spyware, adware or viruses. (as verified by Softpedia.com)
+  # *Lean* - Blazing fast special handling of renamed files & folders, accurate detection of creation, deletion & modifications.
+  # *Simple* - Easy to use layout. No prior experience necessary.
 
 and continue to discover many more ...
 
