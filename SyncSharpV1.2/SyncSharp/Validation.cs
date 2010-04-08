@@ -36,12 +36,12 @@ namespace SyncSharp.Business
         /// <param name="chkDuplicateFolderPair">Boolean to indicate whether to check for duplicate folder pair</param>
         /// <returns>The error msg code of the error that occurs</returns>
         public static ErrorMsgCode CheckFolderPair(ref string source, ref string target, 
-                                           SyncProfile profile, bool chkDuplicateFolderPair)
+                                           SyncProfile profile, SyncTask task)
         {
-            if (String.IsNullOrEmpty(source).Trim())
+            if (String.IsNullOrEmpty(source.Trim()))
                 return ErrorMsgCode.EmptySource;
 
-            if (String.IsNullOrEmpty(target).Trim())
+            if (String.IsNullOrEmpty(target.Trim()))
                 return ErrorMsgCode.EmptyTarget;
 
             if (!Directory.Exists(source))
@@ -56,9 +56,6 @@ namespace SyncSharp.Business
             source = source.EndsWith("\\") ? source : source + "\\";
             target = target.EndsWith("\\") ? target : target + "\\";
             
-            //source = source.TrimEnd(new char [] {'\\'});
-            //target = target.TrimEnd(new char[] { '\\' });
-
             if (String.Compare(source, target, true) == 0)
                 return ErrorMsgCode.SameSourceTarget;
 
@@ -68,8 +65,17 @@ namespace SyncSharp.Business
             if (target.StartsWith(source, true, null))
                 return ErrorMsgCode.TargetIsASubDirOfSource;
 
-            //source = (source.Length < 3) ? source + "\\" : source;
-            //target = (target.Length < 3) ? target + "\\" : target;
+            StringComparison ignoreCase = StringComparison.CurrentCultureIgnoreCase;
+
+            bool chkDuplicateFolderPair = true;
+
+            if (task != null)
+            {
+              chkDuplicateFolderPair = !((task.Source.Equals(source, ignoreCase) &&
+                     task.Target.Equals(target, ignoreCase)) ||
+                     (task.Source.Equals(target, ignoreCase) &&
+                     task.Target.Equals(source, ignoreCase)));
+            }
 
             if (chkDuplicateFolderPair && profile.IsFolderPairExists(source, target))
                 return ErrorMsgCode.DuplicateFolderPair;

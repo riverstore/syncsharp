@@ -41,7 +41,7 @@ namespace SyncSharp.GUI
             ExpandSourceTargetPaths();
 
             Validation.ErrorMsgCode errcode = 
-                Validation.CheckFolderPair(ref source, ref target, logic.Profile, true);
+                Validation.CheckFolderPair(ref source, ref target, logic.Profile, null);
 
             if (errcode != Validation.ErrorMsgCode.NoError)
             {
