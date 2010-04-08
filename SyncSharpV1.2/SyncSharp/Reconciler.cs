@@ -777,10 +777,10 @@ namespace SyncSharp.Business
 			int iTgtSlash = tgtRelativePath.LastIndexOf('\\');
 
 			String srcFilePath = "";
-			if (iSrcSlash > 0) { srcFilePath = srcRelativePath.Substring(0, iSrcSlash); }
+			if (iSrcSlash > 0) { srcFilePath = srcRelativePath.Substring(0, iSrcSlash+1); }
 
 			String tgtFilePath = "";
-			if (iTgtSlash > 0) { tgtFilePath = tgtRelativePath.Substring(0, iTgtSlash); }
+			if (iTgtSlash > 0) { tgtFilePath = tgtRelativePath.Substring(0, iTgtSlash+1); }
 
 			preview.srcFlag = srcFlag; preview.tgtFlag = tgtFlag;
 			preview.srcFile = srcFile; preview.tgtFile = tgtFile;
@@ -876,10 +876,10 @@ namespace SyncSharp.Business
 			int iTgtSlash = tgtRelativePath.LastIndexOf('\\');
 
 			String srcFilePath = "";
-			if (iSrcSlash > 0) { srcFilePath = srcRelativePath.Substring(0, iSrcSlash); }
+			if (iSrcSlash > 0) { srcFilePath = srcRelativePath.Substring(0, iSrcSlash+1); }
 
 			String tgtFilePath = "";
-			if (iTgtSlash > 0) { tgtFilePath = tgtRelativePath.Substring(0, iTgtSlash); }
+			if (iTgtSlash > 0) { tgtFilePath = tgtRelativePath.Substring(0, iTgtSlash+1); }
 
 			if (!srcFilePath.Equals(tgtFilePath))
 			{
@@ -1315,10 +1315,10 @@ namespace SyncSharp.Business
 			int iTgtSlash = tgtRelativePath.LastIndexOf('\\');
 
 			String srcFilePath = "";
-			if (iSrcSlash > 0) { srcFilePath = srcRelativePath.Substring(0, iSrcSlash); }
+			if (iSrcSlash > 0) { srcFilePath = srcRelativePath.Substring(0, iSrcSlash+1); }
 
 			String tgtFilePath = "";
-			if (iTgtSlash > 0) { tgtFilePath = tgtRelativePath.Substring(0, iTgtSlash); }
+			if (iTgtSlash > 0) { tgtFilePath = tgtRelativePath.Substring(0, iTgtSlash+1); }
 
 			if (!srcFilePath.Equals(tgtFilePath))
 			{
