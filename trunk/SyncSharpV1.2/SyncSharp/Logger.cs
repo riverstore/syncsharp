@@ -74,7 +74,7 @@ namespace SyncSharp.Storage
         /// <param name="tgtRenameTotal"></param>
         /// <param name="tgtRenameSize"></param>
         /// <returns>successful</returns>
-        public static bool SyncPlanWriteLog(string metaDataDir, string syncTaskName, uint srcCopyTotal, ulong srcCopySize, uint srcDeleteTotal, ulong srcDeleteSize, uint srcRenameTotal, ulong srcRenameSize, uint tgtCopyTotal, ulong tgtCopySize, uint tgtDeleteTotal, ulong tgtDeleteSize, uint tgtRenameTotal, ulong tgtRenameSize)
+        public static bool WritePreviewLog(string metaDataDir, string syncTaskName, uint srcCopyTotal, ulong srcCopySize, uint srcDeleteTotal, ulong srcDeleteSize, uint srcRenameTotal, ulong srcRenameSize, uint tgtCopyTotal, ulong tgtCopySize, uint tgtDeleteTotal, ulong tgtDeleteSize, uint tgtRenameTotal, ulong tgtRenameSize)
 		{
             if (metaDataDir == null) throw new ArgumentNullException("metaDataDir");
 			if (syncTaskName == null) throw new ArgumentNullException("syncTaskName");
@@ -93,7 +93,7 @@ namespace SyncSharp.Storage
 				_sw = new StreamWriter(_currFile);
 
 				// Write to log
-				SyncPlanLogEntry(srcCopyTotal, srcCopySize, tgtCopyTotal, tgtCopySize, srcDeleteTotal, srcDeleteSize, tgtDeleteTotal, tgtDeleteSize, srcRenameTotal, srcRenameSize, tgtRenameTotal, tgtRenameSize);
+				WritePreviewLogEntry(srcCopyTotal, srcCopySize, tgtCopyTotal, tgtCopySize, srcDeleteTotal, srcDeleteSize, tgtDeleteTotal, tgtDeleteSize, srcRenameTotal, srcRenameSize, tgtRenameTotal, tgtRenameSize);
 			}
 			catch (IOException e)
 			{
@@ -111,7 +111,7 @@ namespace SyncSharp.Storage
 			return true;
 		}
 
-	    private static void SyncPlanLogEntry(uint srcCopyTotal, ulong srcCopySize, uint tgtCopyTotal, ulong tgtCopySize, uint srcDeleteTotal, ulong srcDeleteSize, uint tgtDeleteTotal, ulong tgtDeleteSize, uint srcRenameTotal, ulong srcRenameSize, uint tgtRenameTotal, ulong tgtRenameSize)
+	    private static void WritePreviewLogEntry(uint srcCopyTotal, ulong srcCopySize, uint tgtCopyTotal, ulong tgtCopySize, uint srcDeleteTotal, ulong srcDeleteSize, uint tgtDeleteTotal, ulong tgtDeleteSize, uint srcRenameTotal, ulong srcRenameSize, uint tgtRenameTotal, ulong tgtRenameSize)
 	    {
 	        _sw.WriteLine("*** Sync Plan ***");
 	        _sw.WriteLine("ACTION          \tsource\t\ttarget");
@@ -159,11 +159,11 @@ namespace SyncSharp.Storage
 				// Write to the file
 				if (start)
 				{
-					SyncBeginLogEntry();
+					WriteLogHeader();
 				}
 				else
 				{
-					SyncResultsLogEntry();
+					WriteSyncResultsLogEntry();
 				}		
 			}
 			catch (IOException e)
@@ -184,7 +184,7 @@ namespace SyncSharp.Storage
 			return true;
 		}
 
-	    private static void SyncBeginLogEntry()
+	    private static void WriteLogHeader()
 	    {
             _sw.WriteLine("==============================START==============================");
 	        _sw.WriteLine("Sync started on {0}\t{1}", DateTime.Now.ToShortDateString(),
@@ -211,7 +211,7 @@ namespace SyncSharp.Storage
 	        _foldersCreatedCntTGT = 0;
 	    }
 
-	    private static void SyncResultsLogEntry()
+	    private static void WriteSyncResultsLogEntry()
 	    {
             _sw.WriteLine();
 	        _sw.WriteLine("*** Sync Results ***");
@@ -301,7 +301,7 @@ namespace SyncSharp.Storage
                                     _filesDeletedSizeSRC += srcSize;
 							        oriPath = srcPath;
 							        oriSize = srcSize;
-                                    DeleteLogEntry(status, oriPath, oriSize);	
+                                    WriteLogEntry(status, oriPath, oriSize);	
                                 break;
 
                                 case LogType.DeleteTGT:
@@ -309,19 +309,19 @@ namespace SyncSharp.Storage
                                     _filesDeletedSizeTGT += srcSize;	
                                     oriPath = tgtPath;
                                     oriSize = tgtSize;                                    
-                                    DeleteLogEntry(status, oriPath, oriSize);	
+                                    WriteLogEntry(status, oriPath, oriSize);	
                                 break;
 
                                 case LogType.CreateSRC:
                                     _foldersCreatedCntSRC++;
 							        oriPath = srcPath;                                    
-                                    CreateLogEntry(status, oriPath);	
+                                    WriteLogEntry(status, oriPath);	
                                 break;
 
                                 case LogType.CreateTGT:
                                     _foldersCreatedCntTGT++;
                                     oriPath = tgtPath;
-                                    CreateLogEntry(status, oriPath);	
+                                    WriteLogEntry(status, oriPath);	
                                 break;
 							}                          						
 						}
@@ -340,24 +340,24 @@ namespace SyncSharp.Storage
                         if (srcPath != null && tgtPath != null)
                         {
                             //update counter
-						    switch (logType)
-						    {
+                            switch (logType)
+                            {
                                 case LogType.CopySRC:
-								    _filesCopiedCntSRC++;
+                                    _filesCopiedCntSRC++;
                                     _filesCopiedSizeSRC += srcSize;
                                     oriPath = srcPath;
-						            oriSize = srcSize;
+                                    oriSize = srcSize;
                                     destPath = tgtPath;
-						            destSize = tgtSize;
-								    break;
+                                    destSize = tgtSize;
+                                    break;
                                 case LogType.RenameSRC:
-								    _filesRenamedCntSRC++;
+                                    _filesRenamedCntSRC++;
                                     _filesRenamedSizeSRC += srcSize;
                                     oriPath = srcPath;
-						            oriSize = srcSize;
+                                    oriSize = srcSize;
                                     destPath = tgtPath;
-						            destSize = tgtSize;
-								    break;
+                                    destSize = tgtSize;
+                                    break;
                                 case LogType.CopyTGT:
                                     _filesCopiedCntTGT++;
                                     _filesCopiedSizeTGT += tgtSize;
@@ -374,9 +374,60 @@ namespace SyncSharp.Storage
                                     destPath = srcPath;
                                     destSize = srcSize;
                                     break;
-						    }							
+                            }
+/*
+               
+                            switch (logType)
+                            {
+                                case LogType.CopySRC:
+                                case LogType.RenameSRC:
+                                   
+                                    oriPath = srcPath;
+                                    oriSize = srcSize;
+                                    destPath = tgtPath;
+                                    destSize = tgtSize;
+
+                                    switch (logType)
+                                    {
+                                        case LogType.CopySRC:
+                                            _filesRenamedCntSRC++;
+                                            _filesRenamedSizeSRC += srcSize;
+                                            break;
+         
+                                        case LogType.RenameSRC:
+                                            _filesCopiedCntSRC++;
+                                            _filesCopiedSizeSRC += srcSize;
+                                            break;
+                                    }
+                                    break;
+
+                                case LogType.CopyTGT:
+                                case LogType.RenameTGT:    
+
+                                    oriPath = tgtPath;
+                                    oriSize = tgtSize;
+                                    destPath = srcPath;
+                                    destSize = srcSize;
+
+                                    switch (logType)
+                                    {
+                                        case LogType.CopyTGT:
+                                            _filesCopiedCntTGT++;
+                                            _filesCopiedSizeTGT += tgtSize;
+
+                                        break;
+
+                                        case LogType.RenameTGT:
+                                            _filesRenamedCntTGT++;
+                                            _filesRenamedSizeTGT += tgtSize;
+                                        break;
+                                    }
+                                    break;
+                            }		
+*/
+
                             //write to log
-                            CopyRenameLogEntry(status, oriPath, oriSize, destPath, destSize);
+                            WriteLogEntry(status, oriPath, oriSize, destPath, destSize);
                         }
                         else
 						{
@@ -404,7 +455,7 @@ namespace SyncSharp.Storage
 
 		}
 
-	    private static void CopyRenameLogEntry(string status, string oriPath, ulong oriSize, string destPath, ulong destSize)
+	    private static void WriteLogEntry(string status, string oriPath, ulong oriSize, string destPath, ulong destSize)
         {
             //file copy or Rename entry format:
             //|date|time|status|oriPath|oriSize|destPath|destSize|
@@ -414,7 +465,7 @@ namespace SyncSharp.Storage
 	                      destPath, destSize);
 	    }
 
-	    private static void CreateLogEntry(string status, string oriPath)
+	    private static void WriteLogEntry(string status, string oriPath)
 	    {
             //file create Entry format:
             //|date|time|status|oriPath|
@@ -423,7 +474,7 @@ namespace SyncSharp.Storage
 	                      DateTime.Now.ToLongTimeString(), oriPath);
 	    }
 
-	    private static void DeleteLogEntry(string status, string oriPath, ulong oriSize)
+	    private static void WriteLogEntry(string status, string oriPath, ulong oriSize)
 	    {
             //file delete Entry format:
             //|date|time|status|oriPath|oriSize|
@@ -440,29 +491,28 @@ namespace SyncSharp.Storage
         /// <returns>successful</returns>
 	    public static bool DeleteLog(string metaDataDir, string syncTaskName)
 		{
-		  string logFileToDeletePath;
-          if (metaDataDir == null) throw new ArgumentNullException("metaDataDir");
-		  if (syncTaskName == null) throw new ArgumentNullException("syncTaskName");
-	
-		  logFileToDeletePath = metaDataDir + @"\" + syncTaskName + ".log";
+            if (metaDataDir == null) throw new ArgumentNullException("metaDataDir");
+            if (syncTaskName == null) throw new ArgumentNullException("syncTaskName");
 
-		  if (File.Exists(logFileToDeletePath))
-		  {
-		    // Use a try block to catch IOExceptions, to
-		    // handle the case of the file already being
-		    // opened by another process.
-		    try
-		    {
-		      File.Delete(logFileToDeletePath);
-		    }
-		    catch (IOException e)
-		    {
-		      WriteErrorLog(e.Message);
-              WriteErrorLog(e.StackTrace);
-		      return false;
-		    }
-		  }
-		  return true;
+            string logFileToDeletePath = metaDataDir + @"\" + syncTaskName + ".log";
+
+            if (File.Exists(logFileToDeletePath))
+            {
+                // Use a try block to catch IOExceptions, to
+                // handle the case of the file already being
+                // opened by another process.
+                try
+                {
+                    File.Delete(logFileToDeletePath);
+                }
+                catch (IOException e)
+                {
+                    WriteErrorLog(e.Message);
+                    WriteErrorLog(e.StackTrace);
+                    return false;
+                }
+            }
+            return true;
 		}
 
         /// <summary>
@@ -473,38 +523,38 @@ namespace SyncSharp.Storage
         /// <returns>log contents</returns>
 		public static string ReadLog(string metaDataDir, string syncTaskName)
 		{
-		  StreamReader sr;
+            StreamReader sr;
 
-          if (metaDataDir == null) throw new ArgumentNullException("metaDataDir");
-		  if (syncTaskName == null) throw new ArgumentNullException("syncTaskName");
+            if (metaDataDir == null) throw new ArgumentNullException("metaDataDir");
+            if (syncTaskName == null) throw new ArgumentNullException("syncTaskName");
 
-		  // *** Read from file ***
-		  string retrievedLogEntry;
-		  try
-		  {
-		    // Specify file, instructions, and privilegdes
-		    _currFile = new FileStream(metaDataDir + @".\" + syncTaskName + ".log", FileMode.Open, FileAccess.Read);
+            // *** Read from file ***
+            string retrievedLogEntry;
+            try
+            {
+                // Specify file, instructions, and privilegdes
+                _currFile = new FileStream(metaDataDir + @".\" + syncTaskName + ".log", FileMode.Open, FileAccess.Read);
 
-		    // Create a new stream to read from a file
-		    sr = new StreamReader(_currFile);
+                // Create a new stream to read from a file
+                sr = new StreamReader(_currFile);
 
-		    // Read contents of file into a string
-		    retrievedLogEntry = sr.ReadToEnd();
+                // Read contents of file into a string
+                retrievedLogEntry = sr.ReadToEnd();
 
-		    // Close StreamReader
-		    sr.Close();
+                // Close StreamReader
+                sr.Close();
 
-		    // Close file
-		    _currFile.Close();
-		  }
+                // Close file
+                _currFile.Close();
+            }
 
-		  catch (IOException e)
-		  {
-		    WriteErrorLog(e.Message);
-		    return null;
-		  }
+            catch (IOException e)
+            {
+                WriteErrorLog(e.Message);
+                return null;
+            }
 
-		  return retrievedLogEntry;
+            return retrievedLogEntry;
 		}
 
         /// <summary>
