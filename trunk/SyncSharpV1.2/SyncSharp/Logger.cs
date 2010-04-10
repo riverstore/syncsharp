@@ -57,23 +57,23 @@ namespace SyncSharp.Storage
 		#region methods
 
         /// <summary>
-        /// Sync preview details log
+        /// Set sync preview details log
         /// </summary>
-        /// <param name="metaDataDir"></param>
-        /// <param name="syncTaskName"></param>
-        /// <param name="srcCopyTotal"></param>
-        /// <param name="srcCopySize"></param>
-        /// <param name="srcDeleteTotal"></param>
-        /// <param name="srcDeleteSize"></param>
-        /// <param name="srcRenameTotal"></param>
-        /// <param name="srcRenameSize"></param>
-        /// <param name="tgtCopyTotal"></param>
-        /// <param name="tgtCopySize"></param>
-        /// <param name="tgtDeleteTotal"></param>
-        /// <param name="tgtDeleteSize"></param>
-        /// <param name="tgtRenameTotal"></param>
-        /// <param name="tgtRenameSize"></param>
-        /// <returns>successful</returns>
+        /// <param name="metaDataDir">location path of metadata directory</param>
+        /// <param name="syncTaskName">name of sync task</param>
+        /// <param name="srcCopyTotal">total number of files to copy from source location</param>
+        /// <param name="srcCopySize">total filesize of files to copy from source location</param>
+        /// <param name="srcDeleteTotal">total number of files to delete from source location</param>
+        /// <param name="srcDeleteSize">total filesize of files to delete from source location</param>
+        /// <param name="srcRenameTotal">total number of files to rename from source location</param>
+        /// <param name="srcRenameSize">total filesize of files to rename from source location</param>
+        /// <param name="tgtCopyTotal">total number of files to copy from target location</param>
+        /// <param name="tgtCopySize">total filesize of files to copy from target location</param>
+        /// <param name="tgtDeleteTotal">total number of files to delete from target location</param>
+        /// <param name="tgtDeleteSize">total filesize of files to delete from target location</param>
+        /// <param name="tgtRenameTotal">total number of files to rename from target location</param>
+        /// <param name="tgtRenameSize">total filesize of files to rename from target location</param>
+        /// <returns>success state</returns>
         public static bool WritePreviewLog(string metaDataDir, string syncTaskName, int srcCopyTotal, long srcCopySize, int srcDeleteTotal, long srcDeleteSize, int srcRenameTotal, long srcRenameSize, int tgtCopyTotal, long tgtCopySize, int tgtDeleteTotal, long tgtDeleteSize, int tgtRenameTotal, long tgtRenameSize)
 		{
             if (metaDataDir == null) throw new ArgumentNullException("metaDataDir");
@@ -103,6 +103,21 @@ namespace SyncSharp.Storage
 			return true;
 		}
 
+        /// <summary>
+        /// Write sync preview details to log file
+        /// </summary>
+        /// <param name="srcCopyTotal">total number of files to copy from source location</param>
+        /// <param name="srcCopySize">total filesize of files to copy from source location</param>
+        /// <param name="tgtCopyTotal">total number of files to copy from target location</param>
+        /// <param name="tgtCopySize">total filesize of files to copy from target location</param>
+        /// <param name="srcDeleteTotal">total number of files to delete from source location</param>
+        /// <param name="srcDeleteSize">total filesize of files to delete from source location</param>
+        /// <param name="tgtDeleteTotal">total number of files to delete from target location</param>
+        /// <param name="tgtDeleteSize">total filesize of files to delete from target location</param>
+        /// <param name="srcRenameTotal">total number of files to rename from source location</param>
+        /// <param name="srcRenameSize">total filesize of files to rename from source location</param>
+        /// <param name="tgtRenameTotal">total number of files to rename from target location</param>
+        /// <param name="tgtRenameSize">total filesize of files to rename from target location</param>
 	    private static void WritePreviewLogEntry(int srcCopyTotal, long srcCopySize, int tgtCopyTotal, long tgtCopySize, int srcDeleteTotal, long srcDeleteSize, int tgtDeleteTotal, long tgtDeleteSize, int srcRenameTotal, long srcRenameSize, int tgtRenameTotal, long tgtRenameSize)
 	    {
 	        _sw.WriteLine("*** Sync Plan ***");
@@ -117,12 +132,12 @@ namespace SyncSharp.Storage
 	    }
 
         /// <summary>
-        /// Set begin or end of log recording for a sync task
+        /// Set begin or end of a perticular synctask log recording
         /// </summary>
-        /// <param name="metaDataDir"></param>
-        /// <param name="syncTaskName"></param>
+        /// <param name="metaDataDir">location path of metadata directory</param>
+        /// <param name="syncTaskName">name of sync task</param>
         /// <param name="start">true: begin, false: end</param>
-        /// <returns>successful</returns>
+        /// <returns>success state</returns>
 	    public static bool WriteSyncLog(string metaDataDir, string syncTaskName, bool start)
 		{
             if (metaDataDir == null) throw new ArgumentNullException("metaDataDir");
@@ -158,6 +173,9 @@ namespace SyncSharp.Storage
 			return true;
 		}
 
+        /// <summary>
+        /// Write start log header for current synctask
+        /// </summary>
 	    private static void WriteLogHeader()
 	    {
             _sw.WriteLine("==============================START==============================");
@@ -185,6 +203,9 @@ namespace SyncSharp.Storage
 	        _foldersCreatedCntTGT = 0;
 	    }
 
+        /// <summary>
+        /// Write results summary log footer for current synctask
+        /// </summary>
 	    private static void WriteSyncResultsLogEntry()
 	    {
             _sw.WriteLine();
@@ -204,14 +225,14 @@ namespace SyncSharp.Storage
 	    }
 
         /// <summary>
-        /// Write log for copy, rename, delete files or create folders.
+        /// Set log for copy, rename, delete files or create folders.
         ///  </summary>
-        /// <param name="logType"></param>
-        /// <param name="srcPath"></param>
-        /// <param name="srcSize"></param>
-        /// <param name="tgtPath"></param>
-        /// <param name="tgtSize"></param>
-        /// <returns>successful</returns>
+        /// <param name="logType">LogType: {CopySRC, CopyTGT, DeleteSRC, DeleteTGT, RenameSRC, RenameTGT, CreateSRC, CreateTGT}</param>
+        /// <param name="srcPath">location path on source</param>
+        /// <param name="srcSize">filesize on source</param>
+        /// <param name="tgtPath">location path on target</param>
+        /// <param name="tgtSize">filesize on target</param>
+        /// <returns>success state</returns>
 	    public static bool WriteLog(LogType logType, string srcPath, long srcSize, string tgtPath, long tgtSize)
 		{
 			try
@@ -334,9 +355,17 @@ namespace SyncSharp.Storage
 			return true;
 		}
 
+        /// <summary>
+        /// Write log entry for file copy or rename 
+        /// </summary>
+        /// <param name="status">description of log entry</param>
+        /// <param name="oriPath">path of origin (copied or renamed file)</param>
+        /// <param name="oriSize">filesize of copied or renamed file</param>
+        /// <param name="destPath">path of destination (copied or renamed file)</param>
+        /// <param name="destSize">filesize of copied or renamed file</param>
 	    private static void WriteLogEntry(string status, string oriPath, long oriSize, string destPath, long destSize)
         {
-            //file copy or Rename entry format:
+            //file copy or rename entry format:
             //|date|time|status|oriPath|oriSize|destPath|destSize|
 	        _sw.WriteLine("{0}\t{1}\t" + status + "\t[{2}\t({3} bytes)] =-> [{4}\t({5} bytes)]" ,
 	                      DateTime.Now.ToShortDateString(),
@@ -344,6 +373,11 @@ namespace SyncSharp.Storage
 	                      destPath, destSize);
 	    }
 
+        /// <summary>
+        /// Write log entry for folder create
+        /// </summary>
+        /// <param name="status">description of log entry</param>
+        /// <param name="oriPath">path of origin (create folder)</param>
 	    private static void WriteLogEntry(string status, string oriPath)
 	    {
             //file create Entry format:
@@ -353,6 +387,12 @@ namespace SyncSharp.Storage
 	                      DateTime.Now.ToLongTimeString(), oriPath);
 	    }
 
+        /// <summary>
+        /// Write log entry for file delete
+        /// </summary>
+        /// <param name="status">description of log entry</param>
+        /// <param name="oriPath">path of origin (deleted file)</param>
+        /// <param name="oriSize">filesize of deleted file</param>
 	    private static void WriteLogEntry(string status, string oriPath, long oriSize)
 	    {
             //file delete Entry format:
@@ -365,9 +405,9 @@ namespace SyncSharp.Storage
         /// <summary>
         /// delete log file
         /// </summary>
-        /// <param name="metaDataDir"></param>
-        /// <param name="syncTaskName"></param>
-        /// <returns>successful</returns>
+        /// <param name="metaDataDir">location path of metadata directory</param>
+        /// <param name="syncTaskName">name of sync task</param>
+        /// <returns>success state</returns>
 	    public static bool DeleteLog(string metaDataDir, string syncTaskName)
 		{
             if (metaDataDir == null) throw new ArgumentNullException("metaDataDir");
@@ -394,8 +434,8 @@ namespace SyncSharp.Storage
         /// <summary>
         /// read log file contents
         /// </summary>
-        /// <param name="metaDataDir"></param>
-        /// <param name="syncTaskName"></param>
+        /// <param name="metaDataDir">location path of metadata directory</param>
+        /// <param name="syncTaskName">name of sync task</param>
         /// <returns>log contents</returns>
 		public static string ReadLog(string metaDataDir, string syncTaskName)
 		{
@@ -429,7 +469,7 @@ namespace SyncSharp.Storage
         /// <summary>
         /// general program error log
         /// </summary>
-        /// <param name="errorMsg"></param>
+        /// <param name="errorMsg">system error description</param>
         /// <returns>successful</returns>
 		public static bool WriteErrorLog(string errorMsg)
 		{
