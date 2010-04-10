@@ -55,7 +55,7 @@ Currently, SyncSharp is only supported on the Windows platform (2000, XP, Vista 
 <br/>
 You have just discovered one of SyncSharp's neatest features. Our cool _*"Plug and Sync"_* 
 <br/>
-<table cellpadding=25>
+<table cellpadding=20>
 <td width=400>
 This feature allows you, with autoplay enabled, to enable automatic startup of SyncSharp upon plug in or launch. You can vary the countdown time to your liking  (default: 5 secs) and even disable it if you like.
 </td>
