@@ -13,12 +13,14 @@ We use C#, (_pronounced 'C sharp'_) as our primary development language, which s
 *What do you mean by _'Plug and sync'_ ?*
 <br/>
 
-<table cellpadding=10>
+<table cellpadding=50>
 <td>
 <img src="https://syncsharp.googlecode.com/svn/trunk/img/syncsharplogo.png"/>
 </td>
 <td width=400>
-We have designed SyncSharp to be used as a general file synchronization tool. Additionally, it is also designed with making _computer-to-usb_ file storage sync more convenient. Hence, by design, with SyncSharp loaded in your _plug and play_ thumbdrive, with autoplay enabled on your system and your profile set up, our special automatically loaded _plug and sync_ feature will initiate an _unattended_ sync.
+We have designed SyncSharp to be used as a general file synchronization tool. Additionally, it is also designed with making _computer-to-usb_ file storage sync more convenient. 
+
+Hence, by design, with SyncSharp loaded in your _plug and play_ thumbdrive, with autoplay enabled on your system and your profile set up, our special automatically loaded _plug and sync_ feature will initiate an _unattended_ sync.
 </td>
 </table>
 <br/>
@@ -56,7 +58,7 @@ Currently, SyncSharp is only supported on the Windows platform (2000, XP, Vista 
 <br/>
 You have just discovered one of SyncSharp's neatest features. Our cool _*"Plug and Sync"_* 
 <br/>
-<table cellpadding=10>
+<table cellpadding=50>
 <td width=400>
 This feature allows you, with autoplay enabled, to enable automatic startup of SyncSharp upon plug in or launch. You can vary the countdown time to your liking  (default: 5 secs) and even disable it if you like.
 </td>
