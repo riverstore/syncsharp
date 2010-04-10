@@ -135,7 +135,7 @@ namespace SyncSharp.Business
 						Directory.CreateDirectory(tgtFile);
 						_summary.iTgtFolderCreate++;
 						//Logger.WriteEntry("FOLDER ACTION - Create " + tgtFile);
-						Logger.WriteLog(Logger.LogType.CreateTGT, null, 0, tgtFile, 0);
+						////Logger.WriteLog(Logger.LogType.CreateTGT, null, 0, tgtFile, 0);
 					}
 				}
 				else
@@ -147,7 +147,7 @@ namespace SyncSharp.Business
 						_summary.iSrcFileCopy++;
 						//Logger.WriteEntry("FILE ACTION - Copy " + srcFile + " to " + tgtFile);
 						long fileSize = new FileInfo(srcFile).Length;
-						Logger.WriteLog(Logger.LogType.CopySRC, srcFile, fileSize, tgtFile, fileSize);
+						//Logger.WriteLog(Logger.LogType.CopySRC, srcFile, fileSize, tgtFile, fileSize);
 					}
 					else
 					{
@@ -162,7 +162,7 @@ namespace SyncSharp.Business
 							_summary.iSrcFileCopy++; _summary.iTgtFileOverwrite++;
 							//Logger.WriteEntry("FILE ACTION - Copy " + srcFile + " to " + tgtFile);
 							long fileSize = new FileInfo(srcFile).Length;
-							Logger.WriteLog(Logger.LogType.CopySRC, srcFile, fileSize, tgtFile, fileSize);
+							//Logger.WriteLog(Logger.LogType.CopySRC, srcFile, fileSize, tgtFile, fileSize);
 						}
 					}
 				}
@@ -196,7 +196,7 @@ namespace SyncSharp.Business
 						Directory.CreateDirectory(srcFile);
 						_summary.iSrcFolderCreate++;
 						//Logger.WriteEntry("FOLDER ACTION - Create " + srcFile);
-						Logger.WriteLog(Logger.LogType.CreateSRC, srcFile, 0, null, 0);
+						//Logger.WriteLog(Logger.LogType.CreateSRC, srcFile, 0, null, 0);
 					}
 				}
 				else
@@ -208,7 +208,7 @@ namespace SyncSharp.Business
 						_summary.iTgtFileCopy++;
 						//Logger.WriteEntry("FILE ACTION - Copy " + tgtFile + " to " + srcFile);
 						long fileSize = new FileInfo(tgtFile).Length;
-						Logger.WriteLog(Logger.LogType.CopyTGT, tgtFile, fileSize, srcFile, fileSize);
+						//Logger.WriteLog(Logger.LogType.CopyTGT, tgtFile, fileSize, srcFile, fileSize);
 					}
 					else
 					{
@@ -221,7 +221,7 @@ namespace SyncSharp.Business
 							_summary.iTgtFileCopy++; _summary.iSrcFileOverwrite++;
 							//Logger.WriteEntry("FILE ACTION - Copy " + tgtFile + " to " + srcFile);
 							long fileSize = new FileInfo(tgtFile).Length;
-							Logger.WriteLog(Logger.LogType.CopyTGT, tgtFile, fileSize, srcFile, fileSize);
+							//Logger.WriteLog(Logger.LogType.CopyTGT, tgtFile, fileSize, srcFile, fileSize);
 						}
 					}
 				}
@@ -332,21 +332,28 @@ namespace SyncSharp.Business
 				String tgtRelativePath = myPreviewRecord.Value;
 				PreviewUnit preview = _previewFilesList.getByPrimary(srcRelativePath);
 
-				switch (preview.intDirtyType)
-				{
-					case 0:
-						SyncPreviewSrcDirtyTgtClean(srcRelativePath, tgtRelativePath, preview);
-						break;
-					case 1:
-						SyncPreviewSrcCleanTgtDirty(srcRelativePath, tgtRelativePath, preview);
-						break;
-					case 2:
-						SyncPreviewSrcDirtyTgtDirty(srcRelativePath, tgtRelativePath, preview);
-						break;
-					case 3:
-						_updatedList.add(preview.cleanRelativePath, preview.cleanFileUnit.Hash, preview.cleanFileUnit);
-						break;
-				}
+                if (preview.sAction == SyncAction.Skip)
+                {
+                    if (preview.cleanRelativePath != null) _updatedList.add(preview.cleanRelativePath, preview.cleanFileUnit.Hash, preview.cleanFileUnit);
+                }
+                else
+                {
+                    switch (preview.intDirtyType)
+                    {
+                        case 0:
+                            SyncPreviewSrcDirtyTgtClean(srcRelativePath, tgtRelativePath, preview);
+                            break;
+                        case 1:
+                            SyncPreviewSrcCleanTgtDirty(srcRelativePath, tgtRelativePath, preview);
+                            break;
+                        case 2:
+                            SyncPreviewSrcDirtyTgtDirty(srcRelativePath, tgtRelativePath, preview);
+                            break;
+                        case 3:
+                            _updatedList.add(preview.cleanRelativePath, preview.cleanFileUnit.Hash, preview.cleanFileUnit);
+                            break;
+                    }
+                }
 			}
 
 			foreach (var myPreviewRecord in _previewFoldersList.PriSub)
@@ -615,7 +622,6 @@ namespace SyncSharp.Business
 						_updatedList.add(preview.cleanRelativePath, preview.cleanFileUnit.Hash, preview.cleanFileUnit);
 					}
 					break;
-
 			}
 		}
 
@@ -803,7 +809,15 @@ namespace SyncSharp.Business
 								_srcDirtyFoldersList.removeByPrimary(tgtFilePath);
 							if (_tgtDirtyFoldersList.containsPriKey(tgtFilePath))
 							{
-								_tgtCleanFoldersList.add(tgtFilePath, tgtFilePath, _tgtDirtyFoldersList.getByPrimary(tgtFilePath));
+								//_tgtCleanFoldersList.add(tgtFilePath, tgtFilePath, _tgtDirtyFoldersList.getByPrimary(tgtFilePath));
+                                PreviewUnit previewFolder = new PreviewUnit();
+                                previewFolder.cleanRelativePath = tgtFilePath;
+                                previewFolder.cleanFileUnit = _tgtDirtyFoldersList.getByPrimary(tgtFilePath);
+                                previewFolder.sAction = SyncAction.DeleteTargetDir;
+                                previewFolder.srcFlag = dFlag;
+                                previewFolder.tgtFlag = cFlag;
+                                _previewFoldersList.add(tgtFilePath, tgtFilePath, previewFolder);
+                                //////
 								_tgtDirtyFoldersList.removeByPrimary(tgtFilePath);
 							}
 						}
@@ -1076,7 +1090,7 @@ namespace SyncSharp.Business
 				PreviewUnit preview = new PreviewUnit();
 				preview.sAction = SyncAction.NoAction;
 				preview.cleanRelativePath = myRecord.Key;
-				preview.srcFile = preview.cleanFileUnit = _srcCleanFoldersList.Primary[myRecord.Key];
+				preview.srcFile = preview.cleanFileUnit = _tgtCleanFoldersList.Primary[myRecord.Key];
 				if (!_previewFoldersList.containsPriKey(myRecord.Key))
 					_previewFoldersList.add(myRecord.Key, myRecord.Key, preview);
 			}
@@ -1120,13 +1134,13 @@ namespace SyncSharp.Business
 				case SyncAction.DeleteSourceDir:
 					{
 						if (Directory.Exists(_srcPath + srcRelativePath))
-							Directory.Delete(_srcPath + srcRelativePath);
+							Directory.Delete(_srcPath + srcRelativePath, true);
 					}
 					break;
 				case SyncAction.DeleteTargetDir:
 					{
 						if (Directory.Exists(_tgtPath + tgtRelativePath))
-							Directory.Delete(_tgtPath + tgtRelativePath);
+							Directory.Delete(_tgtPath + tgtRelativePath, true);
 					}
 					break;
 				case SyncAction.NoAction:
@@ -1136,12 +1150,18 @@ namespace SyncSharp.Business
 						else
 						{
 							if (Directory.Exists(_srcPath + srcRelativePath))
-								Directory.Delete(_srcPath + srcRelativePath);
+								Directory.Delete(_srcPath + srcRelativePath, true);
 							if (Directory.Exists(_tgtPath + tgtRelativePath))
-								Directory.Delete(_tgtPath + tgtRelativePath);
+								Directory.Delete(_tgtPath + tgtRelativePath, true);
 						}
 					}
 					break;
+                case SyncAction.Skip:
+                    {
+                        if (preview.cleanRelativePath != null)
+                            _updatedList.add(preview.cleanRelativePath, preview.cleanRelativePath, preview.cleanFileUnit);
+                    }
+                    break;
 			}
 		}
 
@@ -1168,7 +1188,7 @@ namespace SyncSharp.Business
 							_summary.iSrcFileCopy++;
 							//Logger.WriteEntry("FILE ACTION - Copy " + _srcPath + relativePath + " to " + _tgtPath + relativePath);
 							long fileSize = new FileInfo(_srcPath + relativePath).Length;
-							Logger.WriteLog(Logger.LogType.CopySRC, _srcPath + relativePath, fileSize, _tgtPath + relativePath, fileSize);
+							//Logger.WriteLog(Logger.LogType.CopySRC, _srcPath + relativePath, fileSize, _tgtPath + relativePath, fileSize);
 						}
 						else
 						{
@@ -1181,7 +1201,7 @@ namespace SyncSharp.Business
 							_summary.iTgtFileRename++;
 							//Logger.WriteEntry("FILE ACTION - Move " + _tgtPath + delRelativePath + " to " + _tgtPath + relativePath);
 							long fileSize = new FileInfo(_tgtPath + relativePath).Length;
-							Logger.WriteLog(Logger.LogType.RenameTGT, _tgtPath + delRelativePath, fileSize, _tgtPath + relativePath, fileSize);
+							//Logger.WriteLog(Logger.LogType.RenameTGT, _tgtPath + delRelativePath, fileSize, _tgtPath + relativePath, fileSize);
 						}
 					}
 					break;
@@ -1197,7 +1217,7 @@ namespace SyncSharp.Business
 						_summary.iSrcFileCopy++; _summary.iTgtFileOverwrite++;
 						//Logger.WriteEntry("FILE ACTION - Copy " + _srcPath + relativePath + " to " + _tgtPath + relativePath);
 						long fileSize = new FileInfo(_srcPath + relativePath).Length;
-						Logger.WriteLog(Logger.LogType.CopySRC, _srcPath + relativePath, fileSize, _tgtPath + relativePath, fileSize);
+						//Logger.WriteLog(Logger.LogType.CopySRC, _srcPath + relativePath, fileSize, _tgtPath + relativePath, fileSize);
 					}
 					break;
 				case dFlag:
@@ -1207,7 +1227,7 @@ namespace SyncSharp.Business
 						_tgtCleanFilesList.removeByPrimary(relativePath);
 						_summary.iTgtFileDelete++;
 						//Logger.WriteEntry("FILE ACTION - Delete " + _tgtPath + relativePath);
-						Logger.WriteLog(Logger.LogType.DeleteTGT, null, 0, _tgtPath + relativePath, fileSize);
+						//Logger.WriteLog(Logger.LogType.DeleteTGT, null, 0, _tgtPath + relativePath, fileSize);
 					}
 					break;
 			}
@@ -1235,7 +1255,7 @@ namespace SyncSharp.Business
 							_summary.iTgtFileCopy++;
 							//Logger.WriteEntry("FILE ACTION - Copy " + _tgtPath + relativePath + " to " + _srcPath + relativePath);
 							long fileSize = new FileInfo(_tgtPath + relativePath).Length;
-							Logger.WriteLog(Logger.LogType.CopyTGT, _tgtPath + relativePath, fileSize, _tgtPath + relativePath, fileSize);
+							//Logger.WriteLog(Logger.LogType.CopyTGT, _tgtPath + relativePath, fileSize, _tgtPath + relativePath, fileSize);
 						}
 						else
 						{
@@ -1249,7 +1269,7 @@ namespace SyncSharp.Business
 								_summary.iTgtFileRename++;
 								//Logger.WriteEntry("FILE ACTION - Move " + _srcPath + delRelativePath + " to " + _srcPath + relativePath);
 								long fileSize = new FileInfo(_srcPath + relativePath).Length;
-								Logger.WriteLog(Logger.LogType.RenameSRC, _srcPath + delRelativePath, fileSize, _srcPath + relativePath, fileSize);
+								//Logger.WriteLog(Logger.LogType.RenameSRC, _srcPath + delRelativePath, fileSize, _srcPath + relativePath, fileSize);
 								_srcCleanFilesList.removeByPrimary(delRelativePath);
 							}
 
@@ -1268,7 +1288,7 @@ namespace SyncSharp.Business
 						_summary.iTgtFileCopy++; _summary.iSrcFileOverwrite++;
 						//Logger.WriteEntry("FILE ACTION - Copy " + _tgtPath + relativePath + " to " + _srcPath + relativePath);
 						long fileSize = new FileInfo(_tgtPath + relativePath).Length;
-						Logger.WriteLog(Logger.LogType.CopyTGT, _tgtPath + relativePath, fileSize, _srcPath + relativePath, fileSize);
+						//Logger.WriteLog(Logger.LogType.CopyTGT, _tgtPath + relativePath, fileSize, _srcPath + relativePath, fileSize);
 					}
 					break;
 				case dFlag:
@@ -1278,7 +1298,7 @@ namespace SyncSharp.Business
 						_srcCleanFilesList.removeByPrimary(relativePath);
 						_summary.iSrcFileDelete++;
 						//Logger.WriteEntry("FILE ACTION - Delete " + _srcPath + relativePath);
-						Logger.WriteLog(Logger.LogType.DeleteSRC, _srcPath + relativePath, fileSize, null, 0);
+						//Logger.WriteLog(Logger.LogType.DeleteSRC, _srcPath + relativePath, fileSize, null, 0);
 					}
 					break;
 			}
@@ -1435,7 +1455,7 @@ namespace SyncSharp.Business
 				{
 					_summary.iSrcFolderCreate++;
 					//Logger.WriteEntry("FOLDER ACTION - Create " + _srcPath + relativePath);
-					Logger.WriteLog(Logger.LogType.CreateTGT, null, 0, _tgtPath + relativePath, 0);
+					//Logger.WriteLog(Logger.LogType.CreateTGT, null, 0, _tgtPath + relativePath, 0);
 					if (!Directory.Exists(_srcPath + relativePath))
 					{ Directory.CreateDirectory(_srcPath + relativePath); }
 					if (!Directory.Exists(_tgtPath + relativePath))
@@ -1454,14 +1474,14 @@ namespace SyncSharp.Business
 							Directory.Delete(_srcPath + relativePath, true);
 							_summary.iSrcFolderDelete++;
 							//Logger.WriteEntry("FOLDER ACTION - Delete " + _srcPath + relativePath);
-							Logger.WriteLog(Logger.LogType.DeleteSRC, _srcPath + relativePath, 0, null, 0);
+							//Logger.WriteLog(Logger.LogType.DeleteSRC, _srcPath + relativePath, 0, null, 0);
 						}
 						if (Directory.Exists(_tgtPath + relativePath))
 						{
 							Directory.Delete(_tgtPath + relativePath, true);
 							_summary.iTgtFolderDelete++;
 							//Logger.WriteEntry("FOLDER ACTION - Delete " + _tgtPath + relativePath);
-							Logger.WriteLog(Logger.LogType.DeleteTGT, null, 0, _tgtPath + relativePath, 0);
+							//Logger.WriteLog(Logger.LogType.DeleteTGT, null, 0, _tgtPath + relativePath, 0);
 						}
 						_tgtDirtyFoldersList.removeByPrimary(relativePath);
 					}
@@ -1481,7 +1501,7 @@ namespace SyncSharp.Business
 								Directory.Delete(_tgtPath + relativePath, true);
 								_summary.iTgtFolderDelete++;
 								//Logger.WriteEntry("FOLDER ACTION - Delete " + _tgtPath + relativePath);
-								Logger.WriteLog(Logger.LogType.DeleteTGT, null, 0, _tgtPath + relativePath, 0);
+								//Logger.WriteLog(Logger.LogType.DeleteTGT, null, 0, _tgtPath + relativePath, 0);
 							}
 						}
 					}
@@ -1497,7 +1517,7 @@ namespace SyncSharp.Business
 				{
 					_summary.iTgtFolderCreate++;
 					//Logger.WriteEntry("FOLDER ACTION - Create " + _tgtPath + relativePath);
-					Logger.WriteLog(Logger.LogType.CreateSRC, _srcPath + relativePath, 0, null, 0);
+					//Logger.WriteLog(Logger.LogType.CreateSRC, _srcPath + relativePath, 0, null, 0);
 					if (!Directory.Exists(_srcPath + relativePath))
 					{ Directory.CreateDirectory(_srcPath + relativePath); }
 					if (!Directory.Exists(_tgtPath + relativePath))
@@ -1523,7 +1543,7 @@ namespace SyncSharp.Business
 								Directory.Delete(_srcPath + relativePath, true);
 								_summary.iSrcFolderDelete++;
 								//Logger.WriteEntry("FOLDER ACTION - Delete " + _srcPath + relativePath);
-								Logger.WriteLog(Logger.LogType.DeleteSRC, _srcPath + relativePath, 0, null, 0);
+								//Logger.WriteLog(Logger.LogType.DeleteSRC, _srcPath + relativePath, 0, null, 0);
 							}
 						}
 					}
@@ -1722,9 +1742,9 @@ namespace SyncSharp.Business
 						_updatedList.add(tgtPath.Substring(_tgtPath.Length) + tgtFileName, tgtHashcode, tgtFileMeta);
 						_summary.iSrcFileCopy++; _summary.iTgtFileCopy++;
 						long fileSize = new FileInfo(srcPath + srcFileName).Length;
-						Logger.WriteLog(Logger.LogType.CopySRC, srcPath + srcFileName, fileSize, tgtPath + srcFileName, fileSize);
+						//Logger.WriteLog(Logger.LogType.CopySRC, srcPath + srcFileName, fileSize, tgtPath + srcFileName, fileSize);
 						fileSize = new FileInfo(tgtPath + tgtFileName).Length;
-						Logger.WriteLog(Logger.LogType.CopyTGT, tgtPath + tgtFileName, fileSize, srcPath + tgtFileName, fileSize);
+						//Logger.WriteLog(Logger.LogType.CopyTGT, tgtPath + tgtFileName, fileSize, srcPath + tgtFileName, fileSize);
 					}
 					break;
 				case SyncAction.CopyFileToTarget:
@@ -1737,7 +1757,7 @@ namespace SyncSharp.Business
 						_updatedList.add(srcPath.Substring(_srcPath.Length) + srcFile.Name, strHashcode, fileMeta);
 						_summary.iSrcFileCopy++;
 						long fileSize = new FileInfo(srcPath + srcFile.Name).Length;
-						Logger.WriteLog(Logger.LogType.CopySRC, srcPath + srcFile.Name, fileSize, tgtPath + srcFile.Name, fileSize);
+						//Logger.WriteLog(Logger.LogType.CopySRC, srcPath + srcFile.Name, fileSize, tgtPath + srcFile.Name, fileSize);
 					}
 					break;
 				case SyncAction.CopyFileToSource:
@@ -1750,7 +1770,7 @@ namespace SyncSharp.Business
 						_updatedList.add(tgtPath.Substring(_tgtPath.Length) + tgtFile.Name, strHashcode, fileMeta);
 						_summary.iTgtFileCopy++;
 						long fileSize = new FileInfo(tgtPath + tgtFile.Name).Length;
-						Logger.WriteLog(Logger.LogType.CopyTGT, tgtPath + tgtFile.Name, fileSize, srcPath + tgtFile.Name, fileSize);
+						//Logger.WriteLog(Logger.LogType.CopyTGT, tgtPath + tgtFile.Name, fileSize, srcPath + tgtFile.Name, fileSize);
 					}
 					break;
 				case SyncAction.DeleteSourceFile:
@@ -1758,7 +1778,7 @@ namespace SyncSharp.Business
 						long fileSize = new FileInfo(srcPath + srcFile.Name).Length;
 						File.Delete(srcPath + srcFile.Name);
 						_summary.iSrcFileDelete++;
-						Logger.WriteLog(Logger.LogType.DeleteSRC, srcPath + srcFile.Name, fileSize, null, 0);
+						//Logger.WriteLog(Logger.LogType.DeleteSRC, srcPath + srcFile.Name, fileSize, null, 0);
 						
 					}
 					break;
@@ -1767,7 +1787,7 @@ namespace SyncSharp.Business
 						long fileSize = new FileInfo(tgtPath + tgtFile.Name).Length;
 						File.Delete(tgtPath + tgtFile.Name);
 						_summary.iTgtFileDelete++;
-						Logger.WriteLog(Logger.LogType.DeleteTGT, null, 0, tgtPath + tgtFile.Name, fileSize);
+						//Logger.WriteLog(Logger.LogType.DeleteTGT, null, 0, tgtPath + tgtFile.Name, fileSize);
 					}
 					break;
 				case SyncAction.NoAction:
