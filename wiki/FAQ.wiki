@@ -30,7 +30,7 @@ Plenty of reasons why... that's because our SyncSharp is:
   # *Portable* - Bring it anywhere and just use it wherever you wish; home, office or school. No installation needed. (with .NET 3.5 framework pre-installed)
   # *Lightweight* - Resource efficient, reduce unnecessary processing. No sneaky file monitoring running in the background.
   # *Small size* - Only takes file space of less than a photo (less than 0.5 mb)
-  # *Clean* - No malware, spyware, adware or viruses. (as verified by Softpedia.com)
+  # *Clean* - No malware, spyware, adware or viruses. (as verified by <a href="http://www.softpedia.com/progClean/SyncSharp-Clean-155581.html">Softpedia.com</a>)
   # *Lean* - Blazing fast special handling of renamed files & folders, accurate detection of creation, deletion & modifications.
   # *Simple* - Easy to use layout. No prior experience necessary.
   # *Free* - What more can you ask for?
