@@ -11,8 +11,6 @@ We use C#, (_pronounced 'C sharp'_) as our primary development language, which s
 <br/>
 <br/>
 *What do you mean by _'Plug and sync'_ ?*
-<br/>
-
 <table cellpadding=25>
 <td>
 <img src="https://syncsharp.googlecode.com/svn/trunk/img/syncsharplogo.png"/>
@@ -38,7 +36,6 @@ Plenty of reasons why... that's because our SyncSharp is:
   # *Free* - What more can you ask for?
 and continue to discover many more ...
 
-<br/>
 <br/>
 = Support=
 
