@@ -11,7 +11,7 @@ We use C#, (_pronounced 'C sharp'_) as our primary development language, which s
 <br/>
 <br/>
 *What do you mean by _'Plug and sync'_ ?*
-<table cellpadding=25>
+<table cellpadding=20>
 <td>
 <img src="https://syncsharp.googlecode.com/svn/trunk/img/syncsharplogo.png"/>
 </td>
@@ -27,7 +27,7 @@ Hence, by design, with SyncSharp loaded in your _plug and play_ thumbdrive, with
 <br/>
 Plenty of reasons why... that's because our SyncSharp is:
 
-  # *Portable* - Bring it anywhere and just use it wherever you wish; home, office or school. No installation needed. 
+  # *Portable* - Bring it anywhere and just use it wherever you wish; home, office or school. No installation needed. (with .NET 3.5 framework pre-installed)
   # *Lightweight* - Resource efficient, reduce unnecessary processing. No sneaky file monitoring running in the background.
   # *Small size* - Only takes file space of less than a photo (less than 0.5 mb)
   # *Clean* - No malware, spyware, adware or viruses. (as verified by Softpedia.com)
