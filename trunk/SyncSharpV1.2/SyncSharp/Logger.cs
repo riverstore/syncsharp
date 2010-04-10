@@ -15,12 +15,12 @@ namespace SyncSharp.Storage
         private static readonly string CopyStatusSRC = "[COPY OK] from SOURCE";
         private static readonly string DeleteStatusSRC = "[DELETE OK] from SOURCE";
         private static readonly string RenameStatusSRC = "[RENAME OK] from SOURCE";
-        private static readonly string CreateStatusSRC = "[CREATE FOLDER OK] from SOURCE";
+        private static readonly string CreateStatusSRC = "[CREATE FOLDER OK] on SOURCE";
 
         private static readonly string CopyStatusTGT = "[COPY OK] from TARGET";
         private static readonly string DeleteStatusTGT = "[DELETE OK] from TARGET";
         private static readonly string RenameStatusTGT = "[RENAME OK] from TARGET";
-        private static readonly string CreateStatusTGT = "[CREATE FOLDER OK] from TARGET";
+        private static readonly string CreateStatusTGT = "[CREATE FOLDER OK] on TARGET";
 
 		private static FileStream _currFile;
 		private static StreamWriter _sw;
@@ -132,7 +132,7 @@ namespace SyncSharp.Storage
         /// <param name="syncTaskName"></param>
         /// <param name="start">true: begin, false: end</param>
         /// <returns>successful</returns>
-	    public static bool SyncSetWriteLog(string metaDataDir, string syncTaskName, bool start)
+	    public static bool WriteSyncLog(string metaDataDir, string syncTaskName, bool start)
 		{
             if (metaDataDir == null) throw new ArgumentNullException("metaDataDir");
 			if (syncTaskName == null) throw new ArgumentNullException("syncTaskName");
@@ -248,36 +248,41 @@ namespace SyncSharp.Storage
 			    string destPath = "";
                 ulong destSize = 0;
 
-				switch (logType)
-				{
-					case LogType.CopySRC:
-                        status = CopyStatusSRC;
-						break;                        
-                    case LogType.CopyTGT:
-                        status = CopyStatusTGT;
-						break;
+                switch (logType)
+                {               
 					case LogType.DeleteSRC:
-                        status = DeleteStatusSRC;
-						break;
-                    case LogType.DeleteTGT:
-                        status = DeleteStatusTGT;
-						break;
-					case LogType.RenameSRC:
-                        status = RenameStatusSRC;
-						break;
-                    case LogType.RenameTGT:
-                        status = RenameStatusTGT;
-						break;
                     case LogType.CreateSRC:
-                        status = CreateStatusSRC;
-                        break;
-                    case LogType.CreateTGT:
-                        status = CreateStatusTGT;
-                        break;	
-					default:
-						throw new ArgumentException("logType must be of type enum LogType {CopySRC, CopyTGT, DeleteSRC, DeleteTGT, RenameSRC, RenameTGT, CreateSRC, CreateTGT }", "logType");
-				}
 
+                        //delete OK or create folder OK originate from source side
+                        if (! (srcPath != null && tgtPath == null))
+                            return false;
+
+                        break;
+                        
+                    case LogType.DeleteTGT:                      
+                    case LogType.CreateTGT:
+
+                        //delete OK or create folder OK originate from target side
+                        if (! (srcPath == null && tgtPath != null))
+                            return false;
+
+                        break;
+
+                    case LogType.CopySRC:
+                    case LogType.RenameSRC:
+                    case LogType.CopyTGT:
+                    case LogType.RenameTGT:
+
+                        //copy or rename OK originate from source side or from target side
+                        if (! (srcPath != null && tgtPath != null))
+                            return false;    
+                       
+                        break;
+
+					default:
+						throw new ArgumentException("logType must be of type enum LogType {CopySRC, CopyTGT, DeleteSRC, DeleteTGT, RenameSRC, RenameTGT, CreateSRC, CreateTGT }", "logType");                        
+				}						
+				
 				DirectoryInfo di = new DirectoryInfo(_logFileLocation);
 				di.Create();
 				_currFile = new FileStream(_logFileName, FileMode.Append, FileAccess.Write, FileShare.Read);
@@ -286,154 +291,96 @@ namespace SyncSharp.Storage
 				switch (logType)
 				{
                     case LogType.DeleteSRC:
+
+                        status = DeleteStatusSRC;
+                        _filesDeletedCntSRC++;
+                        _filesDeletedSizeSRC += srcSize;
+                        oriPath = srcPath;
+                        oriSize = srcSize;
+                        WriteLogEntry(status, oriPath, oriSize);
+
+				        break;
+
                     case LogType.DeleteTGT:
-                    case LogType.CreateSRC:
-                    case LogType.CreateTGT:
+      
+                        status = DeleteStatusTGT;
+                        _filesDeletedCntTGT++;
+                        _filesDeletedSizeTGT += srcSize;
+                        oriPath = tgtPath;
+                        oriSize = tgtSize;
+                        WriteLogEntry(status, oriPath, oriSize);
+
+                        break;
                     
-                        //delete OK or create folder OK originate from source side or from target side
-                        if ((srcPath != null && tgtPath == null) || (srcPath == null && tgtPath != null))
-						{                       
-                            //update counter
-	                        switch (logType)
-							{
-                                case LogType.DeleteSRC:
-                                    _filesDeletedCntSRC++;
-                                    _filesDeletedSizeSRC += srcSize;
-							        oriPath = srcPath;
-							        oriSize = srcSize;
-                                    WriteLogEntry(status, oriPath, oriSize);	
-                                break;
-
-                                case LogType.DeleteTGT:
-                                    _filesDeletedCntTGT++;
-                                    _filesDeletedSizeTGT += srcSize;	
-                                    oriPath = tgtPath;
-                                    oriSize = tgtSize;                                    
-                                    WriteLogEntry(status, oriPath, oriSize);	
-                                break;
-
-                                case LogType.CreateSRC:
-                                    _foldersCreatedCntSRC++;
-							        oriPath = srcPath;                                    
-                                    WriteLogEntry(status, oriPath);	
-                                break;
-
-                                case LogType.CreateTGT:
-                                    _foldersCreatedCntTGT++;
-                                    oriPath = tgtPath;
-                                    WriteLogEntry(status, oriPath);	
-                                break;
-							}                          						
-						}
-						else
-						{
-							return false;
-						}
-						break;
-
+				    case LogType.CreateSRC:
+                     
+                        status = CreateStatusSRC;
+                        _foldersCreatedCntSRC++;
+                        oriPath = srcPath;
+                        WriteLogEntry(status, oriPath);
+                        
+                        break;
+                     
+				    case LogType.CreateTGT:
+                     
+                        status = CreateStatusTGT;
+                        _foldersCreatedCntTGT++;
+                        oriPath = tgtPath;
+                        WriteLogEntry(status, oriPath);
+                        
+                        break;                     				        
+    
 					case LogType.CopySRC:
-                    case LogType.CopyTGT:
+                   
+                        status = CopyStatusSRC;
+                        _filesCopiedCntSRC++;
+                        _filesCopiedSizeSRC += srcSize;
+                        oriPath = srcPath;
+                        oriSize = srcSize;
+                        destPath = tgtPath;
+                        destSize = tgtSize;
+                        WriteLogEntry(status, oriPath, oriSize, destPath, destSize);
+
+				        break;
+                    
 					case LogType.RenameSRC:
+
+                        status = RenameStatusSRC;
+                        _filesRenamedCntSRC++;
+                        _filesRenamedSizeSRC += srcSize;
+                        oriPath = srcPath;
+                        oriSize = srcSize;
+                        destPath = tgtPath;
+                        destSize = tgtSize;
+                        WriteLogEntry(status, oriPath, oriSize, destPath, destSize);
+
+                        break;
+
+                    case LogType.CopyTGT:
+
+                        status = CopyStatusTGT;
+                        _filesCopiedCntTGT++;
+                        _filesCopiedSizeTGT += tgtSize;
+                        oriPath = tgtPath;
+                        oriSize = tgtSize;
+                        destPath = srcPath;
+                        destSize = srcSize;
+                        WriteLogEntry(status, oriPath, oriSize, destPath, destSize);
+
+                        break;
+
 					case LogType.RenameTGT:
 
-                        //copy or rename OK originate from source side or from target side
-                        if (srcPath != null && tgtPath != null)
-                        {
-                            //update counter
-                            switch (logType)
-                            {
-                                case LogType.CopySRC:
-                                    _filesCopiedCntSRC++;
-                                    _filesCopiedSizeSRC += srcSize;
-                                    oriPath = srcPath;
-                                    oriSize = srcSize;
-                                    destPath = tgtPath;
-                                    destSize = tgtSize;
-                                    break;
-                                case LogType.RenameSRC:
-                                    _filesRenamedCntSRC++;
-                                    _filesRenamedSizeSRC += srcSize;
-                                    oriPath = srcPath;
-                                    oriSize = srcSize;
-                                    destPath = tgtPath;
-                                    destSize = tgtSize;
-                                    break;
-                                case LogType.CopyTGT:
-                                    _filesCopiedCntTGT++;
-                                    _filesCopiedSizeTGT += tgtSize;
-                                    oriPath = tgtPath;
-                                    oriSize = tgtSize;
-                                    destPath = srcPath;
-                                    destSize = srcSize;
-                                    break;
-                                case LogType.RenameTGT:
-                                    _filesRenamedCntTGT++;
-                                    _filesRenamedSizeTGT += tgtSize;
-                                    oriPath = tgtPath;
-                                    oriSize = tgtSize;
-                                    destPath = srcPath;
-                                    destSize = srcSize;
-                                    break;
-                            }
-/*
-               
-                            switch (logType)
-                            {
-                                case LogType.CopySRC:
-                                case LogType.RenameSRC:
-                                   
-                                    oriPath = srcPath;
-                                    oriSize = srcSize;
-                                    destPath = tgtPath;
-                                    destSize = tgtSize;
+                        status = RenameStatusTGT;
+                        _filesRenamedCntTGT++;
+                        _filesRenamedSizeTGT += tgtSize;
+                        oriPath = tgtPath;
+                        oriSize = tgtSize;
+                        destPath = srcPath;
+                        destSize = srcSize;
+                        WriteLogEntry(status, oriPath, oriSize, destPath, destSize);
 
-                                    switch (logType)
-                                    {
-                                        case LogType.CopySRC:
-                                            _filesRenamedCntSRC++;
-                                            _filesRenamedSizeSRC += srcSize;
-                                            break;
-         
-                                        case LogType.RenameSRC:
-                                            _filesCopiedCntSRC++;
-                                            _filesCopiedSizeSRC += srcSize;
-                                            break;
-                                    }
-                                    break;
-
-                                case LogType.CopyTGT:
-                                case LogType.RenameTGT:    
-
-                                    oriPath = tgtPath;
-                                    oriSize = tgtSize;
-                                    destPath = srcPath;
-                                    destSize = srcSize;
-
-                                    switch (logType)
-                                    {
-                                        case LogType.CopyTGT:
-                                            _filesCopiedCntTGT++;
-                                            _filesCopiedSizeTGT += tgtSize;
-
-                                        break;
-
-                                        case LogType.RenameTGT:
-                                            _filesRenamedCntTGT++;
-                                            _filesRenamedSizeTGT += tgtSize;
-                                        break;
-                                    }
-                                    break;
-                            }		
-*/
-
-                            //write to log
-                            WriteLogEntry(status, oriPath, oriSize, destPath, destSize);
-                        }
-                        else
-						{
-							return false;
-						}
-						break;                   
+                        break;                                                              
 				}
 			}
 			catch (IOException e)
