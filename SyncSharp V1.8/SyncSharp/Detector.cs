@@ -147,8 +147,8 @@ namespace SyncSharp.Business
 			_backupFiles = new CustomDictionary<string, string, FileUnit>();
 			_fileExclusions = new List<string>();
 			_task = syncTask;
-			_sMetaData = SyncMetaData.ReadMetaData(metaDataDir + @"\" + syncTask.Name + "src.meta");
-			_tMetaData = SyncMetaData.ReadMetaData(metaDataDir + @"\" + syncTask.Name + "tgt.meta");
+			_sMetaData = SyncMetaData.ReadMetaData(metaDataDir + @"\" + syncTask.Name + ".meta");
+			_tMetaData = SyncMetaData.ReadMetaData(metaDataDir + @"\" + syncTask.Name + ".meta");
 			_srcDirtySize = 0;
 			_tgtDirtySize = 0;
 		}
