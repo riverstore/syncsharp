@@ -1,5 +1,0 @@
-D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\ResolveAssemblyReference.cache
-D:\VS2008Projects\SyncSharpATD\SyncSharpATD\bin\Debug\SyncSharpATD.exe
-D:\VS2008Projects\SyncSharpATD\SyncSharpATD\bin\Debug\SyncSharpATD.pdb
-D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\SyncSharpATD.exe
-D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\SyncSharpATD.pdb
