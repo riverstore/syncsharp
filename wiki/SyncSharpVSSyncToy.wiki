@@ -1,4 +1,4 @@
-#summary Performance Testing against SyncToy.
+#summary Performance comparison between SyncToy V2.1 and SyncSharp V2.0
 
 <font face="Segoe UI">
 ==Introduction==
@@ -9,21 +9,18 @@ Our team has run the following test cases on Microsoft SyncToy V2.1 and SyncShar
 
 Test Case Scenario: 
 
-Source folder: 11 875 files, 2 682 folders Total: 11.5GB
-Target folder: Empty
+Source folder: 11 875 files, 2 682 folders Total: 11.5 GB
+Target folder: Empty Total: 0 B
 
-Synchronize source and target folders.
+Action: None
 
-Results:<br/>   
-_SyncSharp_<br/>
-start time: 5:14:32pm<br/>
-analyze time: 5:16:39pm<br/>
-finish: 5:28:59pm
+Results: 
 
-_SyncToy_<br/>
-start time: 5:30:45pm<br/>
-analyze time: 5:31:11pm<br/>
-finish: 5:45:45pm
+|| || *SyncSharp* || *SyncToy* ||
+|| Start at || 5:14:32pm || 5:30:45pm ||
+|| Analyze completed at || 5:16:39pm ||  5:31:11pm ||
+|| Sync completed at || 5:28:59pm || 5:45:45pm ||
+|| Total time taken || *14 mins 27 secs* || *15 mins* ||
 
 === Test Case 2 ===
 
@@ -32,37 +29,32 @@ Test Case Scenario:
 Source folder: 47 files, 0 folders Total: 11.1 GB 
 Target folder: 47 files, 0 folders Total: 11.1 GB
 
-Rename source folder and synchronize source and target folders.
+Action: Rename the entire source folder
 
 Results:
-_SyncSharp_
-start time: 6:06:30pm
-analyze time: 6:10:21pm
-finish: 6:12:35pm
 
-_SyncToy_
-start time: 6:16:10pm
-analyze time: 6:17:23pm
-finish: 6:26:30pm
+|| || *SyncSharp* || *SyncToy* ||
+|| Start time || 6:06:30pm || 6:16:10pm ||
+|| Analyze completed at || 6:10:21pm ||  6:17:23pm ||
+|| Sync completed at || 6:12:35pm || 6:26:30pm ||
+|| Total time taken || *6 mins 5 secs* || *10 mins 20 secs* ||
+
 
 === Test Case 3 ===
 
 Test Case Scenario:
 
-Source folder: 23 547 files, 3 330 folders Total size: 11.3GB
-Target folder: 23 547 files, 3 330 folders Total size: 11.3GB
+Source folder: 23 547 files, 3 330 folders Total size: 11.3 GB
+Target folder: 23 547 files, 3 330 folders Total size: 11.3 GB
 
-Mixture of file operations(files/folders rename, modify files, create & delete files/folders) on both source and target folders
+Action: Rename folders. Modify, create & delete files
 
 Results:
-_SyncSharp_
-start time: 6:44:02pm
-analyze time: 6:46:12pm
-finish: 6:48:00pm
 
-_SyncToy_
-start time: 6:33:15pm
-analyze time: 6:34:50pm
-finish: 6:42:19pm
+|| || *SyncSharp* || *SyncToy* ||
+|| Start time || 6:44:02pm || 6:33:15pm ||
+|| Analyze completed at || 6:46:12pm || 6:34:50pm ||
+|| Sync completed at || 6:48:00pm || 6:42:19pm ||
+|| Total time taken || *3 mins 58 secs* || *9 mins 4 secs* ||
 
 </font>
