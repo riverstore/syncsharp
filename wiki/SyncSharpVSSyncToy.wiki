@@ -5,6 +5,8 @@
 
 Our team has run the following test cases on Microsoft SyncToy V2.1 and SyncSharp V2.0
 
+----
+
 ===  Test Case 1 ===
 
 Test Case Scenario: 
@@ -12,7 +14,7 @@ Test Case Scenario:
 Source folder: 11 875 files, 2 682 folders Total: 11.5 GB <br/>
 Target folder: Empty Total: 0 B
 
-Action: None
+Action: sync
 
 Results: 
 
@@ -22,6 +24,8 @@ Results:
 || Sync completed at || 5:28:59pm || 5:45:45pm ||
 || Total time taken || *14 mins 27 secs* || *15 mins* ||
 
+----
+
 === Test Case 2 ===
 
 Test Case Scenario:
@@ -29,7 +33,7 @@ Test Case Scenario:
 Source folder: 47 files, 0 folders Total: 11.1 GB <br/>
 Target folder: 47 files, 0 folders Total: 11.1 GB
 
-Action: Rename the entire source folder
+Action: Rename the entire source folder and sync
 
 Results:
 
@@ -39,6 +43,7 @@ Results:
 || Sync completed at || 6:12:35pm || 6:26:30pm ||
 || Total time taken || *6 mins 5 secs* || *10 mins 20 secs* ||
 
+----
 
 === Test Case 3 ===
 
@@ -47,7 +52,7 @@ Test Case Scenario:
 Source folder: 23 547 files, 3 330 folders Total size: 11.3 GB <br/>
 Target folder: 23 547 files, 3 330 folders Total size: 11.3 GB
 
-Action: Rename folders. Modify, create & delete files
+Action: Rename folders, modify, create & delete files and sync
 
 Results:
 
