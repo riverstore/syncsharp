@@ -1,0 +1,289 @@
+<Configuration>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncProfile.cs" caret="2770" fromTop="31" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncMetaData.cs" caret="441" fromTop="19" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:CustomDictionary.cs" caret="868" fromTop="17" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:FileUnit.cs" caret="841" fromTop="26" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncTask.cs" caret="1915" fromTop="15" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:TestCase.cs" caret="134" fromTop="1" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Validation.cs" caret="7511" fromTop="69" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="1588" fromTop="11" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="30488" fromTop="23" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Logger.cs" caret="13556" fromTop="12" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Reconciler.cs" caret="2188" fromTop="10" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Detector.cs" caret="4566" fromTop="14" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Validation.cs" caret="110" fromTop="5" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="285" fromTop="10" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Reconciler.cs" caret="164" fromTop="7" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="4604" fromTop="50" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="5445" fromTop="34" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="7455" fromTop="56" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="8149" fromTop="26" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="7769" fromTop="14" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="8973" fromTop="34" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Validation.cs" caret="7615" fromTop="69" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="2530" fromTop="13" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="9801" fromTop="19" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="9580" fromTop="13" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="12308" fromTop="13" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="13184" fromTop="12" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="13934" fromTop="11" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="14386" fromTop="13" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="3979" fromTop="17" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="1694" fromTop="3" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="14448" fromTop="11" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="14746" fromTop="10" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="664" fromTop="5" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="1587" fromTop="11" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="14971" fromTop="11" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="20417" fromTop="12" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="29766" fromTop="12" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="30630" fromTop="12" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Reconciler.cs" caret="1564" fromTop="7" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Reconciler.cs" caret="2181" fromTop="8" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Detector.cs" caret="4738" fromTop="16" />
+    </RecentEdits>
+  </RecentFiles>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="SolutionAnalysisEnabled">False</setting>
+    </boolean>
+  </SettingsComponent>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Default">
+      <Item value="if" priority="24" />
+      <Item value="relativePath" priority="1" />
+      <Item value="_updatedList" priority="0" />
+      <Item value="SyncProfile" priority="3" />
+      <Item value="public" priority="10" />
+      <Item value="return" priority="10" />
+      <Item value="_curProfile" priority="0" />
+      <Item value="value" priority="9" />
+      <Item value="myTester" priority="10" />
+      <Item value="new" priority="8" />
+      <Item value="t" priority="48" />
+      <Item value="Console" priority="12" />
+      <Item value="curProfile" priority="10" />
+      <Item value="String" priority="12" />
+      <Item value="parameters" priority="1" />
+      <Item value="delimiters" priority="1" />
+      <Item value="StringSplitOptions" priority="1" />
+      <Item value="SyncTask" priority="5" />
+      <Item value="inputParameters" priority="11" />
+      <Item value="newTask" priority="0" />
+      <Item value="Validation" priority="15" />
+      <Item value="errorMsgCode" priority="0" />
+      <Item value="switch" priority="1" />
+      <Item value="case" priority="10" />
+      <Item value="break" priority="11" />
+      <Item value="default" priority="1" />
+      <Item value="errorTaskName" priority="0" />
+      <Item value="errorDuplicate" priority="0" />
+      <Item value="true" priority="9" />
+      <Item value="false" priority="5" />
+      <Item value="else" priority="7" />
+      <Item value="checkTask" priority="0" />
+      <Item value="retrievedTask" priority="1" />
+      <Item value="Directory" priority="12" />
+      <Item value="_source" priority="2" />
+      <Item value="_target" priority="3" />
+      <Item value="temp" priority="2" />
+      <Item value="_taskSource" priority="4" />
+      <Item value="_taskTarget" priority="2" />
+      <Item value="_sourceSubDir" priority="1" />
+      <Item value="_targetSubDir" priority="0" />
+      <Item value="private" priority="5" />
+      <Item value="double" priority="1" />
+      <Item value="int" priority="2" />
+      <Item value="_totalCases" priority="6" />
+      <Item value="_totalPassed" priority="5" />
+      <Item value="_totalFailed" priority="2" />
+      <Item value="_percentPassed" priority="5" />
+      <Item value="void" priority="3" />
+      <Item value="sr" priority="2" />
+      <Item value="this" priority="1" />
+      <Item value="FileStream" priority="1" />
+      <Item value="File" priority="3" />
+      <Item value="file" priority="3" />
+      <Item value="null" priority="1" />
+      <Item value="tempSrc" priority="1" />
+      <Item value="srcLength" priority="1" />
+      <Item value="tgtLength" priority="1" />
+      <Item value="newFileTgt" priority="1" />
+      <Item value="tempTgt" priority="0" />
+      <Item value="SyncSharpLogic" priority="5" />
+      <Item value="_curLogic" priority="1" />
+      <Item value="curLogic" priority="6" />
+      <Item value="TestCase" priority="2" />
+      <Item value="bool" priority="0" />
+      <Item value="string" priority="1" />
+      <Item value="allFiles" priority="1" />
+      <Item value="foreach" priority="0" />
+      <Item value="var" priority="0" />
+      <Item value="_outputFile" priority="1" />
+      <Item value="FileMode" priority="0" />
+      <Item value="FileAccess" priority="0" />
+      <Item value="FileShare" priority="0" />
+      <Item value="StreamWriter" priority="0" />
+      <Item value="_curFilters" priority="2" />
+      <Item value="Filters" priority="0" />
+      <Item value="_curSettings" priority="10" />
+      <Item value="TaskSettings" priority="7" />
+      <Item value="line" priority="0" />
+      <Item value="continue" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:SyncSharp.Storage.CustomDictionary`3">
+      <Item value="containsPriKey" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:ATDSyncSharp.ATD">
+      <Item value="_curProfile" priority="1" />
+      <Item value="PrintStatistics" priority="2" />
+      <Item value="GenerateStatistics" priority="0" />
+      <Item value="_curLogic" priority="2" />
+      <Item value="_cases" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:ATDSyncSharp.TestCase">
+      <Item value="Method" priority="6" />
+      <Item value="ID" priority="4" />
+      <Item value="Param1" priority="2" />
+      <Item value="Actual" priority="24" />
+      <Item value="Passed" priority="5" />
+      <Item value="Param2" priority="2" />
+      <Item value="Equals" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.String">
+      <Item value="Equals" priority="14" />
+      <Item value="Split" priority="1" />
+      <Item value="TrimStart" priority="1" />
+      <Item value="Trim" priority="1" />
+      <Item value="Substring" priority="7" />
+      <Item value="StartsWith" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Console">
+      <Item value="WriteLine" priority="12" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.StringSplitOptions">
+      <Item value="RemoveEmptyEntries" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:SyncSharp.Storage.SyncProfile">
+      <Item value="AddTask" priority="0" />
+      <Item value="TaskExists" priority="1" />
+      <Item value="GetTask" priority="1" />
+      <Item value="RemoveTask" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@SyncSharp.Business.Validation">
+      <Item value="CheckTaskName" priority="0" />
+      <Item value="ErrorMsgCode" priority="14" />
+      <Item value="CheckFolderPair" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@SyncSharp.Business.Validation+ErrorMsgCode">
+      <Item value="EmptyTaskName" priority="0" />
+      <Item value="DuplicateTaskName" priority="0" />
+      <Item value="InvalidTaskName" priority="0" />
+      <Item value="NoError" priority="1" />
+      <Item value="EmptySource" priority="0" />
+      <Item value="EmptyTarget" priority="0" />
+      <Item value="InvalidSource" priority="0" />
+      <Item value="InvalidTarget" priority="0" />
+      <Item value="SameSourceTarget" priority="0" />
+      <Item value="SourceIsASubDirOfTarget" priority="0" />
+      <Item value="TargetIsASubDirOfSource" priority="0" />
+      <Item value="DuplicateFolderPair" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Boolean">
+      <Item value="ToString" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:SyncSharp.Storage.SyncTask">
+      <Item value="Name" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.IO.Directory">
+      <Item value="Exists" priority="6" />
+      <Item value="CreateDirectory" priority="1" />
+      <Item value="Delete" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Int32">
+      <Item value="ToString" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Double">
+      <Item value="ToString" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.StreamWriter">
+      <Item value="Write" priority="0" />
+      <Item value="WriteLine" priority="2" />
+      <Item value="Close" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.IO.File">
+      <Item value="Exists" priority="2" />
+      <Item value="Delete" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.FileInfo">
+      <Item value="DirectoryName" priority="1" />
+      <Item value="OpenWrite" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:SyncSharp.Business.SyncSharpLogic">
+      <Item value="checkProfileExists" priority="0" />
+      <Item value="getMachineID" priority="1" />
+      <Item value="loadProfile" priority="0" />
+      <Item value="saveProfile" priority="0" />
+      <Item value="checkAutorun" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.IO.FileMode">
+      <Item value="Append" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.IO.FileAccess">
+      <Item value="ReadWrite" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.IO.FileShare">
+      <Item value="Read" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.List`1">
+      <Item value="Clear" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:SyncSharp.Business.Filters">
+      <Item value="FileExcludeList" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:SyncSharp.Storage.TaskSettings">
+      <Item value="SrcConflict" priority="1" />
+      <Item value="TgtConflict" priority="1" />
+      <Item value="SrcTgtConflict" priority="2" />
+      <Item value="FolderConflict" priority="0" />
+      <Item value="IgnoreTimeChange" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@SyncSharp.Storage.TaskSettings">
+      <Item value="ConflictSrcAction" priority="1" />
+      <Item value="ConflictTgtAction" priority="1" />
+      <Item value="ConflictSrcTgtAction" priority="2" />
+      <Item value="ConflictFolderAction" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@SyncSharp.Storage.TaskSettings+ConflictSrcAction">
+      <Item value="DeleteSourceFile" priority="0" />
+      <Item value="CopyFileToTarget" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@SyncSharp.Storage.TaskSettings+ConflictTgtAction">
+      <Item value="DeleteTargetFile" priority="0" />
+      <Item value="CopyFileToSource" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@SyncSharp.Storage.TaskSettings+ConflictSrcTgtAction">
+      <Item value="KeepLatestCopy" priority="0" />
+      <Item value="SourceOverwriteTarget" priority="0" />
+      <Item value="TargetOverwriteSource" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@SyncSharp.Storage.TaskSettings+ConflictFolderAction">
+      <Item value="KeepTargetName" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:SyncSharp.Business.Reconciler">
+      <Item value="UpdatedList" priority="1" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+</Configuration>
