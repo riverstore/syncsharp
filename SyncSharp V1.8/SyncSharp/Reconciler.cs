@@ -59,7 +59,7 @@ namespace SyncSharp.Business
 		}
 		public CustomDictionary<string, string, FileUnit> UpdatedList
 		{
-			get { return UpdatedList; }
+			get { return _updatedList; }
 		}
 
         public bool IsErrorDetected
