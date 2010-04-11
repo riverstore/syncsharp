@@ -9,8 +9,7 @@ Our team has run the following test cases on Microsoft SyncToy V2.1 and SyncShar
 
 Test Case Scenario: 
 
-Source folder: 11 875 files, 2 682 folders Total: 11.5 GB
-
+Source folder: 11 875 files, 2 682 folders Total: 11.5 GB <br/>
 Target folder: Empty Total: 0 B
 
 Action: None
@@ -27,8 +26,7 @@ Results:
 
 Test Case Scenario:
 
-Source folder: 47 files, 0 folders Total: 11.1 GB 
-
+Source folder: 47 files, 0 folders Total: 11.1 GB <br/>
 Target folder: 47 files, 0 folders Total: 11.1 GB
 
 Action: Rename the entire source folder
@@ -46,8 +44,7 @@ Results:
 
 Test Case Scenario:
 
-Source folder: 23 547 files, 3 330 folders Total size: 11.3 GB
-
+Source folder: 23 547 files, 3 330 folders Total size: 11.3 GB <br/>
 Target folder: 23 547 files, 3 330 folders Total size: 11.3 GB
 
 Action: Rename folders. Modify, create & delete files
