@@ -14,7 +14,7 @@ Test Case Scenario:
 Source folder: 11 875 files, 2 682 folders Total: 11.5 GB <br/>
 Target folder: Empty Total: 0 B
 
-Action: sync
+Action: Sync
 
 Results: 
 
@@ -52,7 +52,7 @@ Test Case Scenario:
 Source folder: 23 547 files, 3 330 folders Total size: 11.3 GB <br/>
 Target folder: 23 547 files, 3 330 folders Total size: 11.3 GB
 
-Action: Rename folders, modify, create & delete files then sync
+Action: Rename folders, modify, create & delete files. Sync
 
 Results:
 
