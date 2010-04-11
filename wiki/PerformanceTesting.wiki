@@ -1,0 +1,68 @@
+#summary Performance Testing against SyncToy.
+
+<font face="Segoe UI">
+==Introduction==
+
+Our team has run the following test cases on Microsoft SyncToy V2.1 and SyncSharp V2.0
+
+===  Test Case 1 ===
+
+Test Case Scenario: 
+
+Source folder: 11 875 files, 2 682 folders Total: 11.5GB
+Target folder: Empty
+
+Synchronize source and target folders.
+
+Results:   
+_SyncSharp_
+start time: 5:14:32pm
+analyze time: 5:16:39pm
+finish: 5:28:59pm
+
+_SyncToy_
+start time:5:30:45pm
+analyze time: 5:31:11pm
+finish: 5:45:45pm
+
+=== Test Case 2 ===
+
+Test Case Scenario:
+
+Source folder: 47 files, 0 folders Total: 11.1 GB 
+Target folder: 47 files, 0 folders Total: 11.1 GB
+
+Rename source folder and synchronize source and target folders.
+
+Results:
+_SyncSharp_
+start time: 6:06:30pm
+analyze time: 6:10:21pm
+finish: 6:12:35pm
+
+_SyncToy_
+start time:6:16:10pm
+analyze time: 6:17:23pm
+finish: 6:26:30pm
+
+=== Test Case 3 ===
+
+Test Case Scenario:
+
+Source folder: 23 547 files, 3 330 folders Total size: 11.3GB
+Target folder: 23 547 files, 3 330 folders Total size: 11.3GB
+
+Mixture of file operations(files/folders rename, modify files, create & delete files/folders) on both source and target folders
+
+Results:
+_SyncSharp_
+start time: 6:44:02pm
+analyze time: 6:46:12pm
+finish: 6:48:00pm
+
+_SyncToy_
+start time:6:33:15pm
+analyze time: 6:34:50pm
+finish: 6:42:19pm
+
+</font>
