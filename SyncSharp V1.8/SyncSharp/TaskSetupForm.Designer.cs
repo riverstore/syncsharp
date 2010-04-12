@@ -893,6 +893,11 @@
             this.ndTime.Name = "ndTime";
             this.ndTime.Size = new System.Drawing.Size(53, 21);
             this.ndTime.TabIndex = 2;
+            this.ndTime.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.ndTime.ValueChanged += new System.EventHandler(this.ndTime_ValueChanged);
             // 
             // label4
