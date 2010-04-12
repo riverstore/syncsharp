@@ -589,7 +589,15 @@ namespace SyncSharp.GUI
 		private void lvMenu_Opening(object sender, CancelEventArgs e)
 		{
             if (lvCompare.FocusedItem != null && lvCompare.FocusedItem.Selected)
+            {
                 EnableMenuItem(true);
+                if (lvCompare.SelectedIndices.Count > 1)
+                {
+                    openFolderMenuItem.Enabled = false;
+                    openMenuItem.Enabled = false;
+                    propertiesMenuItem.Enabled = false;
+                }
+            }
             else
                 EnableMenuItem(false);
 		}
