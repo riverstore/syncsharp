@@ -79,7 +79,7 @@ namespace SyncSharp.Storage
 			this.ResetArhiveAttributes = false;
 
 			this.PlugSync = true;
-			this.IgnoreTimeChange = 2;
+			this.IgnoreTimeChange = 0;
 
 			this.SrcConflict = ConflictSrcAction.CopyFileToTarget;
 			this.TgtConflict = ConflictTgtAction.CopyFileToSource;

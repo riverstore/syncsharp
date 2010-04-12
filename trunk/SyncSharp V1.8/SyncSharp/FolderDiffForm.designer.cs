@@ -43,14 +43,6 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.propertiesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scMain = new System.Windows.Forms.SplitContainer();
-            this.lvCompare = new DoubleBufferedListView();
-            this.colSource = new System.Windows.Forms.ColumnHeader();
-            this.colSourceSize = new System.Windows.Forms.ColumnHeader();
-            this.colSourceDate = new System.Windows.Forms.ColumnHeader();
-            this.colSyncAction = new System.Windows.Forms.ColumnHeader();
-            this.colTarget = new System.Windows.Forms.ColumnHeader();
-            this.colTargetSize = new System.Windows.Forms.ColumnHeader();
-            this.colTargetDate = new System.Windows.Forms.ColumnHeader();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.scBottom = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -82,6 +74,14 @@
             this.lblName = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblSource = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblTarget = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lvCompare = new DoubleBufferedListView();
+            this.colSource = new System.Windows.Forms.ColumnHeader();
+            this.colSourceSize = new System.Windows.Forms.ColumnHeader();
+            this.colSourceDate = new System.Windows.Forms.ColumnHeader();
+            this.colSyncAction = new System.Windows.Forms.ColumnHeader();
+            this.colTarget = new System.Windows.Forms.ColumnHeader();
+            this.colTargetSize = new System.Windows.Forms.ColumnHeader();
+            this.colTargetDate = new System.Windows.Forms.ColumnHeader();
             this.lvMenu.SuspendLayout();
             this.scMain.Panel1.SuspendLayout();
             this.scMain.Panel2.SuspendLayout();
@@ -214,72 +214,6 @@
             this.scMain.Size = new System.Drawing.Size(650, 374);
             this.scMain.SplitterDistance = 195;
             this.scMain.TabIndex = 0;
-            // 
-            // lvCompare
-            // 
-            this.lvCompare.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colSource,
-            this.colSourceSize,
-            this.colSourceDate,
-            this.colSyncAction,
-            this.colTarget,
-            this.colTargetSize,
-            this.colTargetDate});
-            this.lvCompare.ContextMenuStrip = this.lvMenu;
-            this.lvCompare.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvCompare.FullRowSelect = true;
-            this.lvCompare.GridLines = true;
-            this.lvCompare.Location = new System.Drawing.Point(0, 0);
-            this.lvCompare.Name = "lvCompare";
-            this.lvCompare.OwnerDraw = true;
-            this.lvCompare.ShowItemToolTips = true;
-            this.lvCompare.Size = new System.Drawing.Size(650, 195);
-            this.lvCompare.SmallImageList = this.imageList;
-            this.lvCompare.TabIndex = 1;
-            this.lvCompare.UseCompatibleStateImageBehavior = false;
-            this.lvCompare.View = System.Windows.Forms.View.Details;
-            this.lvCompare.VirtualMode = true;
-            this.lvCompare.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvCompare_DrawColumnHeader);
-            this.lvCompare.DoubleClick += new System.EventHandler(this.lvCompare_DoubleClick);
-            this.lvCompare.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvCompare_ColumnClick);
-            this.lvCompare.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.lvCompare_RetrieveVirtualItem);
-            this.lvCompare.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvCompare_ColumnWidthChanging);
-            this.lvCompare.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvCompare_DrawSubItem);
-            // 
-            // colSource
-            // 
-            this.colSource.Text = "Source";
-            this.colSource.Width = 180;
-            // 
-            // colSourceSize
-            // 
-            this.colSourceSize.Text = "Size (bytes)";
-            this.colSourceSize.Width = 90;
-            // 
-            // colSourceDate
-            // 
-            this.colSourceDate.Text = "Date & Time";
-            this.colSourceDate.Width = 125;
-            // 
-            // colSyncAction
-            // 
-            this.colSyncAction.Text = "Sync Action";
-            this.colSyncAction.Width = 130;
-            // 
-            // colTarget
-            // 
-            this.colTarget.Text = "Target";
-            this.colTarget.Width = 180;
-            // 
-            // colTargetSize
-            // 
-            this.colTargetSize.Text = "Size (bytes)";
-            this.colTargetSize.Width = 90;
-            // 
-            // colTargetDate
-            // 
-            this.colTargetDate.Text = "Date & Time";
-            this.colTargetDate.Width = 125;
             // 
             // imageList
             // 
@@ -620,6 +554,72 @@
             this.lblTarget.Size = new System.Drawing.Size(315, 17);
             this.lblTarget.Spring = true;
             this.lblTarget.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lvCompare
+            // 
+            this.lvCompare.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colSource,
+            this.colSourceSize,
+            this.colSourceDate,
+            this.colSyncAction,
+            this.colTarget,
+            this.colTargetSize,
+            this.colTargetDate});
+            this.lvCompare.ContextMenuStrip = this.lvMenu;
+            this.lvCompare.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvCompare.FullRowSelect = true;
+            this.lvCompare.GridLines = true;
+            this.lvCompare.Location = new System.Drawing.Point(0, 0);
+            this.lvCompare.Name = "lvCompare";
+            this.lvCompare.OwnerDraw = true;
+            this.lvCompare.ShowItemToolTips = true;
+            this.lvCompare.Size = new System.Drawing.Size(650, 195);
+            this.lvCompare.SmallImageList = this.imageList;
+            this.lvCompare.TabIndex = 1;
+            this.lvCompare.UseCompatibleStateImageBehavior = false;
+            this.lvCompare.View = System.Windows.Forms.View.Details;
+            this.lvCompare.VirtualMode = true;
+            this.lvCompare.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvCompare_DrawColumnHeader);
+            this.lvCompare.DoubleClick += new System.EventHandler(this.lvCompare_DoubleClick);
+            this.lvCompare.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvCompare_ColumnClick);
+            this.lvCompare.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.lvCompare_RetrieveVirtualItem);
+            this.lvCompare.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lvCompare_ColumnWidthChanging);
+            this.lvCompare.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvCompare_DrawSubItem);
+            // 
+            // colSource
+            // 
+            this.colSource.Text = "Source";
+            this.colSource.Width = 180;
+            // 
+            // colSourceSize
+            // 
+            this.colSourceSize.Text = "Size (bytes)";
+            this.colSourceSize.Width = 90;
+            // 
+            // colSourceDate
+            // 
+            this.colSourceDate.Text = "Date & Time";
+            this.colSourceDate.Width = 125;
+            // 
+            // colSyncAction
+            // 
+            this.colSyncAction.Text = "Sync Action";
+            this.colSyncAction.Width = 130;
+            // 
+            // colTarget
+            // 
+            this.colTarget.Text = "Target";
+            this.colTarget.Width = 180;
+            // 
+            // colTargetSize
+            // 
+            this.colTargetSize.Text = "Size (bytes)";
+            this.colTargetSize.Width = 90;
+            // 
+            // colTargetDate
+            // 
+            this.colTargetDate.Text = "Date & Time";
+            this.colTargetDate.Width = 125;
             // 
             // FolderDiffForm
             // 

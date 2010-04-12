@@ -18,6 +18,7 @@ namespace SyncSharp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            
             SyncSharpLogic logic = new SyncSharpLogic();
             logic.loadProfile();
             bool runAutoForm = false;
@@ -26,16 +27,21 @@ namespace SyncSharp
             {
                 foreach (SyncTask task in logic.Profile.TaskCollection)
                 {
-                    if (task.Settings.PlugSync)
-                    {
-                        runAutoForm = true;
-                        break;
-                    }
+                    runAutoForm = task.Settings.PlugSync;
+                    if (runAutoForm) break;
                 }
             }
+
             if (runAutoForm)
-                Application.Run(new AutoRunForm(logic));
-            Application.Run(new MainForm(logic));
+            {
+                AutoRunForm autoRunFrm = new AutoRunForm(logic);
+                logic.AddUI(autoRunFrm);
+                Application.Run(autoRunFrm);
+            }
+            MainForm mainFrm = new MainForm(logic);
+            logic.RemoveAllUIs();
+            logic.AddUI(mainFrm);
+            Application.Run(mainFrm);
         }
 	}
 }

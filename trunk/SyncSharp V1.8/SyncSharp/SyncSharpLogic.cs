@@ -12,7 +12,7 @@ using SyncSharp.GUI;
 
 namespace SyncSharp.Business
 {
-	public class SyncSharpLogic
+	public class SyncSharpLogic : Observable
 	{
 		private SyncProfile _currentProfile;
 		private string _metaDataDir = "";
@@ -104,12 +104,12 @@ namespace SyncSharp.Business
 			form.ShowDialog();
 		}
 
-		public DialogResult AnalyzeFolderPair(SyncTask curTask, ToolStripStatusLabel status)
+		public DialogResult AnalyzeFolderPair(SyncTask curTask)
 		{
 			DialogResult result = DialogResult.None;
 			try
 			{
-				status.Text = "Analyzing " + curTask.Name + "...";
+				this.NotifyUIs("Analyzing " + curTask.Name + "...");
 				Detector detector = new Detector(_metaDataDir, curTask);
 				detector.CompareFolders();
 				if (!detector.IsSynchronized())
@@ -122,11 +122,13 @@ namespace SyncSharp.Business
 					_previewReconciler = new Reconciler(detector.SourceList, detector.TargetList, curTask, _metaDataDir);
 					_previewReconciler.Preview();
 					FolderDiffForm form = new FolderDiffForm(_previewReconciler.PreviewFilesList,
-																									_previewReconciler.PreviewFoldersList, curTask);
+															_previewReconciler.PreviewFoldersList, curTask);
+                    this.NotifyUIs("Analysis completed");
 					result = form.ShowDialog();
 				}
 				else
 				{
+                    this.NotifyUIs("Analysis completed");
 					MessageBox.Show("Task: " + curTask.Name + "\n\n" +
 					"There are no differences between the source and target folders contents.",
 					"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -145,12 +147,12 @@ namespace SyncSharp.Business
 			return result;
 		}
 
-		public void SyncAfterAnalyze(SyncTask curTask, ToolStripStatusLabel status)
+		public void SyncAfterAnalyze(SyncTask curTask)
 		{
 			try
 			{
 				Logger.WriteSyncLog(_metaDataDir, curTask.Name, true);
-				status.Text = "Synchronizing " + curTask.Name + "...";
+				this.NotifyUIs("Synchronizing " + curTask.Name + "...");
 				_previewReconciler.SyncPreview();
 
 				SyncMetaData.WriteMetaData(_metaDataDir + @"\" + curTask.Name + ".meta", _previewReconciler.UpdatedList);
@@ -170,27 +172,28 @@ namespace SyncSharp.Business
 			this.UpdateSyncTaskTime(curTask, DateTime.Now.ToString());
 		}
 
-		public void SyncFolderPair(SyncTask curTask, ToolStripStatusLabel status, bool isPlugSync)
+		public void SyncFolderPair(SyncTask curTask, bool disablePrompt)
 		{
 			try
 			{
 				Logger.WriteSyncLog(_metaDataDir, curTask.Name, true);
-				status.Text = "Analyzing " + curTask.Name + "...";
+				this.NotifyUIs("Analyzing " + curTask.Name + "...");
 
 				Detector detector = new Detector(_metaDataDir, curTask);
 				detector.CompareFolders();
 
 				if (!detector.IsSynchronized())
 				{
-					if (!CheckSufficientDiskSpace(curTask.Source.Substring(0, 1), detector.TgtDirtySize, isPlugSync) ||
-							!CheckSufficientDiskSpace(curTask.Target.Substring(0, 1), detector.SrcDirtySize, isPlugSync))
+					if (!CheckSufficientDiskSpace(curTask.Source.Substring(0, 1), detector.TgtDirtySize, disablePrompt) ||
+							!CheckSufficientDiskSpace(curTask.Target.Substring(0, 1), detector.SrcDirtySize, disablePrompt))
 					{
 						throw new Exception("Insufficient disk space");
 					}
 
 					Reconciler reconciler = new Reconciler(detector.SourceList, detector.TargetList, curTask, _metaDataDir);
-					status.Text = "Synchronizing " + curTask.Name + "...";
-					if (curTask.TypeOfSync)
+					this.NotifyUIs("Synchronizing " + curTask.Name + "...");
+					
+                    if (curTask.TypeOfSync)
 					{
 						reconciler.Sync();
 						SyncMetaData.WriteMetaData(_metaDataDir + @"\" + curTask.Name + ".meta", reconciler.UpdatedList);
@@ -217,13 +220,14 @@ namespace SyncSharp.Business
 			this.UpdateSyncTaskTime(curTask, DateTime.Now.ToString());
 		}
 
-		public void RestoreSource(SyncTask curTask, ToolStripStatusLabel status)
+		public void RestoreSource(SyncTask curTask)
 		{
 			try
 			{
 				Logger.LogFileLocation = _metaDataDir + @"\";
 				Logger.LogFileName = Logger.LogFileLocation + curTask.Name + ".log";
-				Reconciler reconciler = new Reconciler(null, null, curTask, _metaDataDir);
+				
+                Reconciler reconciler = new Reconciler(null, null, curTask, _metaDataDir);
 				reconciler.RestoreSource(SyncMetaData.ReadMetaData(_metaDataDir + @"\" + curTask.Name + ".bkp"));
 				this.UpdateSyncTaskResult(curTask, "Successful");
 			}
@@ -234,14 +238,14 @@ namespace SyncSharp.Business
 			}
 		}
 
-		public void SyncAllFolderPairs(ToolStripStatusLabel status, bool isPlugSync)
+		public void SyncAllFolderPairs(bool disablePrompt)
 		{
 			foreach (SyncTask task in _currentProfile.TaskCollection)
 			{
 				try
 				{
 					if (Directory.Exists(task.Source) && Directory.Exists(task.Target))
-						SyncFolderPair(task, status, true);
+						SyncFolderPair(task, true);
 					else
 						throw new Exception("Source or target folder does not exist");
 				}

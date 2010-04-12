@@ -312,21 +312,21 @@
             // 
             this.selectAllMenuItem.Name = "selectAllMenuItem";
             this.selectAllMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.selectAllMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.selectAllMenuItem.Size = new System.Drawing.Size(180, 22);
             this.selectAllMenuItem.Text = "Select all";
             this.selectAllMenuItem.Click += new System.EventHandler(this.selectAllMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(190, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // analyzeMenuItem
             // 
             this.analyzeMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("analyzeMenuItem.Image")));
             this.analyzeMenuItem.Name = "analyzeMenuItem";
             this.analyzeMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.K)));
-            this.analyzeMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.analyzeMenuItem.Size = new System.Drawing.Size(180, 22);
             this.analyzeMenuItem.Text = "Analyze";
             this.analyzeMenuItem.Click += new System.EventHandler(this.analyzeMenuItem_Click);
             // 
@@ -335,7 +335,7 @@
             this.syncMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("syncMenuItem.Image")));
             this.syncMenuItem.Name = "syncMenuItem";
             this.syncMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.syncMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.syncMenuItem.Size = new System.Drawing.Size(180, 22);
             this.syncMenuItem.Text = "Synchronize";
             this.syncMenuItem.Click += new System.EventHandler(this.syncMenuItem_Click);
             // 
@@ -351,39 +351,39 @@
             // syncAllMenuItem
             // 
             this.syncAllMenuItem.Name = "syncAllMenuItem";
-            this.syncAllMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.syncAllMenuItem.Size = new System.Drawing.Size(180, 22);
             this.syncAllMenuItem.Text = "Sync All Folder Pairs";
             this.syncAllMenuItem.Click += new System.EventHandler(this.syncAllMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(190, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
             // 
             // openSourceMenuItem
             // 
             this.openSourceMenuItem.Name = "openSourceMenuItem";
-            this.openSourceMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.openSourceMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openSourceMenuItem.Text = "Open Source Folder";
             this.openSourceMenuItem.Click += new System.EventHandler(this.openSourceMenuItem_Click);
             // 
             // openTargetMenuItem
             // 
             this.openTargetMenuItem.Name = "openTargetMenuItem";
-            this.openTargetMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.openTargetMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openTargetMenuItem.Text = "Open Target Folder";
             this.openTargetMenuItem.Click += new System.EventHandler(this.openTargetMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(190, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(177, 6);
             // 
             // viewLogMenuItem
             // 
             this.viewLogMenuItem.Name = "viewLogMenuItem";
             this.viewLogMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-            this.viewLogMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.viewLogMenuItem.Size = new System.Drawing.Size(180, 22);
             this.viewLogMenuItem.Text = "View Log";
             this.viewLogMenuItem.Click += new System.EventHandler(this.viewLogMenuItem_Click);
             // 
@@ -559,28 +559,28 @@
             this.toolStripSeparator7,
             this.viewLogCMItem});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(179, 214);
+            this.contextMenu.Size = new System.Drawing.Size(179, 192);
             // 
             // newTaskCMItem
             // 
             this.newTaskCMItem.Image = ((System.Drawing.Image)(resources.GetObject("newTaskCMItem.Image")));
             this.newTaskCMItem.Name = "newTaskCMItem";
             this.newTaskCMItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newTaskCMItem.Size = new System.Drawing.Size(193, 22);
+            this.newTaskCMItem.Size = new System.Drawing.Size(178, 22);
             this.newTaskCMItem.Text = "New Task";
             this.newTaskCMItem.Click += new System.EventHandler(this.newTaskCMItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(190, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(175, 6);
             // 
             // analyzeCMItem
             // 
             this.analyzeCMItem.Image = ((System.Drawing.Image)(resources.GetObject("analyzeCMItem.Image")));
             this.analyzeCMItem.Name = "analyzeCMItem";
             this.analyzeCMItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.K)));
-            this.analyzeCMItem.Size = new System.Drawing.Size(193, 22);
+            this.analyzeCMItem.Size = new System.Drawing.Size(178, 22);
             this.analyzeCMItem.Text = "Analyze";
             this.analyzeCMItem.Click += new System.EventHandler(this.analyzeCMItem_Click);
             // 
@@ -589,7 +589,7 @@
             this.syncCMItem.Image = ((System.Drawing.Image)(resources.GetObject("syncCMItem.Image")));
             this.syncCMItem.Name = "syncCMItem";
             this.syncCMItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.syncCMItem.Size = new System.Drawing.Size(193, 22);
+            this.syncCMItem.Size = new System.Drawing.Size(178, 22);
             this.syncCMItem.Text = "Synchronize";
             this.syncCMItem.Click += new System.EventHandler(this.syncCMItem_Click);
             // 
@@ -607,7 +607,7 @@
             this.modifyCMItem.Image = ((System.Drawing.Image)(resources.GetObject("modifyCMItem.Image")));
             this.modifyCMItem.Name = "modifyCMItem";
             this.modifyCMItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.modifyCMItem.Size = new System.Drawing.Size(193, 22);
+            this.modifyCMItem.Size = new System.Drawing.Size(178, 22);
             this.modifyCMItem.Text = "Modify";
             this.modifyCMItem.Click += new System.EventHandler(this.modifyCMItem_Click);
             // 
@@ -616,7 +616,7 @@
             this.deleteCMItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteCMItem.Image")));
             this.deleteCMItem.Name = "deleteCMItem";
             this.deleteCMItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.deleteCMItem.Size = new System.Drawing.Size(193, 22);
+            this.deleteCMItem.Size = new System.Drawing.Size(178, 22);
             this.deleteCMItem.Text = "Delete";
             this.deleteCMItem.Click += new System.EventHandler(this.deleteCMItem_Click);
             // 
@@ -625,20 +625,20 @@
             this.renameCMItem.Image = ((System.Drawing.Image)(resources.GetObject("renameCMItem.Image")));
             this.renameCMItem.Name = "renameCMItem";
             this.renameCMItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.renameCMItem.Size = new System.Drawing.Size(193, 22);
+            this.renameCMItem.Size = new System.Drawing.Size(178, 22);
             this.renameCMItem.Text = "Rename";
             this.renameCMItem.Click += new System.EventHandler(this.renameCMItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(190, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(175, 6);
             // 
             // viewLogCMItem
             // 
             this.viewLogCMItem.Name = "viewLogCMItem";
             this.viewLogCMItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-            this.viewLogCMItem.Size = new System.Drawing.Size(193, 22);
+            this.viewLogCMItem.Size = new System.Drawing.Size(178, 22);
             this.viewLogCMItem.Text = "View Log";
             this.viewLogCMItem.Click += new System.EventHandler(this.viewLogCMItem_Click);
             // 

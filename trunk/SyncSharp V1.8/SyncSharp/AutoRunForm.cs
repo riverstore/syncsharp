@@ -11,11 +11,11 @@ using SyncSharp.Business;
 
 namespace SyncSharp.GUI
 {
-	public partial class AutoRunForm : Form
+	public partial class AutoRunForm : Form, IObserver
 	{
 		private SyncSharpLogic _logic;
 		private List<SyncTask> _plugSyncList;
-		private delegate void SyncDelegate(SyncTask task, ToolStripStatusLabel status, bool isPlugSync);
+		private delegate void SyncDelegate(SyncTask task, bool isPlugSync);
 		private delegate void UpdateListViewDelegate();
 		private delegate void StartSyncDelegate();
 
@@ -30,7 +30,7 @@ namespace SyncSharp.GUI
 		public AutoRunForm(SyncSharpLogic logic)
 		{
 			InitializeComponent();
-			//Form.CheckForIllegalCrossThreadCalls = false;
+			
 			this._logic = logic;
 			_counter = logic.Profile.CountDown;
 			_listViewCallback = new UpdateListViewDelegate(UpdateListView);
@@ -48,8 +48,13 @@ namespace SyncSharp.GUI
 
 			string name = lvTaskList.Items[0].SubItems[0].Text;
 			SyncTask curTask = _logic.Profile.GetTask(name);
-			_syncCaller.BeginInvoke(curTask, lblStatus, true, SyncCompleted, name);
+			_syncCaller.BeginInvoke(curTask, true, SyncCompleted, name);
 		}
+
+        public void Update(string status)
+        {
+            lblStatus.Text = status;
+        }
 
 		private void SyncCompleted(IAsyncResult result)
 		{
