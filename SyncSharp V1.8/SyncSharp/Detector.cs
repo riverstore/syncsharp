@@ -256,8 +256,11 @@ namespace SyncSharp.Business
 					{
 						if (_sMetaData != null && _sMetaData.ContainsPriKey(folderRelativePath))
 							_sMetaData.RemoveByPrimary(folderRelativePath);
-						u.Hash = folderRelativePath;
-						_sCleanDirs.Add(folderRelativePath, u.Hash, u);
+						if (_sMetaData != null)
+						{
+							u.Hash = folderRelativePath;
+							_sCleanDirs.Add(folderRelativePath, u.Hash, u); 
+						}
 					}
 				}
 				else
@@ -278,13 +281,21 @@ namespace SyncSharp.Business
 						if (_tMetaData != null && _tMetaData.ContainsPriKey(relativePath))
 							_tMetaData.RemoveByPrimary(relativePath);
 						_fileExclusions.Add(relativePath);
-						u.Hash = Utility.ComputeMyHash(u);
-						_sCleanFiles.Add(relativePath, u.Hash, u);
+						if (_sMetaData != null)
+						{
+							u.Hash = Utility.ComputeMyHash(u);
+							_sCleanFiles.Add(relativePath, u.Hash, u);
+						}
+
 						if (File.Exists(_task.Target + relativePath))
 						{
 							FileUnit targetUnit = new FileUnit(_task.Target + relativePath);
-							targetUnit.Hash = Utility.ComputeMyHash(targetUnit);
-							_tCleanFiles.Add(relativePath, targetUnit.Hash, targetUnit);
+							if (_tMetaData != null)
+							{
+								targetUnit.Hash = Utility.ComputeMyHash(targetUnit);
+								_tCleanFiles.Add(relativePath, targetUnit.Hash, targetUnit); 
+							}
+
 						}
 					}
 				}
@@ -303,8 +314,11 @@ namespace SyncSharp.Business
 					{
 						if (_tMetaData != null && _tMetaData.ContainsPriKey(folderRelativePath))
 							_tMetaData.RemoveByPrimary(folderRelativePath);
-						u.Hash = folderRelativePath;
-						_tCleanDirs.Add(folderRelativePath, u.Hash, u);
+						if (_tMetaData != null)
+						{
+							u.Hash = folderRelativePath;
+							_tCleanDirs.Add(folderRelativePath, u.Hash, u); 
+						}
 					}
 				}
 				else
@@ -324,8 +338,11 @@ namespace SyncSharp.Business
 						_fileExclusions.Add(relativePath);
 						if (!_tCleanFiles.ContainsPriKey(relativePath))
 						{
-							u.Hash = Utility.ComputeMyHash(u);
-							_tCleanFiles.Add(relativePath, u.Hash, u);
+							if (_tMetaData != null)
+							{
+								u.Hash = Utility.ComputeMyHash(u);
+								_tCleanFiles.Add(relativePath, u.Hash, u); 
+							}
 						}
 					}
 				}
@@ -492,7 +509,7 @@ namespace SyncSharp.Business
 				}
 				else
 					_srcDirtySize += u.Size;
-				u.Hash = "C-" + Utility.ComputeMyHash(u);
+				u.Hash = "C-"; //+ Utility.ComputeMyHash(u);
 				_sDirtyFiles.Add(relativePath, u.Hash, u);
 				_backupFiles.Add(relativePath, u.Hash, u);
 			}
@@ -600,7 +617,7 @@ namespace SyncSharp.Business
 				}
 				else
 					_tgtDirtySize += u.Size;
-				u.Hash = "C-" + Utility.ComputeMyHash(u);
+				u.Hash = "C-";// +Utility.ComputeMyHash(u);
 				_tDirtyFiles.Add(relativePath, u.Hash, u);
 			}
 		}
