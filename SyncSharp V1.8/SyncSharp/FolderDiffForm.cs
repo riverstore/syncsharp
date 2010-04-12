@@ -289,8 +289,14 @@ namespace SyncSharp.GUI
                 PreviewUnit preview = null;
                 try
                 {
-                    preview = _previewFoldersList.GetByPrimary(
-                       Directory.GetParent(cur.AbsolutePath).FullName);
+                    string parent = (new DirectoryInfo(cur.AbsolutePath)).Parent.FullName + "\\";
+                    
+                    if (cur.AbsolutePath.StartsWith(_source))
+                        parent = parent.Substring(_source.Length);
+                    else
+                        parent = parent.Substring(_target.Length);
+
+                    preview = _previewFoldersList.GetByPrimary(parent);
                 }
                 catch
                 {
@@ -495,7 +501,7 @@ namespace SyncSharp.GUI
             if (!lvCompare.FocusedItem.Selected) return;
             int idx = lvCompare.FocusedItem.Index;
             FileUnit cur = ((FileUnit)_dvCompare[idx][8]);
-            string path = (isOpenFolder) ? Directory.GetParent(cur.AbsolutePath).FullName
+            string path = (isOpenFolder) ? (new DirectoryInfo(cur.AbsolutePath)).Parent.FullName
                                          : cur.AbsolutePath;
             try
             {
@@ -503,7 +509,7 @@ namespace SyncSharp.GUI
 
                 if (cur.Match != null)
                 {
-                    string matchPath = (isOpenFolder) ? Directory.GetParent(cur.Match.AbsolutePath).FullName
+                    string matchPath = (isOpenFolder) ? (new DirectoryInfo(cur.AbsolutePath)).Parent.FullName
                                                       : cur.Match.AbsolutePath;
                     System.Diagnostics.Process.Start(matchPath);
                 }

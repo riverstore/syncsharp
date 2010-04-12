@@ -238,6 +238,7 @@
             this.txtName.Size = new System.Drawing.Size(348, 21);
             this.txtName.TabIndex = 34;
             this.txtName.Text = "SyncSchWork";
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // radBackup
             // 
@@ -249,6 +250,7 @@
             this.radBackup.Text = "Backup";
             this.toolTip.SetToolTip(this.radBackup, "Copy source folder contents to target folder");
             this.radBackup.UseVisualStyleBackColor = true;
+            this.radBackup.CheckedChanged += new System.EventHandler(this.radBackup_CheckedChanged);
             // 
             // label12
             // 
@@ -271,6 +273,7 @@
             this.radSync.Text = "Synchronize";
             this.toolTip.SetToolTip(this.radSync, "Keep source and target folders contents identical");
             this.radSync.UseVisualStyleBackColor = true;
+            this.radSync.CheckedChanged += new System.EventHandler(this.radSync_CheckedChanged);
             // 
             // label21
             // 
@@ -472,6 +475,7 @@
             this.txtTarget.TabIndex = 0;
             this.toolTip.SetToolTip(this.txtTarget, "Enter your target directory here. You can use environment variables like %HOMEPAT" +
                     "H%.");
+            this.txtTarget.TextChanged += new System.EventHandler(this.txtTarget_TextChanged);
             // 
             // txtSource
             // 
@@ -482,6 +486,7 @@
             this.txtSource.TabIndex = 0;
             this.toolTip.SetToolTip(this.txtSource, "Enter your source directory here. You can use environment variables like %HOMEPAT" +
                     "H%.");
+            this.txtSource.TextChanged += new System.EventHandler(this.txtSource_TextChanged);
             // 
             // tpFilter
             // 
@@ -536,6 +541,7 @@
             this.txtInclude.TabIndex = 2;
             this.txtInclude.Text = "*.*";
             this.toolTip.SetToolTip(this.txtInclude, "Enter mask eg. *.doc or filename.\r\nSeparate each pattern by a semi colon.");
+            this.txtInclude.TextChanged += new System.EventHandler(this.txtInclude_TextChanged);
             // 
             // label8
             // 
@@ -553,6 +559,7 @@
             this.txtExclude.Size = new System.Drawing.Size(418, 21);
             this.txtExclude.TabIndex = 2;
             this.toolTip.SetToolTip(this.txtExclude, "Enter mask eg. *.doc or filename.\r\nSeparate each pattern by a semi colon.");
+            this.txtExclude.TextChanged += new System.EventHandler(this.txtExclude_TextChanged);
             // 
             // groupBox7
             // 
@@ -578,6 +585,7 @@
             this.chkSkipSystem.TabIndex = 1;
             this.chkSkipSystem.Text = "system attribute";
             this.chkSkipSystem.UseVisualStyleBackColor = true;
+            this.chkSkipSystem.CheckedChanged += new System.EventHandler(this.chkSkipSystem_CheckedChanged);
             // 
             // chkSkipTemp
             // 
@@ -590,6 +598,7 @@
             this.chkSkipTemp.TabIndex = 1;
             this.chkSkipTemp.Text = "temporary attribute";
             this.chkSkipTemp.UseVisualStyleBackColor = true;
+            this.chkSkipTemp.CheckedChanged += new System.EventHandler(this.chkSkipTemp_CheckedChanged);
             // 
             // chkSkipRO
             // 
@@ -600,6 +609,7 @@
             this.chkSkipRO.TabIndex = 1;
             this.chkSkipRO.Text = "read-only attribute";
             this.chkSkipRO.UseVisualStyleBackColor = true;
+            this.chkSkipRO.CheckedChanged += new System.EventHandler(this.chkSkipRO_CheckedChanged);
             // 
             // chkSkipHidden
             // 
@@ -610,6 +620,7 @@
             this.chkSkipHidden.TabIndex = 1;
             this.chkSkipHidden.Text = "hidden attribute";
             this.chkSkipHidden.UseVisualStyleBackColor = true;
+            this.chkSkipHidden.CheckedChanged += new System.EventHandler(this.chkSkipHidden_CheckedChanged);
             // 
             // btnSubFolders
             // 
@@ -840,6 +851,7 @@
             this.radRenameTgt.TabIndex = 0;
             this.radRenameTgt.Text = "Rename to target";
             this.radRenameTgt.UseVisualStyleBackColor = true;
+            this.radRenameTgt.CheckedChanged += new System.EventHandler(this.radRenameTgt_CheckedChanged);
             // 
             // radRenameSrc
             // 
@@ -852,6 +864,7 @@
             this.radRenameSrc.TabStop = true;
             this.radRenameSrc.Text = "Rename to source";
             this.radRenameSrc.UseVisualStyleBackColor = true;
+            this.radRenameSrc.CheckedChanged += new System.EventHandler(this.radRenameSrc_CheckedChanged);
             // 
             // groupBox6
             // 
@@ -880,11 +893,7 @@
             this.ndTime.Name = "ndTime";
             this.ndTime.Size = new System.Drawing.Size(53, 21);
             this.ndTime.TabIndex = 2;
-            this.ndTime.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
+            this.ndTime.ValueChanged += new System.EventHandler(this.ndTime_ValueChanged);
             // 
             // label4
             // 
@@ -917,6 +926,7 @@
             this.radTargetSrc.TabIndex = 1;
             this.radTargetSrc.Text = "Target overwrites source always";
             this.radTargetSrc.UseVisualStyleBackColor = true;
+            this.radTargetSrc.CheckedChanged += new System.EventHandler(this.radTargetSrc_CheckedChanged);
             // 
             // radSrcTarget
             // 
@@ -927,6 +937,7 @@
             this.radSrcTarget.TabIndex = 2;
             this.radSrcTarget.Text = "Source overwrites target always";
             this.radSrcTarget.UseVisualStyleBackColor = true;
+            this.radSrcTarget.CheckedChanged += new System.EventHandler(this.radSrcTarget_CheckedChanged);
             // 
             // radKeepBoth
             // 
@@ -939,6 +950,7 @@
             this.radKeepBoth.TabStop = true;
             this.radKeepBoth.Text = "Keep the original copies (rename copied files)";
             this.radKeepBoth.UseVisualStyleBackColor = true;
+            this.radKeepBoth.CheckedChanged += new System.EventHandler(this.radKeepBoth_CheckedChanged);
             // 
             // radNewOld
             // 
@@ -949,6 +961,7 @@
             this.radNewOld.TabIndex = 2;
             this.radNewOld.Text = "Newer file overwrites older file";
             this.radNewOld.UseVisualStyleBackColor = true;
+            this.radNewOld.CheckedChanged += new System.EventHandler(this.radNewOld_CheckedChanged);
             // 
             // groupBox2
             // 
@@ -972,6 +985,7 @@
             this.radToSource.TabStop = true;
             this.radToSource.Text = "Copy file to source";
             this.radToSource.UseVisualStyleBackColor = true;
+            this.radToSource.CheckedChanged += new System.EventHandler(this.radToSource_CheckedChanged);
             // 
             // radDelTarget
             // 
@@ -982,6 +996,7 @@
             this.radDelTarget.TabIndex = 1;
             this.radDelTarget.Text = "Delete file from target";
             this.radDelTarget.UseVisualStyleBackColor = true;
+            this.radDelTarget.CheckedChanged += new System.EventHandler(this.radDelTarget_CheckedChanged);
             // 
             // groupBox1
             // 
@@ -1003,6 +1018,7 @@
             this.radDelSource.TabIndex = 0;
             this.radDelSource.Text = "Delete file from source";
             this.radDelSource.UseVisualStyleBackColor = true;
+            this.radDelSource.CheckedChanged += new System.EventHandler(this.radDelSource_CheckedChanged);
             // 
             // radToTarget
             // 
@@ -1015,6 +1031,7 @@
             this.radToTarget.TabStop = true;
             this.radToTarget.Text = "Copy file to target";
             this.radToTarget.UseVisualStyleBackColor = true;
+            this.radToTarget.CheckedChanged += new System.EventHandler(this.radToTarget_CheckedChanged);
             // 
             // imageList
             // 

@@ -387,10 +387,8 @@ namespace SyncSharp.Storage
 					File.Delete(logFileToDeletePath);
                     return true;
 				}
-				catch (IOException e)
+				catch (IOException)
 				{
-					WriteErrorLog(e.Message);
-					return false;				
 				}
 			}
 			return false;
@@ -408,10 +406,8 @@ namespace SyncSharp.Storage
             {
                 retrievedLogEntry = File.ReadAllText(logFile);
             }
-            catch (IOException e)
+            catch (IOException)
             {
-				WriteErrorLog(e.Message);
-				return false;
             }
 
 			return retrievedLogEntry;
@@ -436,9 +432,8 @@ namespace SyncSharp.Storage
 				DateTime.Now.ToShortDateString(),
 				DateTime.Now.ToLongTimeString(), errorMsg);
 			}
-			catch (IOException e)
+			catch (IOException)
 			{
-				WriteErrorLog(e.Message);
 				return false;
 			}
 			finally
