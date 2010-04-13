@@ -16,17 +16,15 @@ Our team has run the following test cases on Microsoft SyncToy V2.1 and SyncShar
 
 Test Case Scenario: 
 
+_(No sync is performed yet)_<br/>
 Source folder: 11 875 files, 2 682 folders Total: 11.5 GB <br/>
 Target folder: Empty Total: 0 B
 
-Action: Sync
+Action: 1)Sync folder pair
 
 Results: 
 
 || || *SyncSharp* || *SyncToy* ||
-|| Start time || 5:14:32pm || 5:30:45pm ||
-|| Analyze completed at || 5:16:39pm ||  5:31:11pm ||
-|| Sync completed at || 5:28:59pm || 5:45:45pm ||
 || Total time taken || *14 mins 27 secs* || *15 mins* ||
 
 ----
@@ -35,17 +33,15 @@ Results:
 
 Test Case Scenario:
 
+_(After first time sync)_<br/>
 Source folder: 47 files, 0 folders Total: 11.1 GB <br/>
 Target folder: 47 files, 0 folders Total: 11.1 GB
 
-Action: Rename the entire source folder and sync
+Action: 1)Rename the entire source folder. 2)Sync folder pair
 
 Results:
 
 || || *SyncSharp* || *SyncToy* ||
-|| Start time || 6:06:30pm || 6:16:10pm ||
-|| Analyze completed at || 6:10:21pm ||  6:17:23pm ||
-|| Sync completed at || 6:12:35pm || 6:26:30pm ||
 || Total time taken || *6 mins 5 secs* || *10 mins 20 secs* ||
 
 ----
@@ -54,17 +50,15 @@ Results:
 
 Test Case Scenario:
 
+_(After first time sync)_<br/>
 Source folder: 23 547 files, 3 330 folders Total size: 11.3 GB <br/>
 Target folder: 23 547 files, 3 330 folders Total size: 11.3 GB
 
-Action: Rename folders, modify, create & delete files. Sync
+Action: 1)Rename folders, modify, create and delete files. 2)Sync folder pair
 
 Results:
 
 || || *SyncSharp* || *SyncToy* ||
-|| Start time || 6:44:02pm || 6:33:15pm ||
-|| Analyze completed at || 6:46:12pm || 6:34:50pm ||
-|| Sync completed at || 6:48:00pm || 6:42:19pm ||
 || Total time taken || *3 mins 58 secs* || *9 mins 4 secs* ||
 
 </font>
