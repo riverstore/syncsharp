@@ -2,3 +2,5 @@
 Developer Application Programming Interface
 
 = <a href="https://syncsharp.googlecode.com/svn/wiki/api/html/R_Project.htm" target=_blank>API viewer</a> =
+
+= <a href="https://syncsharp.googlecode.com/svn/trunk/img/R_Project.htm" target=_blank>API viewer</a> =
