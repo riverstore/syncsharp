@@ -1,4 +1,4 @@
 #labels Phase-Implementation,API
 Developer Application Programming Interface
 
-= <a href="https://syncsharp.googlecode.com/svn/trunk/wiki/api/html/R_Project.htm">API viewer</a> =
+= <a href="https://syncsharp.googlecode.com/svn/wiki/api/html/R_Project.htm">API viewer</a> =
