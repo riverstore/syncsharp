@@ -1,4 +1,4 @@
 #labels Phase-Implementation,API
 Developer Application Programming Interface
 
-= <a href="http://syncsharp.googlecode.com/files/SyncSharpAPI.chm">Developer API</a> =
+= <a href="http://syncsharp.googlecode.com/files/SyncSharpAPI.chm">SyncSharpAPI</a> =
