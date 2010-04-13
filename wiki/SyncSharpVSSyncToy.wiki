@@ -3,7 +3,12 @@
 <font face="Segoe UI">
 ==Introduction==
 
-Our team has run the following test cases on Microsoft SyncToy V2.1 and SyncSharp V2.0
+Our team has run the following test cases on Microsoft SyncToy V2.1 and SyncSharp V2.0. The test cases were performed on following PC: 
+
+|| *Processor* || Intel Core 2 Duo T7700@2.40 GHz ||
+|| *Ram* || 2 GB ||
+|| *Harddisk space* || 160 GB ||
+|| *OS* || Windows Vista 32 bits ||
 
 ----
 
