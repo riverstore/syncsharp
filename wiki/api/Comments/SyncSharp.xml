@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>SyncSharp</name>
+  </assembly>
+  <members>
+    <member name="M:SyncSharp.Storage.Logger.ReadLog(System.String)">
+      <returns>log contents</returns>
+      <summary>3) Reading of log file contents<br />    <br />Action: Read log file and return log contents to caller.</summary>
+      <param name="logFile" />
+    </member>
+    <member name="M:SyncSharp.Storage.Logger.WritePreviewLog(System.String,System.String,System.Int32,System.Int64,System.Int32,System.Int64,System.Int32,System.Int64,System.Int32,System.Int64,System.Int32,System.Int64,System.Int32,System.Int64)">
+      <returns>success state</returns>
+      <summary>
+        <p>1b) Log recording operations from Sync preview plan summary</p>
+        <p> Action: Record file I/O operation count summary to be carried out for sync preview for current sync task session into log file</p>
+        <p> Parameters:<br />  metaDataDir:- path of metadata directory<br />   [{root path of Syncsharp.exe}/Profiles/{Machine ID}/]</p>
+        <p>        syncTaskName:- name of sync task</p>
+        <p>        srcCopyTotal:- total number of files to copy from source location.<br />        srcCopySize:- total filesize(bytes) of files to copy from source location.</p>
+        <p>        srcDeleteTotal:- total number of files to delete from source location.<br />        srcDeleteSize:- total filesize(bytes) of files to delete from source location.</p>
+        <p>        srcRenameTotal:- total number of files to rename from source location.<br />        srcRenameSize:- total filesize(bytes) of files to rename from source location.</p>
+        <p>        tgtCopyTotal:- total number of files to copy from target location.<br />        tgtCopySize:- total filesize(bytes) of files to copy from target location.</p>
+        <p>        tgtDeleteTotal:- total number of files to delete from target location.<br />        tgtDeleteSize:- total filesize(bytes) of files to delete from target location.</p>
+        <p>        tgtRenameTotal:- total number of files to rename from target location.<br />        tgtRenameSize:- total filesize(bytes) of files to rename from target location.</p>
+      </summary>
+      <param name="metaDataDir" />
+      <param name="syncTaskName" />
+      <param name="srcCopyTotal" />
+      <param name="srcCopySize" />
+      <param name="srcDeleteTotal" />
+      <param name="srcDeleteSize" />
+      <param name="srcRenameTotal" />
+      <param name="srcRenameSize" />
+      <param name="tgtCopyTotal" />
+      <param name="tgtCopySize" />
+      <param name="tgtDeleteTotal" />
+      <param name="tgtDeleteSize" />
+      <param name="tgtRenameTotal" />
+      <param name="tgtRenameSize" />
+    </member>
+    <member name="M:SyncSharp.Storage.Logger.WriteSyncLog(System.String,System.String,System.Boolean)">
+      <returns>success state<br /></returns>
+      <summary>
+        <p>1a) Log recording operations from initiation of Sync &amp; completed Sync results summary</p>
+        <p> Action: Set begin or end (to signal start and completion) of a perticular synctask log recording  <br />  Logic:<br />      if (start) WriteLogHeader();</p>
+        <p>
+          <br />      else WriteSyncResultsLogEntry();    </p>
+        <p>  Begin: WriteLogHeader()<br />   Actions: <br />• Append sync begin log header to log file for current sync task session. <br />• Append record timestamp.<br />• Reset file and folder operation counters.<br /> </p>
+        <p>  End: WriteSyncResultsLogEntry()<br />   Actions:<br />o Append file &amp; folder I/O operation results count summary<br />o Record timestamp.<br />o Append log footer for current synctask.</p>
+        <p> Parameters:<br />  metaDataDir:- path of metadata directory<br />   [{root path of Syncsharp.exe}/Profiles/{Machine ID}/]</p>
+        <p>        syncTaskName:- name of sync task<br /> <br /> start:- begin (if true), end (if false)</p>
+      </summary>
+      <param name="metaDataDir" />
+      <param name="syncTaskName" />
+      <param name="start" />
+    </member>
+    <member name="T:SyncSharp.Storage.Logger.LogType">
+      <remarks>CopySRC:- File copy operation that originates from source location.<br />CopyTGT:- File copy operation that originates from target location.<br />DeleteSRC:- File copy operation that originates from source location.<br />DeleteTGT:- File copy operation that originates from target location.<br />RenameSRC:- File copy operation that originates from source location.<br />RenameTGT:- File copy operation that originates from target location.<br />CreateSRC:- Folder create operation that originates from source location.<br />CreateTGT:- Folder create operation that originates from target location.</remarks>
+      <summary>Enumerable log types to differentiate type of log operation to be carried out.</summary>
+    </member>
+    <member name="M:SyncSharp.Storage.Logger.DeleteLog(System.String)">
+      <returns>success state </returns>
+      <summary>
+        <p>2) Deletion of log file</p>
+        <p> Action: Delete log file and return whether successful.</p>
+      </summary>
+      <param name="logFile" />
+    </member>
+    <member name="M:SyncSharp.Storage.Logger.WriteLogEntry(System.String,System.String,System.Int64,System.String,System.Int64)">
+      <param name="status" />
+      <param name="oriPath" />
+      <param name="oriSize" />
+      <param name="destPath" />
+      <param name="destSize" />
+    </member>
+    <member name="M:SyncSharp.Storage.Logger.WriteLogEntry(System.String,System.String,System.Int64)">
+      <param name="status" />
+      <param name="oriPath" />
+      <param name="oriSize" />
+    </member>
+    <member name="M:SyncSharp.Storage.Logger.WriteLog(SyncSharp.Storage.Logger.LogType,System.String,System.Int64,System.String,System.Int64)">
+      <remarks>Note: null or 0 values passed in as input parameters have no relevance for the particular selected logtype in use. For these unused parameters for specific operations, caller passes in -Path = null; -Size = 0;</remarks>
+      <returns>success state</returns>
+      <summary>
+        <p>1c) Log recording operations from File or folder I/O operations. </p>
+        <p> Action: Record file I/O operation count summary to be carried out for sync preview for current sync task session into log file</p>
+        <p> Parameters:<br />        logType:- name of sync task</p>
+        <p>       srcPath:- file path on source path.<br />       srcSize:- filesize(bytes) on source.</p>
+        <p>       tgtPath:- total number of files to copy from target path.<br />       tgtSize:- filesize(bytes) on target.<br />  <br /> Expected parameters when calling for particular logType:</p>
+        <p>CopySRC: requires file path and size to copy from source and to destination<br />   WriteLog(LogType.CopySRC, srcPath, srcSize, tgtPath, tgtSize);</p>
+        <p>CopyTGT: requires file path and size to copy from destination and to source<br />   WriteLog(LogType.CopyTGT, srcPath, srcSize, tgtPath, tgtSize);</p>
+        <p>RenameSRC: requires file path and size to rename from source and to destination</p>
+        <p>   WriteLog(LogType.RenameSRC, srcPath, srcSize, tgtPath, tgtSize);</p>
+        <p>RenameTGT: requires file path and size to rename from destination and to source<br />   WriteLog(LogType.RenameTGT, srcPath, srcSize, tgtPath, tgtSize);</p>
+        <p>DeleteSRC: requires file path and size to delete from source<br />   WriteLog(LogType.DeleteSRC, srcPath, srcSize, null, 0);</p>
+        <p>DeleteTGT: requires file path and size to delete from destination<br />   WriteLog(LogType.DeleteTGT, null, 0, tgtPath, tgtSize);</p>
+        <p>CreateSRC: requires folder path and size to create on source<br />   WriteLog(LogType.CreateSRC, srcPath, 0, null, 0);</p>
+        <p>CreateTGT: requires folder path and size to create on destination<br />   WriteLog(LogType.CreateTGT, null, 0, null, tgtSize);</p>
+      </summary>
+      <param name="logType" />
+      <param name="srcPath" />
+      <param name="srcSize" />
+      <param name="tgtPath" />
+      <param name="tgtSize" />
+    </member>
+    <member name="M:SyncSharp.Storage.Logger.WriteLogEntry(System.String,System.String)">
+      <param name="status" />
+      <param name="oriPath" />
+    </member>
+    <member name="M:SyncSharp.Storage.Logger.WriteErrorLog(System.String)">
+      <returns>success state</returns>
+      <summary>
+        <p>1d) Log recording operations from System thrown exceptions (during current sync session). <br />       <br /> Action: reports general program error exceptions thrown into log file</p>
+        <p> Parameters:<br />        errorMsg:- system error description<br /></p>
+      </summary>
+      <param name="errorMsg" />
+    </member>
+    <member name="T:SyncSharp.Storage.Logger">
+      <remarks>
+        <p>general method call usage flow</p>
+        <p>WriteSyncLog () //start syncTask</p>
+        <p>WritePreviewLog () //log finalised preview plan</p>
+        <p>//log file operations<br />WriteLog()<br />WriteLog()<br />WriteLog()</p>
+        <p>...</p>
+        <p>WriteSyncLog () //end syncTask</p>
+      </remarks>
+      <summary>Description: <br /> Throughout the duration period of the runtime for a particular synctask, Logger handles: <br />1. Log recording operations from: <br />1a. Sync preview plan summary<br />1b. File or folder I/O operations. <br />1c. Sync results summary<br />1d. System thrown exceptions (during current sync session). <br />2. Deletion of log file<br />3. Reading of log file contents<br /> <br />Directory location of stored log file: <br /> {root path of Syncsharp.exe}/Profiles/{Machine ID}/{Sync task name}/ </summary>
+    </member>
+  </members>
+</doc>
