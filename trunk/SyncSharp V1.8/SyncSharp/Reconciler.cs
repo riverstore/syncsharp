@@ -557,10 +557,12 @@ namespace SyncSharp.Business
 
 						if (!_srcRenameList.ContainsPriKey(relativePath))
 						{
-							preview.tgtFlag = dFlag;
+                            PreviewCheckAndCreateSrcFolder(relativePath);							
 							preview.sAction = SyncAction.CopyFileToTarget;
 							preview.cleanRelativePath = "";
 							preview.cleanFileUnit = null;
+                            preview.srcFlag = cFlag;
+                            preview.tgtFlag = dFlag;
 							_previewFilesList.Add(relativePath, relativePath, preview);
 						}
 						else
