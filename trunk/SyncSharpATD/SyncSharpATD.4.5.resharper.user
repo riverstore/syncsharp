@@ -11,43 +11,45 @@
       <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncTask.cs" caret="1915" fromTop="15" />
       <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:TestCase.cs" caret="134" fromTop="1" />
       <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Validation.cs" caret="7511" fromTop="69" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="1588" fromTop="11" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="30488" fromTop="23" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Logger.cs" caret="13556" fromTop="12" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Reconciler.cs" caret="2188" fromTop="10" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Detector.cs" caret="4566" fromTop="14" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Detector.cs" caret="7649" fromTop="6" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="14959" fromTop="27" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="2531" fromTop="7" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:MainForm.cs" caret="1414" fromTop="15" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Logger.cs" caret="17168" fromTop="11" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Reconciler.cs" caret="24689" fromTop="9" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Filters.cs" caret="1677" fromTop="0" />
     </RecentFiles>
     <RecentEdits>
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Validation.cs" caret="110" fromTop="5" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="285" fromTop="10" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Reconciler.cs" caret="164" fromTop="7" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="4604" fromTop="50" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="5445" fromTop="34" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="7455" fromTop="56" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="8149" fromTop="26" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="7769" fromTop="14" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="8973" fromTop="34" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="7733" fromTop="14" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="8937" fromTop="34" />
       <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Validation.cs" caret="7615" fromTop="69" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="2530" fromTop="13" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="9801" fromTop="19" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="9580" fromTop="13" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="12308" fromTop="13" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="13184" fromTop="12" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="13934" fromTop="11" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="14386" fromTop="13" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="9765" fromTop="19" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="9544" fromTop="13" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="12272" fromTop="13" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="13148" fromTop="12" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="13898" fromTop="11" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="14350" fromTop="13" />
       <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="3979" fromTop="17" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="1694" fromTop="3" />
       <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="14448" fromTop="11" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="14746" fromTop="10" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="664" fromTop="5" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="1587" fromTop="11" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="14971" fromTop="11" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="20417" fromTop="12" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="29766" fromTop="12" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="30630" fromTop="12" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="14970" fromTop="11" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="20416" fromTop="12" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="29765" fromTop="12" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="30629" fromTop="12" />
       <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Reconciler.cs" caret="1564" fromTop="7" />
-      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Reconciler.cs" caret="2181" fromTop="8" />
       <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Detector.cs" caret="4738" fromTop="16" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="281" fromTop="10" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="3454" fromTop="11" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="14667" fromTop="34" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Reconciler.cs" caret="2184" fromTop="9" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:ATD.cs" caret="32431" fromTop="59" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="1703" fromTop="16" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="673" fromTop="16" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="1596" fromTop="16" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="2533" fromTop="7" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:SyncSharpLogic.cs" caret="4189" fromTop="23" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:MainForm.cs" caret="1475" fromTop="16" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Reconciler.cs" caret="324" fromTop="14" />
+      <File id="DB0C3288-85FF-4243-BBCC-C194C04D66EE/f:Reconciler.cs" caret="25074" fromTop="16" />
     </RecentEdits>
   </RecentFiles>
   <UnitTestRunner>
@@ -62,7 +64,7 @@
   </SettingsComponent>
   <CompletionStatisticsManager>
     <ItemStatistics item="Default">
-      <Item value="if" priority="24" />
+      <Item value="if" priority="25" />
       <Item value="relativePath" priority="1" />
       <Item value="_updatedList" priority="0" />
       <Item value="SyncProfile" priority="3" />
@@ -90,12 +92,12 @@
       <Item value="default" priority="1" />
       <Item value="errorTaskName" priority="0" />
       <Item value="errorDuplicate" priority="0" />
-      <Item value="true" priority="9" />
+      <Item value="true" priority="10" />
       <Item value="false" priority="5" />
       <Item value="else" priority="7" />
       <Item value="checkTask" priority="0" />
       <Item value="retrievedTask" priority="1" />
-      <Item value="Directory" priority="12" />
+      <Item value="Directory" priority="14" />
       <Item value="_source" priority="2" />
       <Item value="_target" priority="3" />
       <Item value="temp" priority="2" />
@@ -208,9 +210,9 @@
       <Item value="Name" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:@System.IO.Directory">
-      <Item value="Exists" priority="6" />
+      <Item value="Exists" priority="7" />
       <Item value="CreateDirectory" priority="1" />
-      <Item value="Delete" priority="3" />
+      <Item value="Delete" priority="4" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:System.Int32">
       <Item value="ToString" priority="0" />

@@ -102,7 +102,7 @@ namespace SyncSharp.Business
 			{
 				bool isMatch = (pattern.Equals("*.*", ignoreCase) ||
 								pattern.Equals("*", ignoreCase) ||
-								file.Name.Equals(pattern, ignoreCase) ||
+								Path.GetFileNameWithoutExtension(file.FullName).Equals(pattern, ignoreCase) ||
 								("*" + file.Extension).Equals(pattern, ignoreCase));
 				if (isMatch) return true;
 			}
@@ -116,15 +116,28 @@ namespace SyncSharp.Business
 		/// <returns></returns>
 		private bool IsFileAttributeMatched(FileInfo file)
 		{
+			bool match = false;
 			if (_hidden)
-				return (File.GetAttributes(file.FullName) & FileAttributes.Hidden) == FileAttributes.Hidden;
+			{
+				match =  (File.GetAttributes(file.FullName) & FileAttributes.Hidden) == FileAttributes.Hidden;
+				if(match) return true;
+			}
 			if (_readOnly)
-				return (File.GetAttributes(file.FullName) & FileAttributes.ReadOnly) == FileAttributes.ReadOnly;
+			{
+				match =  (File.GetAttributes(file.FullName) & FileAttributes.ReadOnly) == FileAttributes.ReadOnly;
+				if(match) return true;
+			}
 			if (_system)
-				return (File.GetAttributes(file.FullName) & FileAttributes.System) == FileAttributes.System;
+			{
+				match =  (File.GetAttributes(file.FullName) & FileAttributes.System) == FileAttributes.System;
+				if(match) return true;
+			}
 			if (_temp)
-				return (File.GetAttributes(file.FullName) & FileAttributes.Temporary) == FileAttributes.Temporary;
-			return false;
+			{
+				match =  (File.GetAttributes(file.FullName) & FileAttributes.Temporary) == FileAttributes.Temporary;
+				if(match) return true;
+			}
+			return match;
 		}
 
 		/// <summary>
