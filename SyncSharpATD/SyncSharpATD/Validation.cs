@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-//using System.Windows.Forms;
+using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using SyncSharp.Storage;
 
@@ -111,69 +111,69 @@ namespace SyncSharp.Business
         /// </summary>
         /// <param name="errCode">Error code returns after validation</param>
         /// <param name="taskName">The name of the current sync task</param>
-				//public static void DisplayErrorMessage(ErrorMsgCode errCode, string taskName)
-				//{
-				//    switch (errCode)
-				//    {
-				//        case ErrorMsgCode.EmptySource:
-				//            MessageBox.Show("Please provide a source directory.",
-				//                            "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				//            break;
+        public static void DisplayErrorMessage(ErrorMsgCode errCode, string taskName)
+        {
+            switch (errCode)
+            {
+                case ErrorMsgCode.EmptySource:
+                    MessageBox.Show("Please provide a source directory.",
+                                    "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
 
-				//        case ErrorMsgCode.EmptyTarget:
-				//            MessageBox.Show("Please provide a target directory.",
-				//                            "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				//            break;
+                case ErrorMsgCode.EmptyTarget:
+                    MessageBox.Show("Please provide a target directory.",
+                                    "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
 
-				//        case ErrorMsgCode.InvalidSource:
-				//            MessageBox.Show("Source directory does not exist.",
-				//                            "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				//            break;
+                case ErrorMsgCode.InvalidSource:
+                    MessageBox.Show("Source directory does not exist.",
+                                    "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
 
-				//        case ErrorMsgCode.InvalidTarget:
-				//            MessageBox.Show("Target directory does not exist.",
-				//                            "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				//            break;
+                case ErrorMsgCode.InvalidTarget:
+                    MessageBox.Show("Target directory does not exist.",
+                                    "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
 
-				//        case ErrorMsgCode.SameSourceTarget:
-				//            MessageBox.Show("Source directory cannot be the same " +
-				//                            "as the target directory.",
-				//                            "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				//            break;
+                case ErrorMsgCode.SameSourceTarget:
+                    MessageBox.Show("Source directory cannot be the same " +
+                                    "as the target directory.",
+                                    "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
 
-				//        case ErrorMsgCode.SourceIsASubDirOfTarget:
-				//            MessageBox.Show("Source directory cannot be a " +
-				//                             "subdirectory of the target directory.",
-				//                             "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				//            break;
+                case ErrorMsgCode.SourceIsASubDirOfTarget:
+                    MessageBox.Show("Source directory cannot be a " +
+                                     "subdirectory of the target directory.",
+                                     "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
 
-				//        case ErrorMsgCode.TargetIsASubDirOfSource:
-				//            MessageBox.Show("Target directory cannot be a " +
-				//                             "subdirectory of the source directory.",
-				//                            "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				//            break;
-				//        case ErrorMsgCode.DuplicateFolderPair:
-				//            MessageBox.Show("Source & target directories have been defined in another task." +
-				//                           "\nPlease select a different source or target directory.",
-				//                           "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				//            break;
+                case ErrorMsgCode.TargetIsASubDirOfSource:
+                    MessageBox.Show("Target directory cannot be a " +
+                                     "subdirectory of the source directory.",
+                                    "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
+                case ErrorMsgCode.DuplicateFolderPair:
+                    MessageBox.Show("Source & target directories have been defined in another task." +
+                                   "\nPlease select a different source or target directory.",
+                                   "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
 
-				//        case ErrorMsgCode.EmptyTaskName:
-				//            MessageBox.Show("Please enter a task name",
-				//                    "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				//            break;
+                case ErrorMsgCode.EmptyTaskName:
+                    MessageBox.Show("Please enter a task name",
+                            "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
 
-				//        case ErrorMsgCode.InvalidTaskName:
-				//            MessageBox.Show(@"Task name cannot contain \ / : * ? < > | characters.",
-				//                     "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				//            break;
+                case ErrorMsgCode.InvalidTaskName:
+                    MessageBox.Show(@"Task name cannot contain \ / : * ? < > | characters.",
+                             "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
 
-				//        case ErrorMsgCode.DuplicateTaskName:
-				//            MessageBox.Show("Task name '" + taskName.Trim() +
-				//                "' already exists. Please enter another name",
-				//                "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				//            break;
-				//    }
-				//}
+                case ErrorMsgCode.DuplicateTaskName:
+                    MessageBox.Show("Task name '" + taskName.Trim() +
+                        "' already exists. Please enter another name",
+                        "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
+            }
+        }
     }
 }

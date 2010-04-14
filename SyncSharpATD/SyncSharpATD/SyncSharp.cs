@@ -13,29 +13,36 @@ namespace SyncSharp
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            SyncSharpLogic logic = new SyncSharpLogic();
-            logic.loadProfile();
-            bool runAutoForm = false;
+		[STAThread]
+		static void Main()
+		{
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
 
-            if (logic.Profile.TaskCollection != null)
-            {
-                foreach (SyncTask task in logic.Profile.TaskCollection)
-                {
-                    if (task.Settings.PlugSync)
-                    {
-                        runAutoForm = true;
-                        break;
-                    }
-                }
-            }
-            if (runAutoForm)
-                Application.Run(new AutoRunForm(logic));
-            Application.Run(new MainForm(logic));
-        }
+			SyncSharpLogic logic = new SyncSharpLogic();
+			logic.loadProfile();
+			logic.UpdateRemovableRoot();
+			bool runAutoForm = false;
+
+			if (logic.Profile.TaskCollection != null)
+			{
+				foreach (SyncTask task in logic.Profile.TaskCollection)
+				{
+					runAutoForm = task.Settings.PlugSync;
+					if (runAutoForm) break;
+				}
+			}
+
+			if (runAutoForm)
+			{
+				AutoRunForm autoRunFrm = new AutoRunForm(logic);
+				logic.AddUI(autoRunFrm);
+				Application.Run(autoRunFrm);
+			}
+			MainForm mainFrm = new MainForm(logic);
+			logic.RemoveAllUIs();
+			logic.AddUI(mainFrm);
+			Application.Run(mainFrm);
+		}
 	}
 }

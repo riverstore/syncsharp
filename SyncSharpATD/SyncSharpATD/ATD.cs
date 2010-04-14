@@ -502,7 +502,7 @@ namespace ATDSyncSharp
 			else _totalFailed++;
 		}
 
-		private void TestLoadProfile(TestCase t, SyncSharpLogic curLogic)
+		public void TestLoadProfile(TestCase t, SyncSharpLogic curLogic)
 		{
 			curLogic.LoadProfile();
 			curLogic.SaveProfile();
@@ -1044,6 +1044,8 @@ namespace ATDSyncSharp
 				File.Delete(@".\srcmetatest");
 			if (File.Exists(@".\tgtmetatest"))
 				File.Delete(@".\tgtmetatest");
+			if(Directory.Exists(@".\Profiles"))
+				Directory.Delete(@".\Profiles",true);
 		}
 
 		#endregion

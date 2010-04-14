@@ -311,12 +311,125 @@ namespace SyncSharp.GUI
 		{
 			FolderFilter form = new FolderFilter(_currentTask);
 			form.ShowDialog();
+			btnApply.Enabled = true;
 		}
 
 		private void btnApply_Click(object sender, EventArgs e)
 		{
 			btnAccept_Click(sender, e);
-		} 
+			btnApply.Enabled = false;
+		}
+
+		private void txtName_TextChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void radSync_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void radBackup_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void txtSource_TextChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void txtTarget_TextChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void txtExclude_TextChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void txtInclude_TextChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void chkSkipHidden_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void chkSkipRO_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void chkSkipSystem_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void chkSkipTemp_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void radToTarget_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void radDelSource_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void radToSource_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void radDelTarget_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void radNewOld_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void radKeepBoth_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void radSrcTarget_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void radTargetSrc_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void radRenameSrc_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void radRenameTgt_CheckedChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
+		private void ndTime_ValueChanged(object sender, EventArgs e)
+		{
+			btnApply.Enabled = true;
+		}
+
 		#endregion
 	}
 }

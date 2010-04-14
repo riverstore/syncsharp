@@ -6,13 +6,13 @@ using System.Management;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-//using System.Windows.Forms;
+using System.Windows.Forms;
 using SyncSharp.Storage;
-//using SyncSharp.GUI;
+using SyncSharp.GUI;
 
 namespace SyncSharp.Business
 {
-	public class SyncSharpLogic
+	public class SyncSharpLogic : Observable
 	{
 		private SyncProfile _currentProfile;
 		private string _metaDataDir = "";
@@ -98,166 +98,169 @@ namespace SyncSharp.Business
 			return cpuID + volumeSerial;
 		}
 
-		//public void AddNewTask()
-		//{
-		//  CreateTaskForm form = new CreateTaskForm(this);
-		//  form.ShowDialog();
-		//}
+		public void AddNewTask()
+		{
+			CreateTaskForm form = new CreateTaskForm(this);
+			form.ShowDialog();
+		}
+		/*
+		public DialogResult AnalyzeFolderPair(SyncTask curTask)
+		{
+			DialogResult result = DialogResult.None;
+			try
+			{
+				this.NotifyUIs("Analyzing " + curTask.Name + "...");
+				Detector detector = new Detector(_metaDataDir, curTask);
+				detector.CompareFolders();
+				if (!detector.IsSynchronized())
+				{
+					if (!CheckSufficientDiskSpace(curTask.Source.Substring(0, 1), detector.TgtDirtySize, false) ||
+							!CheckSufficientDiskSpace(curTask.Target.Substring(0, 1), detector.SrcDirtySize, false))
+					{
+						throw new Exception("Insufficient disk space");
+					}
+					_previewReconciler = new Reconciler(detector.SourceList, detector.TargetList, curTask, _metaDataDir);
+					_previewReconciler.Preview();
+					FolderDiffForm form = new FolderDiffForm(_previewReconciler.PreviewFilesList,
+															_previewReconciler.PreviewFoldersList, curTask);
+					this.NotifyUIs("Analysis completed");
+					result = form.ShowDialog();
+				}
+				else
+				{
+					this.NotifyUIs("Analysis completed");
+					MessageBox.Show("Task: " + curTask.Name + "\n\n" +
+					"There are no differences between the source and target folders contents.",
+					"SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					this.UpdateSyncTaskResult(curTask, "Successful");
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.LogFileLocation = _metaDataDir + @"\";
+				Logger.LogFileName = Logger.LogFileLocation + curTask.Name + ".log";
+				Logger.WriteErrorLog(e.Message);
+				this.UpdateSyncTaskResult(curTask, "Unsuccessful");
+			}
 
-		//public DialogResult AnalyzeFolderPair(SyncTask curTask, ToolStripStatusLabel status)
-		//{
-		//        DialogResult result = DialogResult.None;
-		//        try
-		//        {
-		//            status.Text = "Analyzing " + curTask.Name + "...";
-		//            Detector detector = new Detector(_metaDataDir, curTask);
-		//            detector.CompareFolders();
-		//            if (!detector.IsSynchronized())
-		//            {
-		//                if (!CheckSufficientDiskSpace(curTask.Source.Substring(0, 1), detector.TgtDirtySize, false) ||
-		//                    !CheckSufficientDiskSpace(curTask.Target.Substring(0, 1), detector.SrcDirtySize, false))
-		//                {
-		//                    throw new Exception("Insufficient disk space");
-		//                }
-		//                _previewReconciler = new Reconciler(detector.SourceList, detector.TargetList, curTask, _metaDataDir);
-		//                _previewReconciler.Preview();
-		//                FolderDiffForm form = new FolderDiffForm(_previewReconciler.PreviewFilesList, 
-		//                                                        _previewReconciler.PreviewFoldersList, curTask);
-		//                result = form.ShowDialog();
-		//            }
-		//            else
-		//            {
-		//                MessageBox.Show("Task: " + curTask.Name + "\n\n" +
-		//                "There are no differences between the source and target folders contents.",
-		//                "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//                this.UpdateSyncTaskResult(curTask, "Successful");
-		//            }
-		//        }
-		//        catch (Exception e)
-		//        {
-		//            Logger.LogFileLocation = _metaDataDir + @"\";
-		//            Logger.LogFileName = Logger.LogFileLocation + curTask.Name + ".log";
-		//            Logger.WriteErrorLog(e.Message);
-		//            this.UpdateSyncTaskResult(curTask, "Unsuccessful");
-		//        }
+			this.UpdateSyncTaskTime(curTask, DateTime.Now.ToString());
+			return result;
+		}
+		*/
+		public void SyncAfterAnalyze(SyncTask curTask)
+		{
+			try
+			{
+				Logger.WriteSyncLog(_metaDataDir, curTask.Name, true);
+				this.NotifyUIs("Synchronizing " + curTask.Name + "...");
+				_previewReconciler.SyncPreview();
 
-		//  this.UpdateSyncTaskTime(curTask, DateTime.Now.ToString());
-		//        return result;
-		//}
+				SyncMetaData.WriteMetaData(_metaDataDir + @"\" + curTask.Name + ".meta", _previewReconciler.UpdatedList);
 
-		//public void SyncAfterAnalyze(SyncTask curTask, ToolStripStatusLabel status)
-		//{
-		//    try
-		//    {
-		//        Logger.WriteSyncLog(_metaDataDir, curTask.Name, true);
-		//        status.Text = "Synchronizing " + curTask.Name + "...";
-		//        _previewReconciler.SyncPreview();
+				this.UpdateSyncTaskResult(curTask, "Successful");
+			}
+			catch (Exception e)
+			{
+				Logger.WriteErrorLog(e.Message);
+				this.UpdateSyncTaskResult(curTask, "Unsuccessful");
+			}
+			finally
+			{
+				Logger.WriteSyncLog(_metaDataDir, curTask.Name, false);
+			}
 
-		//        SyncMetaData.WriteMetaData(_metaDataDir + @"\" + curTask.Name + ".meta", _previewReconciler.UpdatedList);
+			this.UpdateSyncTaskTime(curTask, DateTime.Now.ToString());
+		}
 
-		//        this.UpdateSyncTaskResult(curTask, "Successful");
-		//    }
-		//    catch (Exception e)
-		//    {
-		//        Logger.WriteErrorLog(e.Message);
-		//        this.UpdateSyncTaskResult(curTask, "Unsuccessful");
-		//    }
-		//    finally
-		//    {
-		//        Logger.WriteSyncLog(_metaDataDir, curTask.Name, false);
-		//    }
+		public void SyncFolderPair(SyncTask curTask, bool disablePrompt)
+		{
+			try
+			{
+				Logger.WriteSyncLog(_metaDataDir, curTask.Name, true);
+				this.NotifyUIs("Analyzing " + curTask.Name + "...");
 
-		//    this.UpdateSyncTaskTime(curTask, DateTime.Now.ToString());
-		//}
+				Detector detector = new Detector(_metaDataDir, curTask);
+				detector.CompareFolders();
 
-		//public void SyncFolderPair(SyncTask curTask, ToolStripStatusLabel status, bool isPlugSync)
-		//{
-		//        try
-		//        {
-		//            Logger.WriteSyncLog(_metaDataDir, curTask.Name, true);
-		//            status.Text = "Analyzing " + curTask.Name + "...";
+				if (!detector.IsSynchronized())
+				{
+					if (!CheckSufficientDiskSpace(curTask.Source.Substring(0, 1), detector.TgtDirtySize, disablePrompt) ||
+							!CheckSufficientDiskSpace(curTask.Target.Substring(0, 1), detector.SrcDirtySize, disablePrompt))
+					{
+						throw new Exception("Insufficient disk space");
+					}
 
-		//            Detector detector = new Detector(_metaDataDir, curTask);
-		//            detector.CompareFolders();
+					Reconciler reconciler = new Reconciler(detector.SourceList, detector.TargetList, curTask, _metaDataDir);
+					this.NotifyUIs("Synchronizing " + curTask.Name + "...");
 
-		//            if (!detector.IsSynchronized())
-		//            {
-		//                if (!CheckSufficientDiskSpace(curTask.Source.Substring(0, 1), detector.TgtDirtySize, isPlugSync) ||
-		//                    !CheckSufficientDiskSpace(curTask.Target.Substring(0, 1), detector.SrcDirtySize, isPlugSync))
-		//                {
-		//                    throw new Exception("Insufficient disk space");
-		//                }
+					if (curTask.TypeOfSync)
+					{
+						reconciler.Sync();
+						SyncMetaData.WriteMetaData(_metaDataDir + @"\" + curTask.Name + ".meta", reconciler.UpdatedList);
+					}
+					else
+					{
+						reconciler.BackupSource(detector.BackupFiles);
+						SyncMetaData.WriteMetaData(_metaDataDir + @"\" + curTask.Name + ".bkp", detector.BackupFiles);
+					}
+				}
 
-		//                Reconciler reconciler = new Reconciler(detector.SourceList, detector.TargetList, curTask, _metaDataDir);
-		//                status.Text = "Synchronizing " + curTask.Name + "...";
-		//                if (curTask.TypeOfSync)
-		//                {
-		//                    reconciler.Sync();
-		//                    SyncMetaData.WriteMetaData(_metaDataDir + @"\" + curTask.Name + ".meta", reconciler.UpdatedList);
-		//                }
-		//                else
-		//                {
-		//                    reconciler.BackupSource(detector.BackupFiles);
-		//                    SyncMetaData.WriteMetaData(_metaDataDir + @"\" + curTask.Name + ".bkp", detector.BackupFiles);
-		//                }
-		//            }
+				this.UpdateSyncTaskResult(curTask, "Successful");
+			}
+			catch (Exception e)
+			{
+				Logger.WriteErrorLog(e.Message);
+				this.UpdateSyncTaskResult(curTask, "Unsuccessful");
+			}
+			finally
+			{
+				Logger.WriteSyncLog(_metaDataDir, curTask.Name, false);
+			}
 
-		//            this.UpdateSyncTaskResult(curTask, "Successful");
-		//        }
-		//        catch (Exception e)
-		//        {
-		//            Logger.WriteErrorLog(e.Message);
-		//            this.UpdateSyncTaskResult(curTask, "Unsuccessful");
-		//        }
-		//  finally
-		//  {
-		//    Logger.WriteSyncLog(_metaDataDir, curTask.Name, false);
-		//  }
+			this.UpdateSyncTaskTime(curTask, DateTime.Now.ToString());
+		}
 
-		//  this.UpdateSyncTaskTime(curTask, DateTime.Now.ToString());
-		//}
+		public void RestoreSource(SyncTask curTask)
+		{
+			try
+			{
+				Logger.LogFileLocation = _metaDataDir + @"\";
+				Logger.LogFileName = Logger.LogFileLocation + curTask.Name + ".log";
 
-		//public void RestoreSource(SyncTask curTask, ToolStripStatusLabel status)
-		//{
-		//    try
-		//    {
-		//        Reconciler reconciler = new Reconciler(null, null, curTask, _metaDataDir);
-		//        reconciler.RestoreSource(SyncMetaData.ReadMetaData(_metaDataDir + @"\" + curTask.Name + ".bkp"));
-		//        this.UpdateSyncTaskResult(curTask, "Successful");
-		//    }
-		//    catch (Exception e)
-		//    {
-		//        Logger.LogFileLocation = _metaDataDir + @"\";
-		//        Logger.LogFileName = Logger.LogFileLocation + curTask.Name + ".log";
-		//        Logger.WriteErrorLog(e.Message);
-		//        this.UpdateSyncTaskResult(curTask, "Unsuccessful");
-		//    }
-		//}
+				Reconciler reconciler = new Reconciler(null, null, curTask, _metaDataDir);
+				reconciler.RestoreSource(SyncMetaData.ReadMetaData(_metaDataDir + @"\" + curTask.Name + ".bkp"));
+				this.UpdateSyncTaskResult(curTask, "Successful");
+			}
+			catch (Exception e)
+			{
+				Logger.WriteErrorLog(e.Message);
+				this.UpdateSyncTaskResult(curTask, "Unsuccessful");
+			}
+		}
 
-		//public void SyncAllFolderPairs(ToolStripStatusLabel status, bool isPlugSync)
-		//{
-		//  foreach (SyncTask task in _currentProfile.TaskCollection)
-		//  {
-		//    try
-		//    {
-		//      Logger.WriteSyncLog(_metaDataDir, task.Name, true);
-		//      if (Directory.Exists(task.Source) && Directory.Exists(task.Target))
-		//        SyncFolderPair(task, status, true);
-		//      else
-		//        throw new Exception("Source or target folder does not exist");
-		//    }
-		//    catch (Exception e)
-		//    {
-		//      Logger.WriteErrorLog(e.Message);
-		//      this.UpdateSyncTaskResult(task, "Unsuccessful");
-		//      this.UpdateSyncTaskTime(task, DateTime.Now.ToString());
-		//    }
-		//    finally
-		//    {
-		//      Logger.WriteSyncLog(_metaDataDir, task.Name, false);
-		//    }
-		//  }
-		//}
+		public void SyncAllFolderPairs(bool disablePrompt)
+		{
+			foreach (SyncTask task in _currentProfile.TaskCollection)
+			{
+				try
+				{
+					if (Directory.Exists(task.Source) && Directory.Exists(task.Target))
+						SyncFolderPair(task, true);
+					else
+						throw new Exception("Source or target folder does not exist");
+				}
+				catch (Exception e)
+				{
+					Logger.WriteErrorLog(e.Message);
+					this.UpdateSyncTaskResult(task, "Unsuccessful");
+					this.UpdateSyncTaskTime(task, DateTime.Now.ToString());
+				}
+				finally
+				{
+					Logger.WriteSyncLog(_metaDataDir, task.Name, false);
+				}
+			}
+		}
 
 		public void RemoveTask(string name, string metaDataDir)
 		{
@@ -274,17 +277,17 @@ namespace SyncSharp.Business
 			_currentProfile.UpdateSyncTaskResult(task, result);
 		}
 
-		//public void ModifySelectedTask(string name)
-		//{
-		//  TaskSetupForm form = new TaskSetupForm(_currentProfile, _currentProfile.GetTask(name), _metaDataDir);
-		//  form.ShowDialog();
-		//}
+		public void ModifySelectedTask(string name)
+		{
+			TaskSetupForm form = new TaskSetupForm(_currentProfile, _currentProfile.GetTask(name), _metaDataDir);
+			form.ShowDialog();
+		}
 
-		//public void RenameSelectedTask(string name, string metaDataDir)
-		//{
-		//  RenameTaskForm form = new RenameTaskForm(_currentProfile, _currentProfile.GetTask(name), metaDataDir);
-		//  form.ShowDialog();
-		//}
+		public void RenameSelectedTask(string name, string metaDataDir)
+		{
+			RenameTaskForm form = new RenameTaskForm(_currentProfile, _currentProfile.GetTask(name), metaDataDir);
+			form.ShowDialog();
+		}
 
 		public void UpdateRemovableRoot()
 		{
@@ -372,9 +375,9 @@ namespace SyncSharp.Business
 
 				if (!importedProfile.ID.Equals(_currentProfile.ID))
 				{
-					//MessageBox.Show("The selected profile was not created on this computer. " +
-					//                 "\nOnly SyncTask's with valid source/target paths will be imported",
-					//                 "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					MessageBox.Show("The selected profile was not created on this computer. " +
+													 "\nOnly SyncTask's with valid source/target paths will be imported",
+													 "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
 				foreach (SyncTask item in importedProfile.TaskCollection)
 				{
@@ -402,8 +405,8 @@ namespace SyncSharp.Business
 			}
 			catch
 			{
-				//MessageBox.Show("Selected SyncProfile is not valid", "SyncSharp",
-				//                MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Selected SyncProfile is not valid", "SyncSharp",
+												MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			finally
 			{
@@ -421,7 +424,7 @@ namespace SyncSharp.Business
 				string display = drive + ":\\ drive does not have enough disk space for synchronization\n";
 				display += "Estimated required disk space: " + Utility.FormatSize(dirtySize) + "\n";
 				display += "Disk space currently available: " + Utility.FormatSize(d.AvailableFreeSpace) + "\n";
-				//MessageBox.Show(display, "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				MessageBox.Show(display, "SyncSharp", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 			}
 			return (d.AvailableFreeSpace >= dirtySize);
 		}
@@ -434,10 +437,10 @@ namespace SyncSharp.Business
 			str.Close();
 		}
 
-		//public void ModifyGlobalSettings(SyncProfile currentProfile)
-		//{
-		//  GlobalSettings form = new GlobalSettings(currentProfile);
-		//  form.ShowDialog();
-		//}
+		public void ModifyGlobalSettings(SyncProfile currentProfile)
+		{
+			GlobalSettings form = new GlobalSettings(currentProfile);
+			form.ShowDialog();
+		}
 	}
 }
