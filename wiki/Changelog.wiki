@@ -1,9 +1,11 @@
 #summary List of changes made in different versions of SyncSharp
+#labels Featured
 
 ==SyncSharp Version 2.0==
  * Feature list
    # Preview a synchronization task
    # Restore a backup task
+   # Added in help function
 
  * Bug fixes
    # Bug fixed in files attributes filters
@@ -17,7 +19,7 @@
    # Change UI for General tab in Task setup form
    # Disable the apply button upon clicked, and re-enabled upon changes detected
    # Change the format of logger entries 
-   # Added in analyze and restore buttons in main form
+   # Added in analyze, restore and help buttons in main form
    # Added in Synchronization Preview form
 
  * Documentations
@@ -29,6 +31,7 @@
  * Minor UI enhancements
    # Disable buttons when multiple tasks are selected for modify, rename and view log
    # Added in folder icons in folder filter form.
+   # Change UI for PlugSync form
 
  * Bug fixes
    # Exclusion of folders filters is not working correctly.
@@ -38,7 +41,7 @@
    # Detection of files/folders names is case sensitive
    # SyncSharp crashes when creating log files for task name that contains invalid characters
    # Metadata files are not deleted when the task is deleted
-   # Importing invalid profile or profile with existing names will crash the system
+   # Importing an invalid profile or profile with existing name will crash the system
   
  * Documentations
    # Developer Guide V1.0
