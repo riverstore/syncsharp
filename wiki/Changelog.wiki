@@ -1,0 +1,58 @@
+#summary List of changes made in different versions of SyncSharp
+
+==SyncSharp Version 2.0==
+ * Feature list
+   # Preview a synchronization task
+   # Restore a backup task
+
+ * Bug fixes
+   # Bug fixed in files attributes filters
+   # Bug fixed for files exclusion filters
+   # Folder filter form crashes upon opening when source or target folder is deleted from disk in the task
+   # Syncing files with absolute path more than 260 characters will crash
+   # Normal file overwriting hidden file will cause an exception  
+
+ * UI enhancements
+   # Change font for count down timer in PlugSync form
+   # Change UI for General tab in Task setup form
+   # Disable the apply button upon clicked, and re-enabled upon changes detected
+   # Change the format of logger entries 
+   # Added in analyze and restore buttons in main form
+   # Added in Synchronization Preview form
+
+ * Documentations
+  # Developer Guide V2.0
+  # User Guide V2.0
+
+
+==SyncSharp Version 1.0==
+ * Minor UI enhancements
+   # Disable buttons when multiple tasks are selected for modify, rename and view log
+   # Added in folder icons in folder filter form.
+
+ * Bug fixes
+   # Exclusion of folders filters is not working correctly.
+   # Selecting folders A and A1 is disallowed by the program
+   # Program will create weird folders and files when a root drive is synced
+   # Applying folders filters and will sometimes delete the folders excluded when synced
+   # Detection of files/folders names is case sensitive
+   # SyncSharp crashes when creating log files for task name that contains invalid characters
+   # Metadata files are not deleted when the task is deleted
+   # Importing invalid profile or profile with existing names will crash the system
+  
+ * Documentations
+   # Developer Guide V1.0
+   # User Guide V1.0
+
+==SyncSharp Version 0.9==
+ * Feature list
+  # Create/delete/Modify tasks
+  # Import/Export synchronization profiles
+  # Configure settings for files conflicts
+  # Synchronize source and target folders
+  # Set inclusion/exclusion filters
+  # Generate log file after each synchronization operation
+
+ * Documentations
+  # Developer Guide V0.9
+  # User Guide V0.9
