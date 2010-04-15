@@ -1,0 +1,15 @@
+D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\ResolveAssemblyReference.cache
+D:\VS2008Projects\SyncSharpATD\SyncSharpATD\bin\Debug\SyncSharpATD.exe
+D:\VS2008Projects\SyncSharpATD\SyncSharpATD\bin\Debug\SyncSharpATD.pdb
+D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\SyncSharpATD.exe
+D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\SyncSharpATD.pdb
+D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\SyncSharp.GUI.AboutBox.resources
+D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\SyncSharp.GUI.AutoRunForm.resources
+D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\SyncSharp.GUI.CreateTaskForm.resources
+D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\SyncSharp.GUI.FolderFilter.resources
+D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\SyncSharp.GUI.GlobalSettings.resources
+D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\SyncSharp.GUI.MainForm.resources
+D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\SyncSharp.GUI.RenameTaskForm.resources
+D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\SyncSharp.GUI.TaskSetupForm.resources
+D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\SyncSharp.GUI.ViewLog.resources
+D:\VS2008Projects\SyncSharpATD\SyncSharpATD\obj\Debug\SyncSharpATD.csproj.GenerateResource.Cache

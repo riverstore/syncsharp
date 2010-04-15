@@ -1,0 +1,9 @@
+standard tests.txt
+conflict tests1.txt
+conflict tests2.txt
+conflict tests3.txt
+conflict tests4.txt
+conflict tests5.txt
+conflict tests6.txt
+syncprofile tests.txt
+syncsharplogic tests.txt

@@ -1,0 +1,29 @@
+<Configuration>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="SolutionAnalysisEnabled">False</setting>
+    </boolean>
+  </SettingsComponent>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="DB9FC032-D4D1-4092-A34E-0A071FC33CD9/f:DisplayTaskForm.cs" caret="342" fromTop="0" />
+      <File id="1C6D8220-18E1-4FDF-8441-EB70D21826FB/f:AddTaskForm.designer.cs" caret="0" fromTop="0" />
+      <File id="6B900081-7700-4EA4-B784-50595D33E3D8/f:AddTaskForm.cs" caret="720" fromTop="0" />
+      <File id="6B900081-7700-4EA4-B784-50595D33E3D8/f:DisplayTaskForm.cs" caret="0" fromTop="0" />
+      <File id="8C6F1B0C-5099-4963-AFF8-97E3595A760E/f:DisplayTaskForm.cs" caret="671" fromTop="6" />
+      <File id="1C6D8220-18E1-4FDF-8441-EB70D21826FB/f:DisplayTaskForm.cs" caret="405" fromTop="10" />
+      <File id="8C6F1B0C-5099-4963-AFF8-97E3595A760E/f:AddTaskForm.cs" caret="587" fromTop="7" />
+      <File id="DB9FC032-D4D1-4092-A34E-0A071FC33CD9/f:AddTaskForm.cs" caret="372" fromTop="9" />
+      <File id="1C6D8220-18E1-4FDF-8441-EB70D21826FB/f:AddTaskForm.cs" caret="13" fromTop="0" />
+    </RecentFiles>
+    <RecentEdits />
+  </RecentFiles>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+</Configuration>

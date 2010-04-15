@@ -1,0 +1,7 @@
+C:\Users\waraz\Desktop\syncSharpDev\TestLogger\bin\Debug\TestLogger.dll
+C:\Users\waraz\Desktop\syncSharpDev\TestLogger\bin\Debug\TestLogger.pdb
+C:\Users\waraz\Desktop\syncSharpDev\TestLogger\bin\Debug\SyncSharp.exe
+C:\Users\waraz\Desktop\syncSharpDev\TestLogger\bin\Debug\SyncSharp.pdb
+C:\Users\waraz\Desktop\syncSharpDev\TestLogger\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\waraz\Desktop\syncSharpDev\TestLogger\obj\Debug\TestLogger.dll
+C:\Users\waraz\Desktop\syncSharpDev\TestLogger\obj\Debug\TestLogger.pdb

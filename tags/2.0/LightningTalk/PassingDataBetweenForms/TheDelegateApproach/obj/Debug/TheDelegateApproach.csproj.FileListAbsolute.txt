@@ -1,0 +1,18 @@
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\TheDelegateApproach\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\TheDelegateApproach\obj\Debug\TheDelegateApproach.Properties.Resources.resources
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\TheDelegateApproach\obj\Debug\TheDelegateApproach.csproj.GenerateResource.Cache
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\TheDelegateApproach\obj\Debug\TheDelegateApproach.AddTaskForm.resources
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\TheDelegateApproach\obj\Debug\TheDelegateApproach.DisplayTaskForm.resources
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\TheDelegateApproach\bin\Debug\TheDelegateApproach.exe
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\TheDelegateApproach\bin\Debug\TheDelegateApproach.pdb
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\TheDelegateApproach\obj\Debug\TheDelegateApproach.exe
+C:\Users\adminNUS\Documents\NUS\AY0910S2\CS3215\Lightning Talk\PassingDataBetweenForms\TheDelegateApproach\obj\Debug\TheDelegateApproach.pdb
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\TheDelegateApproach\bin\Debug\TheDelegateApproach.exe
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\TheDelegateApproach\bin\Debug\TheDelegateApproach.pdb
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\TheDelegateApproach\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\TheDelegateApproach\obj\Debug\TheDelegateApproach.AddTaskForm.resources
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\TheDelegateApproach\obj\Debug\TheDelegateApproach.DisplayTaskForm.resources
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\TheDelegateApproach\obj\Debug\TheDelegateApproach.Properties.Resources.resources
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\TheDelegateApproach\obj\Debug\TheDelegateApproach.csproj.GenerateResource.Cache
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\TheDelegateApproach\obj\Debug\TheDelegateApproach.exe
+C:\Users\Chris\Desktop\LightningTalk\PassingDataBetweenForms\TheDelegateApproach\obj\Debug\TheDelegateApproach.pdb
