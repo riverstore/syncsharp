@@ -13,6 +13,7 @@
    # Folder filter form crashes upon opening when source or target folder is deleted from disk in the task
    # Syncing files with absolute path more than 260 characters will crash
    # Normal file overwriting hidden file will cause an exception  
+   # Incorrect free space remaining, when folders are already in sync
 
  * UI enhancements
    # Change font for count down timer in PlugSync form
