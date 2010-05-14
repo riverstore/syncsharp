@@ -16,7 +16,7 @@ We use C#, (_pronounced 'C sharp'_) as our primary development language, which s
 <img src="https://syncsharp.googlecode.com/svn/trunk/img/syncsharplogo.png"/>
 </td>
 <td width=400>
-We have designed SyncSharp to be used as a general file synchronization tool. Additionally, it is also designed with making _computer-to-usb_ file storage sync more convenient. 
+We have designed SyncSharp to be used as a general file synchronization tool. Additionally, it is also designed to make _computer-to-usb_ file storage synchronization more convenient. 
 
 Hence, by design, with SyncSharp loaded in your _plug and play_ thumbdrive, with autoplay enabled on your system and your profile set up, our special automatically loaded _plug and sync_ feature will initiate an _unattended_ sync.
 </td>
@@ -28,11 +28,11 @@ Hence, by design, with SyncSharp loaded in your _plug and play_ thumbdrive, with
 Plenty of reasons why... that's because our SyncSharp is:
 
   # *Portable* - Bring it anywhere and just use it wherever you wish; home, office or school. No installation needed. (with .NET 3.5 framework pre-installed)
-  # *Lightweight* - Resource efficient, reduce unnecessary processing. No sneaky file monitoring running in the background.
-  # *Small size* - Only takes file space of less than a photo (less than 0.5 mb)
+  # *Lightweight* - Resource efficient and reduces unnecessary processing. No sneaky file monitoring running in the background.
+  # *Small size* - Only takes file space of less than 0.5 mb
   # *Clean* - No malware, spyware, adware or viruses. (as verified by <a href="http://www.softpedia.com/progClean/SyncSharp-Clean-155581.html">Softpedia.com</a>)
   # *Lean* - Blazing fast special handling of renamed files & folders, accurate detection of creation, deletion & modifications.
-  # *Simple* - Easy to use layout. No prior experience necessary.
+  # *Simple* - Easy-to-use layout. No prior experience necessary.
   # *Free* - What more can you ask for?
 and continue to discover many more ...
 
@@ -41,7 +41,7 @@ and continue to discover many more ...
 
 *Is SyncSharp available on mac / linux or other platforms ?*
 <br/>
-Currently, SyncSharp is only supported on the Windows platform (2000, XP, Vista and 7). However, if significant requests are made for other popular platforms keeps on increasing, we will try to accommodate and look into it.
+Currently, SyncSharp is only supported on the Windows platform (2000, XP, Vista and 7). However, if requests use on other popular platforms keeps on increasing, we will try to accommodate and look into it.
 <br/>
 <br/>
 <br/>
@@ -51,13 +51,13 @@ Currently, SyncSharp is only supported on the Windows platform (2000, XP, Vista 
 <br/>
 <br/>
 <br/>
-*SyncSharp started up by itself when I plugged my usb drive!*
+*SyncSharp started up by itself when I plugged in my usb drive!*
 <br/>
 You have just discovered one of SyncSharp's neatest features. Our cool _*"Plug and Sync"_* 
 <br/>
 <table cellpadding=20>
 <td width=300>
-This feature allows you, with autoplay enabled, to enable automatic startup of SyncSharp upon plug in or launch. You can vary the countdown time to your liking  (default: 5 secs) and even disable it if you like.
+This feature allows you (with autoplay enabled) to enable automatic startup of synchronization in SyncSharp upon plug in or when you launch SyncSharp. You can vary the countdown time to your liking  (default: 5 secs) and even disable it if you like.
 </td>
 <td>
  <img src="https://syncsharp.googlecode.com/svn/trunk/img/AutoPlay.png"/>
@@ -66,7 +66,7 @@ This feature allows you, with autoplay enabled, to enable automatic startup of S
 <br/>
 
    <img src="https://syncsharp.googlecode.com/svn/trunk/img/5secs.png"/>     <img src="https://syncsharp.googlecode.com/svn/trunk/img/5secsover.png"/>
-Sync profiles that have been set up earlier will then be automatically performed after a predetermined timed countdown. At anytime before the end of the countdown, you may cancel the planned auto sync. 
+Sync profiles that have been set up earlier will then be automatically performed after countdown has reached zero. At any time before the end of the countdown, you may cancel the planned auto sync. 
 
 
 </font>
