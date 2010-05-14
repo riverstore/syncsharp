@@ -11,14 +11,14 @@
    # Bug fixed in files attributes filters
    # Bug fixed for files exclusion filters
    # Folder filter form crashes upon opening when source or target folder is deleted from disk in the task
-   # Syncing files with absolute path more than 260 characters will crash
-   # Normal file overwriting hidden file will cause an exception  
-   # Incorrect free space remaining, when folders are already in sync
+   # System crash when syncing files with absolute path more than 260 characters 
+   # Normal file that overwrites a hidden file will cause an exception 
+   # Incorrect amount of free space remaining, when folders are already in sync
 
  * UI enhancements
    # Change font for count down timer in PlugSync form
    # Change UI for General tab in Task setup form
-   # Disable the apply button upon clicked, and re-enabled upon changes detected
+   # Apply button : Disabled upon clicking, and re-enabled upon changes detected
    # Change the format of logger entries 
    # Added in analyze, restore and help buttons in main form
    # Added in Synchronization Preview form
@@ -39,7 +39,7 @@
    # Selecting folders A and A1 is disallowed by the program
    # Program will create weird folders and files when a root drive is synced
    # Applying folders filters and will sometimes delete the folders excluded when synced
-   # Detection of files/folders names is case sensitive
+   # Files/folders names during detection are case sensitive
    # SyncSharp crashes when creating log files for task name that contains invalid characters
    # Metadata files are not deleted when the task is deleted
    # Importing an invalid profile or profile with existing name will crash the system
