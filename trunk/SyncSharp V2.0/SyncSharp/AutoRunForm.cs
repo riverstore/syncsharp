@@ -135,6 +135,7 @@ namespace SyncSharp.GUI
                     lvTaskList.Items[selIdx].SubItems[i].Text = temp;
                 }
                 lvTaskList.Items[selIdx - 1].Selected = true;
+                lvTaskList.Items[selIdx - 1].Focused = true;
                 lvTaskList.RedrawItems(selIdx - 1, selIdx, true);
                 lvTaskList.Focus();
             }
@@ -155,6 +156,7 @@ namespace SyncSharp.GUI
                     lvTaskList.Items[selIdx].SubItems[i].Text = temp;
                 }
                 lvTaskList.Items[selIdx + 1].Selected = true;
+                lvTaskList.Items[selIdx + 1].Focused = true;
                 lvTaskList.RedrawItems(selIdx, selIdx + 1, true);
                 lvTaskList.Focus();
             }

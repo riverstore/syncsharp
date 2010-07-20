@@ -54,12 +54,14 @@ namespace SyncSharp.GUI
             this.colStatus = new System.Windows.Forms.ColumnHeader();
             this.colSource = new System.Windows.Forms.ColumnHeader();
             this.colTarget = new System.Windows.Forms.ColumnHeader();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.toolbar = new System.Windows.Forms.ToolStrip();
             this.btnBack = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnUp = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.btnDown = new System.Windows.Forms.ToolStripButton();
             this.btnRemove = new System.Windows.Forms.ToolStripButton();
-            this.timer = new System.Windows.Forms.Timer(this.components);
             this.statusBar.SuspendLayout();
             this.toolbar.SuspendLayout();
             this.SuspendLayout();
@@ -71,10 +73,10 @@ namespace SyncSharp.GUI
             this.lblStatus,
             this.lblTimer,
             this.progressBar});
-            this.statusBar.Location = new System.Drawing.Point(0, 280);
+            this.statusBar.Location = new System.Drawing.Point(0, 296);
             this.statusBar.MinimumSize = new System.Drawing.Size(0, 24);
             this.statusBar.Name = "statusBar";
-            this.statusBar.Size = new System.Drawing.Size(514, 24);
+            this.statusBar.Size = new System.Drawing.Size(530, 24);
             this.statusBar.SizingGrip = false;
             this.statusBar.TabIndex = 1;
             this.statusBar.Text = "statusBar";
@@ -91,14 +93,14 @@ namespace SyncSharp.GUI
             this.lblTimer.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
             this.lblTimer.ForeColor = System.Drawing.Color.Red;
             this.lblTimer.Name = "lblTimer";
-            this.lblTimer.Size = new System.Drawing.Size(366, 19);
+            this.lblTimer.Size = new System.Drawing.Size(515, 19);
             this.lblTimer.Spring = true;
             this.lblTimer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // progressBar
             // 
             this.progressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.progressBar.MarqueeAnimationSpeed = 50;
+            this.progressBar.MarqueeAnimationSpeed = 40;
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(100, 18);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
@@ -115,10 +117,10 @@ namespace SyncSharp.GUI
             this.lvTaskList.Font = new System.Drawing.Font("Tahoma", 8.25F);
             this.lvTaskList.ForeColor = System.Drawing.Color.Black;
             this.lvTaskList.FullRowSelect = true;
-            this.lvTaskList.Location = new System.Drawing.Point(0, 0);
+            this.lvTaskList.Location = new System.Drawing.Point(0, 29);
             this.lvTaskList.MultiSelect = false;
             this.lvTaskList.Name = "lvTaskList";
-            this.lvTaskList.Size = new System.Drawing.Size(478, 280);
+            this.lvTaskList.Size = new System.Drawing.Size(530, 267);
             this.lvTaskList.TabIndex = 2;
             this.lvTaskList.UseCompatibleStateImageBehavior = false;
             this.lvTaskList.View = System.Windows.Forms.View.Details;
@@ -144,89 +146,93 @@ namespace SyncSharp.GUI
             this.colTarget.Text = "Target";
             this.colTarget.Width = 165;
             // 
-            // toolbar
-            // 
-            this.toolbar.AutoSize = false;
-            this.toolbar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.toolbar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolbar.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnBack,
-            this.btnUp,
-            this.btnDown,
-            this.btnRemove});
-            this.toolbar.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.toolbar.Location = new System.Drawing.Point(478, 0);
-            this.toolbar.Name = "toolbar";
-            this.toolbar.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolbar.Size = new System.Drawing.Size(36, 280);
-            this.toolbar.TabIndex = 3;
-            // 
-            // btnBack
-            // 
-            this.btnBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnBack.Image = ((System.Drawing.Image)(resources.GetObject("btnBack.Image")));
-            this.btnBack.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnBack.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnBack.Margin = new System.Windows.Forms.Padding(0, 15, 0, 2);
-            this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(34, 20);
-            this.btnBack.ToolTipText = "Return to main window";
-            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
-            // 
-            // btnUp
-            // 
-            this.btnUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnUp.Image = ((System.Drawing.Image)(resources.GetObject("btnUp.Image")));
-            this.btnUp.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnUp.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnUp.Margin = new System.Windows.Forms.Padding(0, 15, 0, 2);
-            this.btnUp.Name = "btnUp";
-            this.btnUp.Size = new System.Drawing.Size(34, 20);
-            this.btnUp.Text = "toolStripButton2";
-            this.btnUp.ToolTipText = "Move up";
-            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
-            // 
-            // btnDown
-            // 
-            this.btnDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDown.Image = ((System.Drawing.Image)(resources.GetObject("btnDown.Image")));
-            this.btnDown.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnDown.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDown.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
-            this.btnDown.Name = "btnDown";
-            this.btnDown.Size = new System.Drawing.Size(34, 20);
-            this.btnDown.Text = "toolStripButton3";
-            this.btnDown.ToolTipText = "Move down";
-            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
-            // 
-            // btnRemove
-            // 
-            this.btnRemove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRemove.Image = ((System.Drawing.Image)(resources.GetObject("btnRemove.Image")));
-            this.btnRemove.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRemove.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
-            this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(34, 20);
-            this.btnRemove.Text = "toolStripButton4";
-            this.btnRemove.ToolTipText = "Remove task from list";
-            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
-            // 
             // timer
             // 
             this.timer.Enabled = true;
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
+            // toolbar
+            // 
+            this.toolbar.CanOverflow = false;
+            this.toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnBack,
+            this.toolStripSeparator1,
+            this.btnUp,
+            this.toolStripLabel1,
+            this.btnDown,
+            this.btnRemove});
+            this.toolbar.Location = new System.Drawing.Point(0, 0);
+            this.toolbar.Name = "toolbar";
+            this.toolbar.Padding = new System.Windows.Forms.Padding(0, 3, 1, 3);
+            this.toolbar.Size = new System.Drawing.Size(530, 29);
+            this.toolbar.TabIndex = 4;
+            this.toolbar.Text = "toolbar";
+            // 
+            // btnBack
+            // 
+            this.btnBack.Image = ((System.Drawing.Image)(resources.GetObject("btnBack.Image")));
+            this.btnBack.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBack.Margin = new System.Windows.Forms.Padding(5, 1, 0, 2);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(45, 20);
+            this.btnBack.Text = "Exit";
+            this.btnBack.ToolTipText = "Return to main form";
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
+            // 
+            // btnUp
+            // 
+            this.btnUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnUp.Image = ((System.Drawing.Image)(resources.GetObject("btnUp.Image")));
+            this.btnUp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUp.Margin = new System.Windows.Forms.Padding(5, 1, 0, 2);
+            this.btnUp.Name = "btnUp";
+            this.btnUp.Size = new System.Drawing.Size(23, 20);
+            this.btnUp.Text = "toolStripButton2";
+            this.btnUp.ToolTipText = "Move the selected task up the list";
+            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(55, 20);
+            this.toolStripLabel1.Text = "Re-Order";
+            // 
+            // btnDown
+            // 
+            this.btnDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnDown.Image = ((System.Drawing.Image)(resources.GetObject("btnDown.Image")));
+            this.btnDown.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnDown.Name = "btnDown";
+            this.btnDown.Size = new System.Drawing.Size(23, 20);
+            this.btnDown.Text = "toolStripButton3";
+            this.btnDown.ToolTipText = "Move the selected task down the list";
+            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.Image = ((System.Drawing.Image)(resources.GetObject("btnRemove.Image")));
+            this.btnRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRemove.Margin = new System.Windows.Forms.Padding(13, 1, 0, 2);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(60, 20);
+            this.btnRemove.Text = "Delete";
+            this.btnRemove.ToolTipText = "Remove a selected task";
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
             // AutoRunForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(514, 304);
+            this.ClientSize = new System.Drawing.Size(530, 320);
             this.Controls.Add(this.lvTaskList);
-            this.Controls.Add(this.toolbar);
             this.Controls.Add(this.statusBar);
+            this.Controls.Add(this.toolbar);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -254,13 +260,15 @@ namespace SyncSharp.GUI
         private System.Windows.Forms.ColumnHeader colTaskName;
         private System.Windows.Forms.ColumnHeader colSource;
         private System.Windows.Forms.ColumnHeader colTarget;
-        private ToolStrip toolbar;
-        private ToolStripButton btnBack;
-        private ToolStripButton btnUp;
-        private ToolStripButton btnDown;
-        private ToolStripButton btnRemove;
         private ColumnHeader colStatus;
         private ToolStripStatusLabel lblTimer;
         private Timer timer;
+        private ToolStrip toolbar;
+        private ToolStripButton btnBack;
+        private ToolStripButton btnUp;
+        private ToolStripLabel toolStripLabel1;
+        private ToolStripButton btnDown;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripButton btnRemove;
     }
 }

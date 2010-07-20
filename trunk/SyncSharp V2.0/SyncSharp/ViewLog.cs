@@ -35,9 +35,10 @@ namespace SyncSharp.GUI
 		{
 			try
 			{
-                lblStatus.Text = _logFile.Substring(1);
+                lblStatus.Text = Directory.GetCurrentDirectory().Substring(0,3) + "...\\" + _logFile.Substring(2);
+                lblStatus.ToolTipText = lblStatus.Text;
 				string logContents = Logger.ReadLog(_logFile);
-				txtLog.MaxLength = (logContents.Length > txtLog.MaxLength) ? logContents.Length : txtLog.MaxLength;
+				//txtLog.MaxLength = (logContents.Length > txtLog.MaxLength) ? logContents.Length : txtLog.MaxLength;
 				txtLog.Text = (String.IsNullOrEmpty(logContents)) ? "Log file is empty" : logContents;
 				txtLog.Select(0, 0);
 			}
@@ -56,6 +57,7 @@ namespace SyncSharp.GUI
 					Logger.DeleteLog(_logFile);
 					txtLog.Clear();
                     lblStatus.Text = "";
+                    this.Close();
 				}
 			}
 			catch
