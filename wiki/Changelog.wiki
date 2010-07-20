@@ -1,6 +1,18 @@
 #summary List of changes made in different versions of SyncSharp
 #labels Featured
 
+==SyncSharp Version 2.1==
+ * Bug fixes
+   # Bug fixed in re-ordering tasks in PlugSync form
+ 
+ * Enhancements
+   # Closed view log form after user has chosen to delete the log file
+   # Change UI for PlugSync form
+
+ * Documentations
+  # User Guide V2.1
+
+
 ==SyncSharp Version 2.0==
  * Feature list
    # Preview a synchronization task
