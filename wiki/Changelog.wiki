@@ -3,7 +3,7 @@
 
 ==SyncSharp Version 2.1==
  * Bug fixes
-   # Bug fixed in re-ordering tasks in PlugSync form
+   # Bug fixed for deletion of task after re-ordering it in PlugSync form
  
  * Enhancements
    # Closed view log form after user has chosen to delete the log file
