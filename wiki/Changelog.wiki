@@ -11,7 +11,7 @@
 
  * Documentations
   # User Guide V2.1
-
+  # Developer Guide V2.1
 
 ==SyncSharp Version 2.0==
  * Feature list
